@@ -1,0 +1,77 @@
+#Onboarding
+#AWS
+create_infra = true
+
+#BIG-IP
+create_bigip = false
+create_ltm_config = false
+create_awaf_config = false
+
+#NAP
+create_nap = false
+
+#XC
+create_xc_lb = false
+create_xc_waf = false
+
+#JuiceShop
+create_juice_shop = false
+
+#Arcadia Finance
+#create_arcadia = false
+
+#Global
+project_prefix = "tf-cd-onewaf"
+resource_owner = "cdelano"
+admin_src_addr  = "50.53.21.238/32"
+
+#AWS INFRA
+aws_region     = "us-east-1"
+azs           = ["us-east-1a", "us-east-1b"]
+public_subnet_ids = ["blah"]
+private_subnet_ids = ["blah"]
+route_table_id  = "random"
+private_cidr_blocks = ["10.1.20.0/24", "10.1.120.0/24"]
+public_cidr_blocks = ["10.3.10.0/24", "10.3.110.0/24"]
+#management_cidr_blocks = ["10.2.10.0/24", "10.2.110.0/24"]
+
+#BIG-IP
+f5_ami_search_name = "F5 BIGIP-16.1.3* PAYG-Adv WAF Plus 25Mbps*"
+ssh_key       = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPvtI5aHnhgoSypBRWRi+gHPKMil5ORIIX8LT9eruu3xyJyzy2uD36LaMxt4Xb9ibghFwS8h6lDZTb+Zfoq6jSSwynhe9s8HsjlC6DnNavQXNIfoj/ocugvhZl3viVpYAonE1OiLpme+HwoSUFkdSYBElcDTkeIpo+46e6X9kkHzsgaKeCW0JixNRUWxtlLbJhq6HRiktXLCwDpUNj/wlB7q6RVH1cu3pkvnDeRHJBagBOdB98P605Y2RPpAvmeY1TbiJLA624MR49gv3h7YSaOBOj0PTr8KwdsnB8RunYsScW7sNEepyelQczC/GgjY1mbmgRYvB6l+JAMYrr4dR+hw5oV0Sa68PnNoMytmYz/I4FqarQ5RDWOAWjnoGZtjptDBnHTnwqUi2cBC9qGihKShBYHdAC1tmdEtu7uYWSDxSipU8PZElyUD+d2NfWktb6nnCVHuOJt/ntrys2xPtYLX6j9k8mFAwjFUBO5VxfzbPm3UWm0pIizZbCghOrRHM= C.Delano@V3FJDGDM9F"
+public_az1_cidr_block = "blah"
+private_az1_cidr_block = "blah"
+mgmtSubAz1    = "subnet-1111"
+extSubAz1     = "subnet-3333"
+intSubAz1     = "subnet-5555"
+
+#LTM
+ltm_config_payload = "/Users/C.Delano/GitHub/knowbase/supreme-robot/modules/bigip/test.json"
+
+#AWAF
+awaf_config_payload = "/Users/C.Delano/GitHub/knowbase/supreme-robot/modules/bigip/awaf-config.json"
+
+#NAP
+k_host = "https://8244B8B016D270ACA7E4E1CF344DB367.gr7.us-east-1.eks.amazonaws.com"
+k_config = "~/.kube/config"
+k_context = "arn:aws:eks:us-east-1:856265587682:cluster/tf-cd-spicy-eks-cluster-c154"
+cluster_name = "tf-cd-spicy-eks-cluster-c154"
+
+#XC GLobal
+api_url = "https://tme-lab-works.console.ves.volterra.io/api"
+api_cert = "/Users/C.Delano/GitHub/knowbase/certs/xc/certificate.cert"
+api_key = "/Users/C.Delano/GitHub/knowbase/certs/xc/private_key.key"
+xc_namespace = "cameron"
+
+#XC LB
+app_domain = "petstore-cd-demo.sr.f5-demo.com"
+origin_server_dns_name = "petstore.swagger.io"
+dns_origin_pool = true
+
+#XC WAF
+xc_waf_name = "test-policy"
+xc_waf_blocking = "true"
+
+#Juice Shop
+juice_shop_ip = "blah"
+
+#Arcadia
