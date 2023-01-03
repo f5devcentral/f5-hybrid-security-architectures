@@ -37,7 +37,7 @@ public_cidr_blocks = ["10.3.10.0/24", "10.3.110.0/24"]
 
 #BIG-IP
 f5_ami_search_name = "F5 BIGIP-16.1.3* PAYG-Adv WAF Plus 25Mbps*"
-ssh_key       = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPvtI5aHnhgoSypBRWRi+gHPKMil5ORIIX8LT9eruu3xyJyzy2uD36LaMxt4Xb9ibghFwS8h6lDZTb+Zfoq6jSSwynhe9s8HsjlC6DnNavQXNIfoj/ocugvhZl3viVpYAonE1OiLpme+HwoSUFkdSYBElcDTkeIpo+46e6X9kkHzsgaKeCW0JixNRUWxtlLbJhq6HRiktXLCwDpUNj/wlB7q6RVH1cu3pkvnDeRHJBagBOdB98P605Y2RPpAvmeY1TbiJLA624MR49gv3h7YSaOBOj0PTr8KwdsnB8RunYsScW7sNEepyelQczC/GgjY1mbmgRYvB6l+JAMYrr4dR+hw5oV0Sa68PnNoMytmYz/I4FqarQ5RDWOAWjnoGZtjptDBnHTnwqUi2cBC9qGihKShBYHdAC1tmdEtu7uYWSDxSipU8PZElyUD+d2NfWktb6nnCVHuOJt/ntrys2xPtYLX6j9k8mFAwjFUBO5VxfzbPm3UWm0pIizZbCghOrRHM= C.Delano@V3FJDGDM9F"
+ssh_key       = ""
 public_az1_cidr_block = "blah"
 private_az1_cidr_block = "blah"
 mgmtSubAz1    = "subnet-1111"
