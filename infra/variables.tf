@@ -15,6 +15,10 @@ variable "resource_owner" {
   description = "owner of the deployment, for tagging purposes"
   default     = "myName"
 }
+variable "ssh_key" {
+  type        = string
+  description = "key used for authentication in ssh-rsa format"
+}
 /*
 variable "build_suffix" {
   description = "random id"

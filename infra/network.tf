@@ -34,7 +34,7 @@ resource "aws_eip" "main" {
 resource "aws_nat_gateway" "main" {
   count = var.create_nat_gateway ? 1 : 0
   allocation_id = aws_eip.main[0].id
-  subnet_id     = aws_subnet.external[0].id
+  subnet_id     = values(aws_subnet.external)[0].id
 
   tags = {
     resource_owner = var.resource_owner
