@@ -172,7 +172,7 @@ jobs:
     needs: terraform_juiceshop
     defaults:
       run:
-        working-directory: ./juice-shop
+        working-directory: ./bigip
     steps:
       - name: Checkout
         uses: actions/checkout@v3
