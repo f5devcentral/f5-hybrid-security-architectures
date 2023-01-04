@@ -9,16 +9,16 @@ resource "aws_nat_gateway" "main" {
   subnet_id     = var.public_subnet_ids[0]
 
   tags = {
-    resource_owner = var.resource_owner
-    Name          = format("%s-ngw-%s", var.project_prefix, var.build_suffix)
+    resource_owner = local.resource_owner
+    Name          = format("%s-ngw-%s", local.project_prefix, local.build_suffix)
   }
 }
 */
 module subnet_addrs {
-  for_each = toset(var.azs)
+  for_each = toset(local.azs)
   source          = "hashicorp/subnets/cidr"
   version         = "1.0.0"
-  base_cidr_block = cidrsubnet(var.app_cidr,2,index(var.azs,each.key))
+  base_cidr_block = cidrsubnet(local.app_cidr,2,index(local.azs,each.key))
   networks        = [
     {
       name     = "app-subnet"
@@ -28,28 +28,28 @@ module subnet_addrs {
 }
 
 resource "aws_subnet" "app-subnet" {
-  for_each = toset(var.azs)
-  vpc_id            = var.vpc_id
+  for_each = toset(local.azs)
+  vpc_id            = local.vpc_id
   cidr_block        = module.subnet_addrs[each.key].network_cidr_blocks["app-subnet"]
   availability_zone = each.key
   tags              = {
-    Name = format("%s-eapp-server-%s",var.project_prefix,each.key)
+    Name = format("%s-eapp-server-%s",local.project_prefix,each.key)
   }
 }
 /*
 resource "aws_route_table" "main" {
-  vpc_id =var.vpc_id
+  vpc_id =local.vpc_id
   route {
     cidr_block = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.main.id
   }
   tags = {
-    Name = format("%s-app-server-rt-%s", var.project_prefix, var.build_suffix)
+    Name = format("%s-app-server-rt-%s", local.project_prefix, local.build_suffix)
   }
 }
 */
 resource "aws_route_table_association" "app-subnet-association" {
-  for_each       = toset(var.azs)
+  for_each       = toset(local.azs)
   subnet_id      = aws_subnet.app-subnet[each.key].id
-  route_table_id = var.vpc_main_route_table_id
+  route_table_id = local.vpc_main_route_table_id
 }

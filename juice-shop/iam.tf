@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ec2_role_juice_shop" {
-  name = format("%s-ec2-role-app-server-%s", var.project_prefix, var.build_suffix)
+  name = format("%s-ec2-role-app-server-%s", local.project_prefix, local.build_suffix)
 
   assume_role_policy = <<EOF
 {
@@ -18,12 +18,12 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "ec2_profile_juice_shop" {
-  name = format("%s-ec2-profile-app-server-%s", var.project_prefix, var.build_suffix)
+  name = format("%s-ec2-profile-app-server-%s", local.project_prefix, local.build_suffix)
   role = aws_iam_role.ec2_role_juice_shop.name
 }
 
 resource "aws_iam_role_policy" "ec2_policy" {
-  name = format("%s-ec2-policy-app-server-%s", var.project_prefix, var.build_suffix)
+  name = format("%s-ec2-policy-app-server-%s", local.project_prefix, local.build_suffix)
   role = aws_iam_role.ec2_role_juice_shop.id
 
   policy = <<EOF

@@ -1,6 +1,6 @@
 # Create SSH Key Pair
 resource "aws_key_pair" "app-server" {
-  key_name   = format("%s-app-server-key-%s", var.project_prefix, var.build_suffix)
+  key_name   = format("%s-app-server-key-%s", local.project_prefix, local.build_suffix)
   public_key = var.ssh_key
 }
 resource "aws_instance" "app-server" {
@@ -24,14 +24,14 @@ resource "aws_instance" "app-server" {
     docker run -d -p 80:3000 bkimminich/juice-shop
   EOF
   
-  vpc_security_group_ids = [var.internal_sg_id]
+  vpc_security_group_ids = [local.internal_sg_id]
   subnet_id = values(aws_subnet.app-subnet)[0].id
 
   iam_instance_profile = aws_iam_instance_profile.ec2_profile_juice_shop.name
 
   tags = {
-    Name  = format("%s-app-server-%s", var.project_prefix, var.build_suffix)
-    Owner = var.resource_owner
+    Name  = format("%s-app-server-%s", local.project_prefix, local.build_suffix)
+    Owner = local.resource_owner
   }
   key_name = aws_key_pair.app-server.key_name
   monitoring              = true
