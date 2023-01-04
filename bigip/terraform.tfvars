@@ -10,8 +10,8 @@ azs           = ["us-east-1a", "us-east-1b"]
 #BIG-IP
 f5_ami_search_name = "F5 BIGIP-16.1.3* PAYG-Adv WAF Plus 25Mbps*"
 aws_secretmanager_auth = false
-public_az1_cidr_block = "blah"
-private_az1_cidr_block = "blah"
+public_az1_cidr_block = ""
+private_az1_cidr_block = ""
 
 
 #LTM

@@ -8,6 +8,7 @@ variable "project_prefix" {
 variable "build_suffix" {
   type = string
   description = "random id"
+  default = ""
 }
 variable "aws_region" {
   description = "aws region"
