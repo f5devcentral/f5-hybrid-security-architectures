@@ -13,6 +13,7 @@ variable "aws_region" {
 variable "build_suffix" {
   description = "random id"
   type = string
+  default = random_id.build_suffix.hex
 }
 variable cidr {
   description = "the CIDR block for the Virtual Private Cloud (VPC) of the deployment"
