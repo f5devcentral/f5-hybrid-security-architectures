@@ -5,7 +5,7 @@ build_suffix = ""
 
 #AWS INFRA
 aws_region     = "us-east-1"
-azs           = ["us-east-1a", "us-east-1b"]
+azs           = ["us-east-1a", "us-east-1c"]
 #public_subnet_ids = data.tf_outputs.infra.values.public_subnet_ids
 #private_subnet_ids = data.tf_outputs.infra.values.private_subnet_ids
 vpc_main_route_table_id  = ""
