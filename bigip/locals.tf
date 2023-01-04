@@ -6,6 +6,7 @@ locals {
   
   #Infra State Values
   aws_region = data.tfe_outputs.infra.values.aws_region
+  vpc_cidr_block = data.tfe_outputs.infra.values.vpc_cidr_block
   public_az1_cidr_block = data.tfe_outputs.infra.values.public_az1_cidr_block
   private_az1_cidr_block = data.tfe_outputs.infra.values.private_az1_cidr_block
   external_sg_id = data.tfe_outputs.infra.values.external_sg_id
@@ -54,7 +55,7 @@ locals {
     AS3_VER                     = split("/", var.AS3_URL)[7]
     TS_VER                      = split("/", var.TS_URL)[7]
     FAST_VER                    = split("/", var.FAST_URL)[7]
-    vpc_cidr_block              = var.vpc_cidr_block
+    vpc_cidr_block              = local.vpc_cidr_block
     internal_netmask            = split("/",  local.private_az1_cidr_block)[1]
     external_netmask            = split("/",  local.public_az1_cidr_block)[1]
     dns_server                  = var.dns_server
