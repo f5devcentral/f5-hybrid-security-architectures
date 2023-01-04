@@ -1,6 +1,6 @@
 {
     "class": "ADC",
-    "schemaVersion": "3.26.0",
+    "schemaVersion": "3.26",
     "id": "LTM_VIP",
     "Tenant_1": {
         "class": "Tenant",
