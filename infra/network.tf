@@ -4,21 +4,21 @@
 module "vpc" {
   source               = "terraform-aws-modules/vpc/aws"
   version              = "~> 3.0"
-  name                 = "${var.project_prefix}-vpc-${var.build_suffix}"
+  name                 = "${var.project_prefix}-vpc-${random_id.build_suffix.hex}"
   cidr                 = var.cidr
   azs                  = var.azs
   enable_dns_support = true
   enable_dns_hostnames = true
   tags = {
     resource_owner = var.resource_owner
-    Name          = "${var.project_prefix}-vpc-${var.build_suffix}"
+    Name          = "${var.project_prefix}-vpc-${random_id.build_suffix.hex}"
   }
 }
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = module.vpc.vpc_id
   tags   = {
-    Name = "${var.project_prefix}-igw-${var.build_suffix}"
+    Name = "${var.project_prefix}-igw-${random_id.build_suffix.hex}"
   }
 }
 
@@ -38,7 +38,7 @@ resource "aws_nat_gateway" "main" {
 
   tags = {
     resource_owner = var.resource_owner
-    Name          = format("%s-ngw-%s", var.project_prefix, var.build_suffix)
+    Name          = format("%s-ngw-%s", var.project_prefix, random_id.build_suffix.hex)
   }
 }
 
@@ -115,7 +115,7 @@ resource "aws_route_table" "main" {
     gateway_id = aws_internet_gateway.igw.id
   }
   tags = {
-    Name = "${var.project_prefix}-rt-${var.build_suffix}"
+    Name = "${var.project_prefix}-rt-${random_id.build_suffix.hex}"
   }
 }
 resource "aws_route_table_association" "subnet-association-internal" {

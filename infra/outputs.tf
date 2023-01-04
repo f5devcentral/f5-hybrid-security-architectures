@@ -1,4 +1,14 @@
-# Outputs
+#Global
+output "project_prefix" {
+  value = var.project_prefix
+}
+output "resource_owner" {
+  value = var.resource_owner
+}
+output "build_suffix" {
+  value = random_id.build_suffix.hex
+}
+#Outputs
 output "vpc_cidr_block" {
   description = "CIDR Block"
   value       = module.vpc.vpc_cidr_block

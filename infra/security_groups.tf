@@ -17,11 +17,11 @@ resource "aws_default_security_group" "restrict_dsg" {
 
 #Security Group External
 resource "aws_security_group" "external" {
-  name   = format("%s-sg-ext-%s", var.project_prefix, var.build_suffix)
+  name   = format("%s-sg-ext-%s", var.project_prefix, random_id.build_suffix.hex)
   vpc_id = module.vpc.vpc_id
 
   tags = {
-    Name  = format("%s-sg-ext-%s", var.project_prefix, var.build_suffix)
+    Name  = format("%s-sg-ext-%s", var.project_prefix, random_id.build_suffix.hex)
     Owner = var.resource_owner
 
   }
@@ -63,11 +63,11 @@ resource "aws_security_group_rule" "sg_egress_public" {
 
 #Security Group - MGMT
 resource "aws_security_group" "management" {
-  name   = format("%s-sg-mgmt-%s", var.project_prefix, var.build_suffix)
+  name   = format("%s-sg-mgmt-%s", var.project_prefix, random_id.build_suffix.hex)
   vpc_id = module.vpc.vpc_id
 
   tags = {
-    Name  = format("%s-sg-mgmt-%s", var.project_prefix, var.build_suffix)
+    Name  = format("%s-sg-mgmt-%s", var.project_prefix, random_id.build_suffix.hex)
     Owner = var.resource_owner
   }
 }
@@ -108,11 +108,11 @@ resource "aws_security_group_rule" "sg_egress_management" {
 
 #Security Group - Internal
 resource "aws_security_group" "internal" {
-  name   = format("%s-sg-int-%s", var.project_prefix, var.build_suffix)
+  name   = format("%s-sg-int-%s", var.project_prefix, random_id.build_suffix.hex)
   vpc_id = module.vpc.vpc_id
 
   tags = {
-    Name  = format("%s-sg-int-%s", var.project_prefix, var.build_suffix)
+    Name  = format("%s-sg-int-%s", var.project_prefix, random_id.build_suffix.hex)
     Owner = var.resource_owner
 
   }
