@@ -54,32 +54,32 @@ output "app_cidr" {
   description = "Application server(Juice Shop) CIDR block"
   value       = values(module.subnet_addrs)[0].network_cidr_blocks.app-cidr
 }
-/*
-output "extSubnetAz1" {
+
+output "ext_subnet_az1" {
   description = "ID of External subnet AZ1"
   value       = values(aws_subnet.external)[0].id
 }
-output "extSubnetAz2" {
+output "ext_subnet_az2" {
   description = "ID of External subnet AZ2"
   value       = values(aws_subnet.external)[1].id
 }
-output "intSubnetAz1" {
+output "int_subnet_az1" {
   description = "ID of Internal subnet AZ1"
   value       = values(aws_subnet.internal)[0].id
 }
-output "intSubnetAz2" {
+output "int_subnet_az2" {
   description = "ID of Internal subnet AZ2"
   value       = values(aws_subnet.internal)[1].id
 }
-output "mgmtSubnetAz1" {
+output "mgmt_subnet_az1" {
   description = "ID of Management subnet AZ1"
   value       = values(aws_subnet.management)[0].id
 }
-output "mgmtSubnetAz2" {
+output "mgmt_subnet_az2" {
   description = "ID of Management subnet AZ2"
   value       = values(aws_subnet.management)[1].id
 }
-*/
+
 output "external_sg_id" {
   value       = aws_security_group.external.id
 }
