@@ -81,10 +81,10 @@ jobs:
         if: github.ref == 'refs/heads/deploy-xc-bigip' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
 
-      #- name: Terraform Destroy
-      #  id: destroy
-      #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #  run: terraform destroy -auto-approve
+      - name: Terraform Destroy
+        id: destroy
+        if: github.ref == 'refs/heads/destroy-xc-bigip' && github.event_name == 'push'
+        run: terraform destroy -auto-approve
 
   terraform_juiceshop:
     name: "juiceshop"
@@ -161,7 +161,7 @@ jobs:
         if: github.ref == 'refs/heads/deploy-xc-bigip' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
 
-      #- name: Terraform Destroy
-      #  id: destroy
-      #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #  run: terraform destroy -auto-approve
+      - name: Terraform Destroy
+        id: destroy
+        if: github.ref == 'refs/heads/destroy-xc-bigip' && github.event_name == 'push'
+        run: terraform destroy -auto-approve

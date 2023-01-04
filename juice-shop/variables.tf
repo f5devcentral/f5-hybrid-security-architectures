@@ -44,6 +44,11 @@ variable "app_cidr" {
   type = string
   default = ""
 }
+variable "admin_src_addr" {
+  type        = string
+  description = "Allowed Admin source IP prefix"
+  default     = "0.0.0.0/0"
+}
 #EC2
 /*
 variable "private_subnet_ids" {

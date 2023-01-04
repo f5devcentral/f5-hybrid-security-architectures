@@ -9,6 +9,12 @@ output "build_suffix" {
   value = random_id.build_suffix.hex
 }
 #Outputs
+output "aws_region" {
+  value = var.aws_region
+}
+output "azs" {
+  value = var.azs
+}
 output "vpc_cidr_block" {
   description = "CIDR Block"
   value       = module.vpc.vpc_cidr_block
