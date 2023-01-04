@@ -24,7 +24,6 @@ variable "aws_region" {
 variable "azs" {
   description = "Availability Zones"
   type        = list
-  default = ""
 }
 variable "vpc_id" {
   type        = string
