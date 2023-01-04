@@ -15,7 +15,7 @@ resource "aws_nat_gateway" "main" {
 }
 */
 module subnet_addrs {
-  for_each = nonsensitive(toset(local.azs))
+  for_each        = nonsensitive(toset(local.azs))
   source          = "hashicorp/subnets/cidr"
   version         = "1.0.0"
   base_cidr_block = cidrsubnet(local.app_cidr,2,index(local.azs,each.key))
@@ -28,7 +28,7 @@ module subnet_addrs {
 }
 
 resource "aws_subnet" "app-subnet" {
-  for_each = nonsensitive(toset(local.azs))
+  for_each          = nonsensitive(toset(local.azs))
   vpc_id            = local.vpc_id
   cidr_block        = module.subnet_addrs[each.key].network_cidr_blocks["app-subnet"]
   availability_zone = each.key
@@ -49,7 +49,7 @@ resource "aws_route_table" "main" {
 }
 */
 resource "aws_route_table_association" "app-subnet-association" {
-  for_each       = toset(local.azs)
+  for_each       = nonsensitive(toset(local.azs))
   subnet_id      = aws_subnet.app-subnet[each.key].id
   route_table_id = local.vpc_main_route_table_id
 }
