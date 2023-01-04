@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - deploy-xc-bigip
+      - destroy-xc-bigip
   pull_request:
 
 jobs:
