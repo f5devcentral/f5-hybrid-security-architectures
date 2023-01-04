@@ -7,7 +7,7 @@ module "postbuild-config-awaf" {
   bigip_address    = module.bigip.mgmtPublicIP
   bigip_as3_payload = templatefile(var.awaf_config_payload,
   {
-  juice_shop_ip = var.juice_shop_ip
+  juice_shop_ip = local.juice_shop_ip
   }
   )
 }

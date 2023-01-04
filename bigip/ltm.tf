@@ -7,7 +7,7 @@ module "postbuild-config-ltm" {
   bigip_address    = module.bigip.mgmtPublicIP
   bigip_as3_payload = templatefile(var.ltm_config_payload,
   {
-  juice_shop_ip = var.juice_shop_ip
+  juice_shop_ip = local.juice_shop_ip
   }
   )
 }

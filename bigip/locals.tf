@@ -9,8 +9,8 @@ locals {
   public_az1_cidr_block = data.tfe_outputs.infra.values.public_az1_cidr_block
   private_az1_cidr_block = data.tfe_outputs.infra.values.private_az1_cidr_block
   external_sg_id = data.tfe_outputs.infra.values.external_sg_id
-  internal_sg_id = data.tfe_outputs.infra.values.internal_sg_ids
-  management_sg_id = data.tfe_outputs.infra.values.management_sg_ids
+  internal_sg_id = data.tfe_outputs.infra.values.internal_sg_id
+  management_sg_id = data.tfe_outputs.infra.values.management_sg_id
   mgmt_subnet_az1 = data.tfe_outputs.infra.values.mgmt_subnet_az1
   int_subnet_az1 = data.tfe_outputs.infra.values.int_subnet_az1
   ext_subnet_az1 = data.tfe_outputs.infra.values.ext_subnet_az1
