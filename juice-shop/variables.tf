@@ -49,15 +49,6 @@ variable "admin_src_addr" {
   description = "Allowed Admin source IP prefix"
   default     = "0.0.0.0/0"
 }
-#EC2
-/*
-variable "private_subnet_ids" {
-  type = list(any)
-}
-variable "public_subnet_ids" {
-  type = list(any)
-}
-*/
 variable "internal_sg_id" {
   type        = string
   description = "Internal securitiy group ID"
