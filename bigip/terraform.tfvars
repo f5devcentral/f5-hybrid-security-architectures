@@ -16,8 +16,8 @@ private_az1_cidr_block = "blah"
 
 #LTM
 create_ltm_config = false
-ltm_config_payload = "${path.module}/test.json"
+ltm_config_payload = "test.json"
 
 #AWAF
 create_awaf_config = true
-awaf_config_payload = "${path.module}/awaf-config.json"
+awaf_config_payload = "awaf-config.json"
