@@ -14,7 +14,6 @@ output "nat_gateway_id" {
     value = aws_nat_gateway.main.id
 }
 output "public_subnet_ids" {
-  description = "Required for deploying an EKS cluster(separate terraform project) to VPC if create_infra is true and create_juice_shop is false"
   value = [values(aws_subnet.external)[0].id, values(aws_subnet.external)[1].id]
 }
 output "private_cidr_blocks" {
