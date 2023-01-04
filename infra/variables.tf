@@ -10,11 +10,17 @@ variable "aws_region" {
   type        = string
 #  default     = "us-west-2"
 }
+variable "resource_owner" {
+  type        = string
+  description = "owner of the deployment, for tagging purposes"
+  default     = "myName"
+}
+/*
 variable "build_suffix" {
   description = "random id"
   type = string
-  default = random_id.build_suffix.hex
 }
+*/
 variable cidr {
   description = "the CIDR block for the Virtual Private Cloud (VPC) of the deployment"
   default = "10.0.0.0/16"
@@ -53,8 +59,4 @@ variable "int_address_prefixes" {
   default     = ["10.1.20.0/24", "10.1.120.0/24"]
   description = "Internal subnet address prefixes"
 }
-variable "resource_owner" {
-  type        = string
-  description = "owner of the deployment, for tagging purposes"
-  default     = "myName"
-}
+
