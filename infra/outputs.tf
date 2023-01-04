@@ -38,6 +38,7 @@ output "app_cidr" {
   description = "Application server(Juice Shop) CIDR block"
   value       = values(module.subnet_addrs)[0].network_cidr_blocks.app-cidr
 }
+/*
 output "extSubnetAz1" {
   description = "ID of External subnet AZ1"
   value       = values(aws_subnet.external)[0].id
@@ -62,6 +63,7 @@ output "mgmtSubnetAz2" {
   description = "ID of Management subnet AZ2"
   value       = values(aws_subnet.management)[1].id
 }
+*/
 output "external_sg_id" {
   value       = aws_security_group.external.id
 }
