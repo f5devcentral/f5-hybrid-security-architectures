@@ -11,7 +11,7 @@ output "vpc_main_route_table_id" {
   value       = aws_route_table.main.id
 }
 output "nat_gateway_id" {
-    value = aws_nat_gateway.main.id
+    value = aws_nat_gateway.main[0].id
 }
 output "public_subnet_ids" {
   value = [values(aws_subnet.external)[0].id, values(aws_subnet.external)[1].id]
