@@ -55,8 +55,8 @@ locals {
     TS_VER                      = split("/", var.TS_URL)[7]
     FAST_VER                    = split("/", var.FAST_URL)[7]
     vpc_cidr_block              = var.vpc_cidr_block
-    internal_netmask            = split("/",  var.private_az1_cidr_block)[1]
-    external_netmask            = split("/",  var.public_az1_cidr_block)[1]
+    internal_netmask            = split("/",  local.private_az1_cidr_block)[1]
+    external_netmask            = split("/",  local.public_az1_cidr_block)[1]
     dns_server                  = var.dns_server
     ntp_server                  = var.ntp_server
     timezone                    = var.timezone
