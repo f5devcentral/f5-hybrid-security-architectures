@@ -1,0 +1,14 @@
+#Global
+project_prefix = "tf-cd-onewaf"
+resource_owner = "cdelano"
+build_suffix = "value"
+
+#AWS INFRA
+aws_region     = "us-east-1"
+azs           = ["us-east-1a", "us-east-1b"]
+public_subnet_ids = ["blah"]
+private_subnet_ids = ["blah"]
+route_table_id  = "random"
+private_cidr_blocks = ["10.1.20.0/24", "10.1.120.0/24"]
+public_cidr_blocks = ["10.3.10.0/24", "10.3.110.0/24"]
+
