@@ -4,7 +4,7 @@
 
 resource "volterra_origin_pool" "op_dns" {
   count = var.dns_origin_pool == true ? 1 : 0
-  name                   = "${var.project_prefix}-xcop-${var.build_suffix}"
+  name                   = "${local.project_prefix}-xcop-${local.build_suffix}"
   namespace              = var.xc_namespace
   description            = format("Origin pool pointing to origin server %s", var.origin_server_dns_name)
   origin_servers {
@@ -22,9 +22,9 @@ resource "volterra_origin_pool" "op_dns" {
 
 resource "volterra_origin_pool" "op_ip" {
   count = var.dns_origin_pool == false ? 1 : 0
-  name                   = "${var.project_prefix}-xcop-${var.build_suffix}"
+  name                   = "${local.project_prefix}-xcop-${local.build_suffix}"
   namespace              = var.xc_namespace
-  description            = format("Origin pool pointing to origin server %s", var.origin_server_ip_address)
+  description            = format("Origin pool pointing to origin server %s", local.origin_server_ip_address)
   origin_servers {
     public_ip {
       ip = var.origin_server_ip_address
@@ -39,9 +39,9 @@ resource "volterra_origin_pool" "op_ip" {
 }
 
 resource "volterra_http_loadbalancer" "lb_https" {
-  name      = "${var.project_prefix}-xclb-https-${var.build_suffix}"
+  name      = "${local.project_prefix}-xclb-https-${local.build_suffix}"
   namespace = var.xc_namespace
-  description = format("HTTPS loadbalancer object for %s origin server", var.project_prefix)  
+  description = format("HTTPS loadbalancer object for %s origin server", local.project_prefix)  
   domains = [var.app_domain]
   advertise_on_public_default_vip = true
   default_route_pools {
@@ -61,7 +61,7 @@ resource "volterra_http_loadbalancer" "lb_https" {
       }
   }
   app_firewall {
-    name = "${var.project_prefix}-xcw-${var.build_suffix}"
+    name = "${local.project_prefix}-xcw-${local.build_suffix}"
     namespace = var.xc_namespace
   }
   disable_waf                     = false
