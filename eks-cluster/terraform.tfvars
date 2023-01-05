@@ -1,6 +1,6 @@
 #Global
 project_prefix = ""
-resource_owner = "test"
+resource_owner = ""
 build_suffix = ""
 
 #AWS INFRA
