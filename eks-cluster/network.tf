@@ -7,8 +7,8 @@ resource "aws_eip" "main" {
 
 # Create NAT Gateway
 resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.main[0].id
-  subnet_id     = var.public_subnet_ids[0]
+  allocation_id = aws_eip.main.id
+  subnet_id     = local.public_subnet_ids[0]
 
   tags = {
     resource_owner = local.resource_owner
@@ -17,10 +17,10 @@ resource "aws_nat_gateway" "main" {
 }
 
 module subnet_addrs {
-  for_each = toset(var.azs)
+  for_each        = nonsensitive(toset(local.azs))
   source          = "hashicorp/subnets/cidr"
   version         = "1.0.0"
-  base_cidr_block = cidrsubnet(var.eks_cidr,2,index(var.azs,each.key))
+  base_cidr_block = cidrsubnet(local.eks_cidr,2,index(local.azs,each.key))
   networks        = [
     {
       name     = "eks-internal"
@@ -34,7 +34,7 @@ module subnet_addrs {
 }
 
 resource "aws_subnet" "eks-internal" {
-  for_each = toset(var.azs)
+  for_each          = nonsensitive(toset(local.azs))
   vpc_id            = local.vpc_id
   cidr_block        = module.subnet_addrs[each.key].network_cidr_blocks["eks-internal"]
   availability_zone = each.key
@@ -45,7 +45,7 @@ resource "aws_subnet" "eks-internal" {
   }
 }
 resource "aws_subnet" "eks-external" {
-  for_each = toset(var.azs)
+  for_each          = nonsensitive(toset(local.azs))
   vpc_id            = local.vpc_id
   cidr_block        = module.subnet_addrs[each.key].network_cidr_blocks["eks-external"]
   map_public_ip_on_launch = true
@@ -67,14 +67,14 @@ resource "aws_route_table" "main" {
   }
 }
 resource "aws_route_table_association" "internal-subnet-association" {
-  for_each       = toset(var.azs)
+  for_each       = nonsensitive(toset(local.azs))
   subnet_id      = aws_subnet.eks-internal[each.key].id
   route_table_id = aws_route_table.main.id
 }
 resource "aws_route_table_association" "external-subet-association" {
-  for_each = toset(var.azs)
-  subnet_id = aws_subnet.eks-external[each.key].id
-  route_table_id = var.vpc_main_route_table_id
+  for_each       = nonsensitive(toset(local.azs))
+  subnet_id      = aws_subnet.eks-external[each.key].id
+  route_table_id = local.vpc_main_route_table_id
 }
 
 

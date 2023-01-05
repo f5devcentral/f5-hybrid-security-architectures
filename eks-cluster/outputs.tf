@@ -10,5 +10,5 @@ output "cluster_endpoint" {
 
 output "cluster_name" {
   description = "Kubernetes Cluster Name"
-  value       = aws_eks_cluster.eks-tf.name
+  value       = nonsensitive(aws_eks_cluster.eks-tf.name)
 }
