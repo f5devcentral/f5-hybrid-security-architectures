@@ -311,6 +311,6 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      #- name: Terraform Apply
-      #  if: github.ref == 'refs/heads/deploy-xc-bigip' && github.event_name == 'push'
-      #  run: terraform apply -auto-approve -input=false
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/deploy-xc-bigip' && github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
