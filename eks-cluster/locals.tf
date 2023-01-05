@@ -9,5 +9,5 @@ locals {
   public_subnet_ids = data.tfe_outputs.infra.values.public_subnet_ids
   eks_cidr = data.tfe_outputs.infra.values.eks_cidr
   internal_sg_id = data.tfe_outputs.infra.values.internal_sg_id
-  cluster_name = format("%s-eks-cluster-%s", var.project_prefix, var.build_suffix)
+  cluster_name = format("%s-eks-cluster-%s", local.project_prefix, local.build_suffix)
 }
