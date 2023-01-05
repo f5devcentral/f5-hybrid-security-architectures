@@ -1,4 +1,4 @@
-name: "F5XC + BIG-IP"
+name: "F5XC + NAP"
 
 on:
   push:
@@ -110,7 +110,7 @@ jobs:
             cloud {
               organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
               workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_JUICESHOP }}"
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_EKS }}"
               }
             }
           }
