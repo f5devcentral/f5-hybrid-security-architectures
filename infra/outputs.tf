@@ -26,11 +26,6 @@ output "vpc_id" {
 output "vpc_main_route_table_id" {
   value       = aws_route_table.main.id
 }
-/*
-output "nat_gateway_id" {
-    value = aws_nat_gateway.main[0].id
-}
-*/
 output "public_subnet_ids" {
   value = [values(aws_subnet.external)[0].id, values(aws_subnet.external)[1].id]
 }
@@ -55,6 +50,10 @@ value  =  values(aws_subnet.internal)[0].cidr_block
 output "app_cidr" {
   description = "Application server(Juice Shop) CIDR block"
   value       = values(module.subnet_addrs)[0].network_cidr_blocks.app-cidr
+}
+output "eks_cidr" {
+  description = "Application server(EKS) CIDR block"
+  value       = values(module.subnet_addrs)[1].network_cidr_blocks.app-cidr
 }
 
 output "ext_subnet_az1" {
