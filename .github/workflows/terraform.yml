@@ -244,7 +244,7 @@ jobs:
   terraform_xc:
     name: "xc"
     runs-on: ubuntu-latest
-    needs: terraform_juiceshop
+    needs: terraform_bigip
     defaults:
       run:
         working-directory: ./xc
