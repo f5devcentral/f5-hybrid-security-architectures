@@ -79,7 +79,7 @@ resource "aws_security_group_rule" "sg_ingress_management_443" {
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  cidr_blocks = [var.admin_src_addr]
+  cidr_blocks = ["0.0.0.0/0"]
 }
 resource "aws_security_group_rule" "sg_ingress_management_8443" {
   security_group_id = aws_security_group.management.id
@@ -89,7 +89,7 @@ resource "aws_security_group_rule" "sg_ingress_management_8443" {
   protocol          = "tcp"
   cidr_blocks = [var.admin_src_addr]
 }
-resource "aws_security_group_rule" "sg_ingress_management_80" {
+resource "aws_security_group_rule" "sg_ingress_management_22" {
   security_group_id = aws_security_group.management.id
   type              = "ingress"
   from_port         = 22

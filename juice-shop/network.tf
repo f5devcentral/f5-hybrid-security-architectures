@@ -1,4 +1,4 @@
-/*
+
 resource "aws_eip" "main" {
   vpc              = true
 }
@@ -6,14 +6,14 @@ resource "aws_eip" "main" {
 # Create NAT Gateway
 resource "aws_nat_gateway" "main" {
   allocation_id = aws_eip.main.id
-  subnet_id     = var.public_subnet_ids[0]
+  subnet_id     = local.public_subnet_ids[0]
 
   tags = {
     resource_owner = local.resource_owner
     Name          = format("%s-ngw-%s", local.project_prefix, local.build_suffix)
   }
 }
-*/
+
 module subnet_addrs {
   for_each        = nonsensitive(toset(local.azs))
   source          = "hashicorp/subnets/cidr"
@@ -33,10 +33,10 @@ resource "aws_subnet" "app-subnet" {
   cidr_block        = module.subnet_addrs[each.key].network_cidr_blocks["app-subnet"]
   availability_zone = each.key
   tags              = {
-    Name = format("%s-eapp-server-%s",local.project_prefix,each.key)
+    Name = format("%s-app-server-%s",local.project_prefix,each.key)
   }
 }
-/*
+
 resource "aws_route_table" "main" {
   vpc_id =local.vpc_id
   route {
@@ -47,9 +47,9 @@ resource "aws_route_table" "main" {
     Name = format("%s-app-server-rt-%s", local.project_prefix, local.build_suffix)
   }
 }
-*/
+
 resource "aws_route_table_association" "app-subnet-association" {
   for_each       = nonsensitive(toset(local.azs))
   subnet_id      = aws_subnet.app-subnet[each.key].id
-  route_table_id = local.vpc_main_route_table_id
+  route_table_id = aws_route_table.main.id
 }
