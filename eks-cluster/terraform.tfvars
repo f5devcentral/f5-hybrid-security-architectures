@@ -9,3 +9,9 @@ azs           = ["us-east-1a", "us-east-1c"]
 vpc_main_route_table_id  = ""
 internal_sg_id = ""
 eks_cidr = ""
+
+
+#Not currently needed
+public_subnet_ids = ["",""]
+
+
