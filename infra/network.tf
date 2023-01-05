@@ -23,7 +23,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 
-
+/*
 # Create Elastic IP
 resource "aws_eip" "main" {
   count = var.create_nat_gateway ? 1 : 0
@@ -34,13 +34,14 @@ resource "aws_eip" "main" {
 resource "aws_nat_gateway" "main" {
   count = var.create_nat_gateway ? 1 : 0
   allocation_id = aws_eip.main[0].id
-  subnet_id     = values(aws_subnet.external)[0].id
+  subnet_id     = values(aws_subnet.internal)[0].id
 
   tags = {
     resource_owner = var.resource_owner
     Name          = format("%s-ngw-%s", var.project_prefix, random_id.build_suffix.hex)
   }
 }
+*/
 
 module subnet_addrs {
   for_each = toset(var.azs)
