@@ -1,4 +1,4 @@
-@Global
+#Global
 project_prefix = ""
 resource_owner = ""
 build_suffix = ""
