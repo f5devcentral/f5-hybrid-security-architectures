@@ -260,11 +260,11 @@ jobs:
         id: backend
         run: |
           cat > backend.tf << EOF
-          terraform {
+          terraform { 
             cloud {
               organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
               workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_BIGIP }}"
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_XC }}"
               }
             }
           }
