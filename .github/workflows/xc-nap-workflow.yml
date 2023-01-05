@@ -81,11 +81,6 @@ jobs:
         if: github.ref == 'refs/heads/deploy-xc-nap' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
 
-      #- name: Terraform Destroy
-      #  id: destroy
-      #  if: github.ref == 'refs/heads/destroy-xc-bigip' && github.event_name == 'push'
-      #  run: terraform destroy -auto-approve
-
   terraform_eks:
     name: "eks"
     runs-on: ubuntu-latest
