@@ -1,7 +1,3 @@
-data "tfe_outputs" "infra" {
-  organization = "knowbase"
-  workspace = "onewaap-infra"
-}
 data "tfe_outputs" "eks" {
   organization = "knowbase"
   workspace = "xc-nap-eks"
