@@ -11,7 +11,6 @@ resource "kubernetes_secret" "docker-registry" {
             auths = {
                 "${var.nginx_registry}" = {
                     "username" = var.nginx_jwt
-                    #"password" = var.registry_password
                 }
             }
         })
