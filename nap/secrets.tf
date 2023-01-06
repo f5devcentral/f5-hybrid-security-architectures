@@ -1,7 +1,7 @@
 resource "kubernetes_secret" "docker-registry" {
     metadata {
         name = "docker-registry"
-        namespace = kubernetes_namespace.nginx-ingress.metadata.name
+        namespace = kubernetes_namespace.nginx-ingress.metadata[0].name
     }
     
     type = "kubernetes.io/dockerconfigjson"
@@ -11,7 +11,7 @@ resource "kubernetes_secret" "docker-registry" {
             auths = {
                 "${var.nginx_registry}" = {
                     "username" = var.nginx_jwt
-                    "password" = none
+                    #"password" = var.registry_password
                 }
             }
         })
