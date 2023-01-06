@@ -35,7 +35,7 @@ jobs:
             }
           }
           EOF
-
+          
       - name: Terraform Init
         id: init
         run: terraform init
@@ -185,7 +185,7 @@ jobs:
             }
           }
           EOF
-
+          echo ${{secrets.NGINX_JWT}} | base64 -d > nginx-repo.jwt
       - name: Terraform Init
         id: init
         run: terraform init
