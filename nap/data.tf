@@ -9,7 +9,3 @@ data "tfe_outputs" "eks" {
 data "aws_eks_cluster_auth" "auth" {
   name = data.tfe_outputs.eks.values.cluster_name
 }
-data "helm_repository" "nginx" {
-  name = "nginx"
-  url  = "https://helm.nginx.com/stable"
-}
