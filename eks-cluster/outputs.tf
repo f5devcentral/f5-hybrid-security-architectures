@@ -12,3 +12,14 @@ output "cluster_name" {
   description = "Kubernetes Cluster Name"
   value       = nonsensitive(aws_eks_cluster.eks-tf.name)
 }
+
+output "kubeconfig-certificate-authority-data" {
+  value = aws_eks_cluster.eks-tf.certificate_authority[0].data
+  sensitive = true
+}
+/*
+output "token" {
+  value = data.aws_eks_cluster_auth.auth.token
+  sensitive = true
+}
+*/
