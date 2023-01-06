@@ -19,6 +19,6 @@ output "kubeconfig-certificate-authority-data" {
 }
 
 output "token" {
-  value = data.aws_eks_cluster_auth.auth
-  sensitive = true
+  value = nonesensitive(data.aws_eks_cluster_auth.auth)
+  #sensitive = true
 }
