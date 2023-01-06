@@ -15,8 +15,10 @@ output "cluster_name" {
 
 output "kubeconfig-certificate-authority-data" {
   value = aws_eks_cluster.eks-tf.certificate_authority[0].data
+  sensitive = true
 }
 
 output "token" {
   value = data.aws_eks_cluster_auth.auth
+  sensitive = true
 }
