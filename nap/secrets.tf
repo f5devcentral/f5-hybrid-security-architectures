@@ -1,6 +1,6 @@
 resource "kubernetes_secret" "docker-registry" {
     metadata {
-        name = "docker-registry"
+        name = "regcred"
         namespace = kubernetes_namespace.nginx-ingress.metadata[0].name
     }
     
