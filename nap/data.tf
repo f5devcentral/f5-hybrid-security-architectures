@@ -7,5 +7,5 @@ data "tfe_outputs" "eks" {
   workspace = "xc-nap-eks"
 }
 data "aws_eks_cluster_auth" "auth" {
-  name = data.tfe_outputs.eks.values.name
+  name = data.tfe_outputs.eks.values.cluster_name
 }
