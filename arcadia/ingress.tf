@@ -6,7 +6,7 @@ resource "kubernetes_ingress_v1" "arcadia-ingress" {
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = local.nginx_service
+      host = data.tfe_outputs.nap.values.external_name
       http {
         path {
           path = "/"
