@@ -32,28 +32,6 @@ resource "kubernetes_deployment" "main" {
     }
   }
 }
-
-resource "kubernetes_service" "main" {
-  metadata {
-    name = "main"
-    labels = {
-      app = "main"
-      service = "main"
-    }
-  }
-  spec {
-    port {
-      protocol    = "TCP"
-      port        = 80
-      target_port = "80"
-    }
-    selector = {
-      app = "main"
-    }
-    type = "ClusterIP"
-  }
-}
-
 resource "kubernetes_deployment" "backend" {
   metadata {
     name = "backend"
@@ -88,28 +66,6 @@ resource "kubernetes_deployment" "backend" {
     }
   }
 }
-
-resource "kubernetes_service" "backend" {
-  metadata {
-    name = "backend"
-    labels = {
-      app = "backend"
-      service = "backend"
-    }
-  }
-  spec {
-    port {
-      protocol    = "TCP"
-      port        = 80
-      target_port = "80"
-    }
-    selector = {
-      app = "backend"
-    }
-    type = "ClusterIP"
-  }
-}
-
 resource "kubernetes_deployment" "app_2" {
   metadata {
     name = "app2"
@@ -117,7 +73,6 @@ resource "kubernetes_deployment" "app_2" {
       app = "app2"
     }
   }
-
   spec {
     replicas = 1
     selector {
@@ -144,28 +99,6 @@ resource "kubernetes_deployment" "app_2" {
     }
   }
 }
-
-resource "kubernetes_service" "app_2" {
-  metadata {
-    name = "app2"
-    labels = {
-      app = "app2"
-      service = "app2"
-    }
-  }
-  spec {
-    port {
-      protocol    = "TCP"
-      port        = 80
-      target_port = "80"
-    }
-    selector = {
-      app = "app2"
-    }
-    type = "ClusterIP"
-  }
-}
-
 resource "kubernetes_deployment" "app_3" {
   metadata {
     name = "app3"
@@ -200,26 +133,5 @@ resource "kubernetes_deployment" "app_3" {
         }
       }
     }
-  }
-}
-
-resource "kubernetes_service" "app_3" {
-  metadata {
-    name = "app3"
-    labels = {
-      app = "app3"
-      service = "app3"
-    }
-  }
-  spec {
-    port {
-      protocol    = "TCP"
-      port        = 80
-      target_port = "80"
-    }
-    selector = {
-      app = "app3"
-    }
-    type = "ClusterIP"
   }
 }
