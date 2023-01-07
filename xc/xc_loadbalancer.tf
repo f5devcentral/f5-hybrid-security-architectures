@@ -5,7 +5,7 @@ resource "volterra_origin_pool" "op" {
   name                   = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
   namespace              = var.xc_namespace
   description            = format("Origin pool pointing to origin server %s", local.origin_server)
-  dynamic "origin_type" {
+  dynamic "origin_servers" {
     for_each = local.dns_origin_pool ? [1] : []
     content {
       origin_servers {
@@ -17,7 +17,7 @@ resource "volterra_origin_pool" "op" {
       }  
     }
   }
-  dynamic "origin_type" {
+  dynamic "origin_servers" {
     for_each = local.dns_origin_pool ? [] : [1]
     content {
       origin_servers {
