@@ -1,10 +1,8 @@
-# ---------------------------------------------------------------------------- #
 # Create XC LB config
-# ---------------------------------------------------------------------------- #
 
 resource "volterra_origin_pool" "op_dns" {
-  count = var.dns_origin_pool == true ? 1 : 0
-  name                   = "${local.project_prefix}-xcop-${local.build_suffix}"
+  count = local.dns_origin_pool == true ? 1 : 0
+  name                   = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
   namespace              = var.xc_namespace
   description            = format("Origin pool pointing to origin server %s", var.origin_server_dns_name)
   origin_servers {
@@ -21,8 +19,8 @@ resource "volterra_origin_pool" "op_dns" {
 }
 
 resource "volterra_origin_pool" "op_ip" {
-  count = var.dns_origin_pool == false ? 1 : 0
-  name                   = "${local.project_prefix}-xcop-${local.build_suffix}"
+  count = local.dns_origin_pool == false ? 1 : 0
+  name                   = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
   namespace              = var.xc_namespace
   description            = format("Origin pool pointing to origin server %s", local.origin_server_ip_address)
   origin_servers {
@@ -39,7 +37,7 @@ resource "volterra_origin_pool" "op_ip" {
 }
 
 resource "volterra_http_loadbalancer" "lb_https" {
-  name      = "${local.project_prefix}-xclb-https-${local.build_suffix}"
+  name      = format("%s-xclb-%s", local.project_prefix, local.build_suffix)
   namespace = var.xc_namespace
   description = format("HTTPS loadbalancer object for %s origin server", local.project_prefix)  
   domains = [var.app_domain]
