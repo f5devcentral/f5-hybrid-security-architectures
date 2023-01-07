@@ -1,23 +1,49 @@
 # Create XC LB config
 
-resource "volterra_origin_pool" "op_dns" {
-  count = local.dns_origin_pool == true ? 1 : 0
+resource "volterra_origin_pool" "op" {
+  #count = local.dns_origin_pool == true ? 1 : 0
   name                   = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
   namespace              = var.xc_namespace
   description            = format("Origin pool pointing to origin server %s", var.origin_server_dns_name)
+  dynamic "origin_type" {
+    for_each = local.dns_origin_pool ? [1] : []
+    content {
+      origin_servers {
+        public_name {
+          dns_name = local.origin_server
+        }
+        labels = {
+        }
+      }  
+    }
+  }
+  dynamic "origin_type" {
+    for_each = local.dns_origin_pool ? [] : [1]
+    content {
+      origin_servers {
+        public_ip {
+          ip = local.origin_server
+        }
+        labels = {
+        }
+      }  
+    }
+  }
+  /*
   origin_servers {
     public_name {
-      dns_name = var.origin_server_dns_name
+      dns_name = local.origin_server
     }
     labels = {
     }
   }
+  */
   no_tls = false
   port = "443"
   endpoint_selection     = "LOCALPREFERED"
   loadbalancer_algorithm = "LB_OVERRIDE"
 }
-
+/*
 resource "volterra_origin_pool" "op_ip" {
   count = local.dns_origin_pool == false ? 1 : 0
   name                   = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
@@ -25,7 +51,7 @@ resource "volterra_origin_pool" "op_ip" {
   description            = format("Origin pool pointing to origin server %s", local.origin_server_ip_address)
   origin_servers {
     public_ip {
-      ip = var.origin_server_ip_address
+      ip = local.origin_server
     }
     labels = {
     }
@@ -35,7 +61,7 @@ resource "volterra_origin_pool" "op_ip" {
   endpoint_selection     = "LOCALPREFERED"
   loadbalancer_algorithm = "LB_OVERRIDE"
 }
-
+*/
 resource "volterra_http_loadbalancer" "lb_https" {
   name      = format("%s-xclb-%s", local.project_prefix, local.build_suffix)
   namespace = var.xc_namespace
@@ -44,7 +70,7 @@ resource "volterra_http_loadbalancer" "lb_https" {
   advertise_on_public_default_vip = true
   default_route_pools {
       pool {
-        name = var.dns_origin_pool == true ? volterra_origin_pool.op_dns[0].name : volterra_origin_pool.op_ip[0].name
+        name = volterra_origin_pool.op.name
         namespace = var.xc_namespace
       }
       weight = 1
@@ -59,7 +85,7 @@ resource "volterra_http_loadbalancer" "lb_https" {
       }
   }
   app_firewall {
-    name = "${local.project_prefix}-xcw-${local.build_suffix}"
+    name = volterra_app_firewall.waap-tf.name
     namespace = var.xc_namespace
   }
   disable_waf                     = false
