@@ -1,8 +1,12 @@
-data "tfe_outputs" "bigip" {
-  organization = "knowbase"
-  workspace = "xc-bigip-bip"
-}
 data "tfe_outputs" "infra" {
   organization = "knowbase"
-  workspace = "onewaap-infra"
+  workspace = "infra"
+}
+data "tfe_outputs" "bigip" {
+  organization = "knowbase"
+  workspace = "bigip"
+}
+data "tfe_outputs" "nap" {
+  organization = "knowbase"
+  workspace = "nap-kic"
 }
