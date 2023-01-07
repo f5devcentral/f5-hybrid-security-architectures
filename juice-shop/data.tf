@@ -9,5 +9,5 @@ data "aws_ami" "amazon_linux_2" {
 }
 data "tfe_outputs" "infra" {
   organization = "knowbase"
-  workspace = "onewaap-infra"
+  workspace = "infra"
 }

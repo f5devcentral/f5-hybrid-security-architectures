@@ -1,11 +1,11 @@
 #Remote State
 data "tfe_outputs" "infra" {
   organization = "knowbase"
-  workspace = "onewaap-infra"
+  workspace = "infra"
 }
 data "tfe_outputs" "juiceshop" {
   organization = "knowbase"
-  workspace = "xc-bigip-juice"
+  workspace = "juiceshop"
 }
 
 #Validate the secret exists
