@@ -8,25 +8,17 @@ resource "volterra_origin_pool" "op" {
   dynamic "origin_servers" {
     for_each = local.dns_origin_pool ? [1] : []
     content {
-      origin_servers {
-        public_name {
-          dns_name = local.origin_server
-        }
-        labels = {
-        }
-      }  
+      public_name {
+        dns_name = local.origin_server
+      }
     }
   }
   dynamic "origin_servers" {
     for_each = local.dns_origin_pool ? [] : [1]
     content {
-      origin_servers {
-        public_ip {
-          ip = local.origin_server
-        }
-        labels = {
-        }
-      }  
+      public_ip {
+        ip = local.origin_server
+      } 
     }
   }
   /*
