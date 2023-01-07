@@ -6,6 +6,6 @@ xc_namespace = "cameron"
 app_domain = "arcadia-cd-demo.sr.f5-demo.com"
 
 #XC WAF
-xc_waf_blocking = "Set blocking"
+xc_waf_blocking = true
 
 
