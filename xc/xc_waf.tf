@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------------- #
 
 resource "volterra_app_firewall" "waap-tf" {
-  name                     = "${local.project_prefix}-xcw-${local.build_suffix}"
+  name                     = format("%s-xcw-%s", local.project_prefix, local.build_suffix)
   description              = format("WAF in block mode for %s", "${local.project_prefix}-xcw-${local.build_suffix}")
   namespace                = var.xc_namespace
 
