@@ -26,14 +26,14 @@ resource "kubernetes_ingress" "arcadia" {
         path {
           path = "/api"
           backend {
-            service_name = kubernetes_service.app2.metadata.0.name
+            service_name = kubernetes_service.app_2.metadata.0.name
             service_port = 80
           }
         }
         path {
           path = "/app3"
           backend {
-            service_name = kubernetes_service.app3.metadata.0.name
+            service_name = kubernetes_service.app_3.metadata.0.name
             service_port = 80
           }
         }
