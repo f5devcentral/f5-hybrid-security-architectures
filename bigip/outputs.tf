@@ -1,17 +1,10 @@
 # Outputs
-
+/*
 output "f5vm01_mgmt_private_ip" {
   description = "f5vm01 management private IP address"
   value       = module.bigip.private_addresses["mgmt_private"]["private_ip"][0]
 }
-output "f5vm01_mgmt_public_ip" {
-  description = "f5vm01 management public IP address"
-  value       = module.bigip.mgmtPublicIP
-}
-output "f5vm01_mgmt_pip_url" {
-  description = "f5vm01 management public URL"
-  value       = "https://${module.bigip.mgmtPublicIP}"
-}
+
 output "f5vm01_ext_private_ip" {
   description = "f5vm01 external primary IP address (self IP)"
   value       = module.bigip.private_addresses["public_private"]["private_ip"][0]
@@ -32,15 +25,27 @@ output "f5vm01_instance_ids" {
   description = "f5vm01 management device name"
   value       = module.bigip.bigip_instance_ids
 }
-output "public_vip" {
+*/
+output "origin_source" {
+    value = "bigip"
+}
+output "bigip_mgmt_ip" {
+  description = "BIG-IP management public IP address"
+  value       = module.bigip.mgmtPublicIP
+}
+output "bigip_mgmt_url" {
+  description = "BIG-IP management public URL"
+  value       = "https://${module.bigip.mgmtPublicIP}"
+}
+output "bigip_public_vip" {
   description = "Public IP for the BIG-IP listener (VIP)"
   value       = module.bigip.public_addresses["external_secondary_public"][0]
 }
-output "public_vip_url" {
-  description = "public URL for application"
+output "bigip_public_vip_url" {
+  description = "BIG-IP public URL for application"
   value       = "http://${module.bigip.public_addresses["external_secondary_public"][0]}"
 }
-output "f5_password" {
+output "bigip_password" {
   description = "BIG-IP Password"
   value = random_string.password.result
 }

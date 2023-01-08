@@ -1,6 +1,6 @@
 #Global
-project_prefix = ""
-resource_owner = ""
+project_prefix = "tf-cd-onewaap"
+resource_owner = "delano"
 
 #AWS INFRA
 aws_region     = "us-east-1"
