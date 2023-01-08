@@ -1,7 +1,6 @@
 # Create XC LB config
 
 resource "volterra_origin_pool" "op" {
-  #count = local.dns_origin_pool == true ? 1 : 0
   name                   = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
   namespace              = var.xc_namespace
   description            = format("Origin pool pointing to origin server %s", local.origin_server)
@@ -21,39 +20,12 @@ resource "volterra_origin_pool" "op" {
       } 
     }
   }
-  /*
-  origin_servers {
-    public_name {
-      dns_name = local.origin_server
-    }
-    labels = {
-    }
-  }
-  */
-  no_tls = false
-  port = "443"
+  no_tls = true
+  port = "80"
   endpoint_selection     = "LOCALPREFERED"
   loadbalancer_algorithm = "LB_OVERRIDE"
 }
-/*
-resource "volterra_origin_pool" "op_ip" {
-  count = local.dns_origin_pool == false ? 1 : 0
-  name                   = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
-  namespace              = var.xc_namespace
-  description            = format("Origin pool pointing to origin server %s", local.origin_server_ip_address)
-  origin_servers {
-    public_ip {
-      ip = local.origin_server
-    }
-    labels = {
-    }
-  }
-  no_tls = false
-  port = "443"
-  endpoint_selection     = "LOCALPREFERED"
-  loadbalancer_algorithm = "LB_OVERRIDE"
-}
-*/
+
 resource "volterra_http_loadbalancer" "lb_https" {
   name      = format("%s-xclb-%s", local.project_prefix, local.build_suffix)
   namespace = var.xc_namespace

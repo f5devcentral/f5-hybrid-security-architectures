@@ -32,24 +32,9 @@ variable "vpc_main_route_table_id" {
 variable "eks_cidr" {
   type = string
 }
-
-/*
-variable "public_cidr_blocks" {
-  type        = list(any)
-  default     = ["10.1.10.0/24", "10.1.110.0/24"]
-  description = "External subnet address prefixes"
-}
-variable "private_cidr_blocks" {
-  type        = list(any)
-  default     = ["10.1.20.0/24", "10.1.120.0/24"]
-  description = "Internal subnet address prefixes"
-}
-*/
-
 variable "public_subnet_ids" {
   type = list(any)
 }
-
 variable "azs" {
   description = "Availability Zones"
   type        = list
@@ -59,7 +44,6 @@ variable "eks_addons" {
     name    = string
     version = string
   }))
-
   default = [
     {
       name    = "kube-proxy"

@@ -11,10 +11,6 @@ ltm_config_payload = "ltm-config.json"
 create_awaf_config = true
 awaf_config_payload = "awaf-config.json"
 
-#AWS INFRA
-#aws_region     = "us-east-1"
-#azs           = ["us-east-1a", "us-east-1b"]
-
 #Optional
 
 public_az1_cidr_block = ""

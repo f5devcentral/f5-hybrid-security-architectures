@@ -13,11 +13,3 @@ data "tfe_outputs" "nap" {
 data "aws_eks_cluster_auth" "auth" {
   name = data.tfe_outputs.eks.values.cluster_name
 }
-/*
-data "kubernetes_service_v1" "nginx-service" {
-  metadata {
-    name = format("%s-%s",local.project_prefix, "nginx-ingress")
-    namespace = "nginx-ingress"
-  }
-}
-*/
