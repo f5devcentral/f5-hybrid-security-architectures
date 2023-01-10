@@ -26,7 +26,10 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 ## Terraform Cloud
 
 * **Workspaces**
-* **Variable Set**
+* **Variable Set:** Create a Variable Set with the following values.
+  * AWS_ACCESS_KEY_ID
+  * AWS_SECRET_ACCESS_KEY
+  * AWS_SESSION_TOKEN
 
 
 ## Development
