@@ -80,6 +80,13 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   * aws_region     = "AWS Region"
   * azs            = ["AZ1", "AZ2"] - Your Region Availability Zones
 
+**Step 3:** Edit bigip/terraform.tfvars and add the following data
+  * f5_ami_search_name = "F5 BIGIP-16.1.3* PAYG-Adv WAF Plus 25Mbps*" - You must be subscribed to the AMI in the [AWS Marketplace](https://aws.amazon.com/marketplace)
+  * aws_secretmanager_auth = false
+  * create_awaf_config = true
+  * awaf_config_payload = "awaf-config.json"
+
+
 **Step 3:** Edit xc/terraform.tfvars and add the following data
   * api_url         = "Your F5XC tenant"
   * xc_namespace    = "The XC namespace you are deploying to"
@@ -89,7 +96,7 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 **Step 4:** Commit and push your changes to your forked repo
   * Build will run and can be monitored in the GitHub Actions tab and TF Cloud console
 
-**Step 5:** Get outputs and access your app!
+**Step 5:** Once the pipeline completes, head on over to the app FQDN!
 
 ## Development
 
