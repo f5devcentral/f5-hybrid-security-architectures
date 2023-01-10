@@ -1,9 +1,9 @@
 #XC GLobal
-api_url = "https://tme-lab-works.console.ves.volterra.io/api"
-xc_namespace = "cameron"
+api_url = ""
+xc_namespace = ""
 
 #XC LB
-app_domain = "arcadia-cd-demo.sr.fr-demo.com"
+app_domain = ""
 
 #XC WAF
 xc_waf_blocking = true
