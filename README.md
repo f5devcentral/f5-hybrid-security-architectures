@@ -61,11 +61,11 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 * **Fork and Clone Repo**
 
 * **Actions Secrets:** Create the following GitHub Actions secrets in your forked repo
-  *  NGINX_JWT: The base64 encoded NGINX Java Web Token assocaited with your NGINX license.
+  *  NGINX_JWT: The base64 encoded NGINX Java Web Token assocaited with your NGINX license
   *  P12: The base64 encoded F5XC API certificate
   *  TF_API_TOKEN: Your Terraform Cloud API token
-  *  TF_CLOUD_ORGANIZATION: Your Terraform Cloud Organization
-  *  TF_CLOUD_WORKSPACE_Workspace Name: Create for each workspace in your workflow.  
+  *  TF_CLOUD_ORGANIZATION: Your Terraform Cloud Organization name
+  *  TF_CLOUD_WORKSPACE_Workspace Name: Create for each workspace in your workflow
       * EX: TF_CLOUD_WORKSPACE_BIGIP would be created with the value bigip
 
 ## Deployment
