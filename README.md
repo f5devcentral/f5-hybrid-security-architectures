@@ -36,10 +36,12 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 ## Terraform Cloud
 
 * **Workspaces:** Create a workspace for each asset in the workflow chosen
-  * xc-bigip: infra, bigip, juiceshop, and xc
-  * xc-nap: infra, eks, nap, arcadia, xc
-  * xc-nap-api: infra, eks, nap, arcadia, xc
-  * xc-nap-bot: infra, eks, nap, arcadia, xc
+  | **Workflow** | **Assets/Workspaces**                  |
+  | ----------- | ------------------------------- |
+  | xc-bigip    | infra, bigip, juiceshop, xc     |
+  | xc-nap      | infra, eks, nap, arcadia, xc    |
+  | xc-nap-api  | infra, eks, nap, arcadia, xc    |
+  | xc-nap-bot  | infra, eks, nap, arcadia, xc    |
   
 * **Variable Set:** Create a Variable Set with the following values.
   * AWS_ACCESS_KEY_ID: Your AWS Access Key ID - Environment Variable
@@ -60,7 +62,8 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   *  P12: The base64 encoded F5XC API certificate
   *  TF_API_TOKEN: Your Terraform Cloud API token
   *  TF_CLOUD_ORGANIZATION: Your Terraform Cloud Organization
-  *  TF_CLOUD_WORKSPACE_asset: Create for each asset in your workflow.  EX: TF_CLOUD_WORKSPACE_BIGIP
+  *  TF_CLOUD_WORKSPACE_Workspace Name: Create for each workspace in your workflow.  
+      * EX: TF_CLOUD_WORKSPACE_BIGIP would be created with the value bigip
 
 ## Deployment
 
