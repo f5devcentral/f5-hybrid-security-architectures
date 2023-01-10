@@ -8,13 +8,13 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 
 ## Prerequisites
 
-* F5 Distributed Cloud Account (F5XC)
-  * Create an F5XC API certificate following this [How To](https://docs.cloud.f5.com/docs/how-to/user-mgmt/credentials)
-* NGINX Plus with App Protect license ([trial](https://www.nginx.com/free-trial-request/) is ok)
-* AWS Account - Due to the assets being created, free tier will not work.
+* [F5 Distributed Cloud Account (F5XC)](https://console.ves.volterra.io/signup/usage_plan)
+  * [Create an F5XC API certificate](https://docs.cloud.f5.com/docs/how-to/user-mgmt/credentials)
+* [NGINX Plus with App Protect license](https://www.nginx.com/free-trial-request/)
+* [AWS Account](https://aws.amazon.com) - Due to the assets being created, free tier will not work.
   * The F5 BIG-IP AMI being used from the AWS Marketplace must be applied to your account
-* Terraform Cloud Account
-* GitHub Account
+* [Terraform Cloud Account](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started)
+* [GitHub Account](https://github.com)
 
 ## Assets
 
