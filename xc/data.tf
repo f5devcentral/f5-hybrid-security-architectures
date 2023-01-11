@@ -8,5 +8,5 @@ data "tfe_outputs" "bigip" {
 }
 data "tfe_outputs" "nap" {
   organization = var.tf_cloud_organization
-  workspace = "nap-kic"
+  workspace = "nap"
 }
