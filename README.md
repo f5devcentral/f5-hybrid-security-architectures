@@ -18,12 +18,12 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 
 ## Assets
 
-* **xc:** F5 Distributed Cloud WAAP
-* **nap:** NGINX Kubernetes Ingress Controller with NGINX App Protect (WAF and API Protection)
-* **bigip:** F5 BIG-IP (LTM and Advanced WAF)
-* **infra:** AWS Infrastructure (VPC, IGW, etc.)
-* **eks:** AWS Elastic Kubernetes Service
-* **arcadia:** Arcadia Finance test web application and API
+* **xc:**        F5 Distributed Cloud WAAP
+* **nap:**       NGINX Kubernetes Ingress Controller with NGINX App Protect (WAF and API Protection)
+* **bigip:**     F5 BIG-IP (LTM and Advanced WAF)
+* **infra:**     AWS Infrastructure (VPC, IGW, etc.)
+* **eks:**       AWS Elastic Kubernetes Service
+* **arcadia:**   Arcadia Finance test web application and API
 * **juiceshop:** OWASP Juice Shop test web application
 
 ## Tools
