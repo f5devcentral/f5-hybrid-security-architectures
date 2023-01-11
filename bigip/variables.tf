@@ -1,5 +1,5 @@
 # Variables
-
+#Global
 variable "project_prefix" {
   type        = string
   default     = "demo"
@@ -10,6 +10,21 @@ variable "build_suffix" {
   description = "random id"
   default = ""
 }
+variable "admin_src_addr" {
+  type        = string
+  description = "Allowed Admin source IP prefix"
+  default     = "0.0.0.0/0"
+}
+variable "ssh_key" {
+  type        = string
+  description = "public key used for authentication in ssh-rsa format"
+}
+#TF Cloud
+variable "tf_cloud_organzation" {
+  type = string
+  description = "TF cloud org (Value set in TF cloud)"
+}
+#AWS
 variable "aws_region" {
   description = "aws region"
   type        = string
@@ -19,11 +34,6 @@ variable "awsAz1" {
   description = "Availability zone, will dynamically choose one if left empty"
   type        = string
   default     = "us-west-2a"
-}
-variable "admin_src_addr" {
-  type        = string
-  description = "Allowed Admin source IP prefix"
-  default     = "0.0.0.0/0"
 }
 variable "vpc_id" {
   type        = string
@@ -90,6 +100,7 @@ variable "ec2_key_name" {
   description = "AWS EC2 Key name for SSH access"
   default     = null
 }
+#BIG-IP
 variable "f5_username" {
   type        = string
   description = "User name for the BIG-IP (Note: currenlty not used. Defaults to 'admin' based on AMI"
@@ -114,10 +125,6 @@ variable "aws_iam_instance_profile" {
   description = "Name of IAM role to assign to the BIG-IP instance"
   type        = string
   default     = null
-}
-variable "ssh_key" {
-  type        = string
-  description = "public key used for authentication in ssh-rsa format"
 }
 variable "license1" {
   type        = string
