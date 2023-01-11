@@ -1,6 +1,12 @@
+#TF Cloud
+variable "tf_cloud_organization" {
+  type = string
+  description = "TF cloud org (Value set in TF cloud)"
+}
+#XC
 variable "api_url" {
   type = string
-  default = "https://YOUT_TENANT.console.ves.volterra.io/api"
+  default = "https://YOUR_TENANT.console.ves.volterra.io/api"
 }
 variable "xc_namespace" {
   type = string

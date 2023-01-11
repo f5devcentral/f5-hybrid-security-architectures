@@ -7,7 +7,7 @@ variable "project_prefix" {
 variable "resource_owner" {
   type        = string
   description = "owner of the deployment, for tagging purposes"
-# default     = "myName"
+  default     = "myName"
 }
 variable "build_suffix" {
   description = "random id"
@@ -18,7 +18,11 @@ variable "admin_src_addr" {
   description = "Allowed Admin source IP prefix"
   default     = "0.0.0.0/0"
 }
-
+#TF Cloud
+variable "tf_cloud_organization" {
+  type = string
+  description = "TF cloud org (Value set in TF cloud)"
+}
 #AWS
 variable "vpc_id" {
   type        = string
