@@ -1,4 +1,4 @@
-name: "F5XC + BIG-IP"
+name: "F5XC + BIG-IP Apply"
 
 on:
   push:
