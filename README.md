@@ -44,7 +44,7 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   | xc-nap-api  | infra, eks, nap, arcadia, xc    |
   | xc-nap-bot  | infra, eks, nap, arcadia, xc    |
 
-* **Workspace Shareing:** Under the settings for each Workspace, set the **Remote state sharing** to share with each Workspace created.
+* **Workspace Sharing:** Under the settings for each Workspace, set the **Remote state sharing** to share with each Workspace created.
   
 * **Variable Set:** Create a Variable Set with the following values.
   * AWS_ACCESS_KEY_ID: Your AWS Access Key ID - Environment Variable
