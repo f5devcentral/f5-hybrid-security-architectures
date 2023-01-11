@@ -9,18 +9,18 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 ## Prerequisites
 
 * [F5 Distributed Cloud Account (F5XC)](https://console.ves.volterra.io/signup/usage_plan)
-  * [Create an F5XC API certificate](https://docs.cloud.f5.com/docs/how-to/user-mgmt/credentials)
+  * [F5XC API certificate](https://docs.cloud.f5.com/docs/how-to/user-mgmt/credentials)
 * [NGINX Plus with App Protect license](https://www.nginx.com/free-trial-request/)
 * [AWS Account](https://aws.amazon.com) - Due to the assets being created, free tier will not work.
-  * The F5 BIG-IP AMI being used from the AWS Marketplace must be applied to your account
+  * The F5 BIG-IP AMI being used from the [AWS Marketplace](https://aws.amazon.com/marketplace) must be applied to your account
 * [Terraform Cloud Account](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started)
 * [GitHub Account](https://github.com)
 
 ## Assets
 
 * **xc:** F5 Distributed Cloud WAAP
-* **nap:** NGINX Kubernetes Ingress Controller with NGINX App Protect WAF
-* **bigip:** F5 BIG-IP Advanced WAF
+* **nap:** NGINX Kubernetes Ingress Controller with NGINX App Protect (WAF and API Protection)
+* **bigip:** F5 BIG-IP (LTM and Advanced WAF)
 * **infra:** AWS Infrastructure (VPC, IGW, etc.)
 * **eks:** AWS Elastic Kubernetes Service
 * **arcadia:** Arcadia Finance test web application and API
@@ -71,9 +71,9 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 
 ## Workflow Runs
 
-**Step 1:** Check out a branch for the workflow you wish to deploy using the following naming convention
+**Step 1:** Check out a branch for the workflow you wish to run using the following naming convention
 
-  **DEPLOY**
+  **CREATE**
   * **xc-bigip deployment branch:** deploy-xc-bigip
   * **xc-nap deployment branch:** deploy-xc-nap
  
@@ -92,7 +92,6 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   * aws_secretmanager_auth = false
   * create_awaf_config = true
   * awaf_config_payload = "awaf-config.json"
-
 
 **Step 3:** Rename bigip/terraform.tfvars.example to bigip/terraform.tfvars and add the following data:
   * api_url         = "Your F5XC tenant"
