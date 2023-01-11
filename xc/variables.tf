@@ -1,6 +1,6 @@
 variable "api_url" {
   type = string
-  default = "https://YOUT_TENANT.console.ves.volterra.io/api"
+  default = "https://YOUR_TENANT.console.ves.volterra.io/api"
 }
 variable "xc_namespace" {
   type = string
