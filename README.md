@@ -55,6 +55,7 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   * VES_P12_PASSWORD: Set this to the password you supplied when creating your F5 XC API key - Environment Variable
   * ssh_key: Your ssh key for access to created BIG-IP and compute assets - Terraform Variable
   * admin_src_addr: The source address and subnet in CIDR format of your administrative workstation - Terraform Variable
+  * tf_cloud_organization: Your Terraform Cloud Organization name - Terraform Variable
 
 ## GitHub
 

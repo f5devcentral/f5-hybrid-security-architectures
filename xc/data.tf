@@ -1,12 +1,12 @@
 data "tfe_outputs" "infra" {
-  organization = "knowbase"
+  organization = var.tf_cloud_organzation
   workspace = "infra"
 }
 data "tfe_outputs" "bigip" {
-  organization = "knowbase"
+  organization = var.tf_cloud_organzation
   workspace = "bigip"
 }
 data "tfe_outputs" "nap" {
-  organization = "knowbase"
+  organization = var.tf_cloud_organzation
   workspace = "nap-kic"
 }

@@ -1,10 +1,10 @@
 #Remote State
 data "tfe_outputs" "infra" {
-  organization = "knowbase"
+  organization = var.tf_cloud_organzation
   workspace = "infra"
 }
 data "tfe_outputs" "juiceshop" {
-  organization = "knowbase"
+  organization = var.tf_cloud_organzation
   workspace = "juiceshop"
 }
 
