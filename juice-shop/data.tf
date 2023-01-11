@@ -8,6 +8,6 @@ data "aws_ami" "amazon_linux_2" {
   }
 }
 data "tfe_outputs" "infra" {
-  organization = "knowbase"
+  organization = var.tf_cloud_organzation
   workspace = "infra"
 }
