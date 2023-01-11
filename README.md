@@ -71,8 +71,8 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 ## Deployment
 
 **Step 1:** Check out a branch for the workflow you wish to deploy using the following naming convention
-  * xc-bigip deployment branch: deploy_xc_bigip
-  * xc-nap deployment branch: deploy_xc_nap
+  * xc-bigip deployment branch: deploy-xc-bigip
+  * xc-nap deployment branch: deploy-xc-nap
 
 **Step 2:** Edit infra/terraform.tfvars and add the following data
   * project_prefix  = "Your project identifier - this will be applied as a prefix to all assets"
