@@ -1,7 +1,7 @@
 #Global
-project_prefix = ""
-resource_owner = ""
+project_prefix = "Your project identifier - this will be applied as a prefix to all assets"
+resource_owner = "You"
 
 #AWS INFRA
-aws_region     = ""
-azs           = ["", ""]
+aws_region     = "AWS Region"
+azs           = "["AZ1", "AZ2"] - Your Region Availability Zones"
