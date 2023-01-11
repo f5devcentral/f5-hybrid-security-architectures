@@ -79,7 +79,7 @@ jobs:
 
       - name: Terraform Destroy
         if: github.ref == 'refs/heads/destroy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform destroy -auto-approve -input=false
   
   terraform_arcadia:
     name: "arcadia"
@@ -153,7 +153,7 @@ jobs:
 
       - name: Terraform Destroy
         if: github.ref == 'refs/heads/destroy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform destroy -auto-approve -input=false
 
   terraform_nap:
     name: "nap"
@@ -228,7 +228,7 @@ jobs:
 
       - name: Terraform Destroy
         if: github.ref == 'refs/heads/destroy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform destroy -auto-approve -input=false
 
   terraform_eks:
     name: "eks"
@@ -303,7 +303,7 @@ jobs:
 
       - name: Terraform Destroy
         if: github.ref == 'refs/heads/destroy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform destroy -auto-approve -input=false
 
   terraform_infra:
     name: "infra"
@@ -378,7 +378,7 @@ jobs:
 
       - name: Terraform Destroy
         if: github.ref == 'refs/heads/destroy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform destroy -auto-approve -input=false
 
 
 
