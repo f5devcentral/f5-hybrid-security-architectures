@@ -5,7 +5,7 @@ on:
     branches:
       - destroy-xc-bigip
   pull_request:
-
+  
 jobs:
   terraform_xc:
     name: "xc"
