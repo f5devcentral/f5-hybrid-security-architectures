@@ -14,11 +14,13 @@ variable "build_suffix" {
   description = "random id"
   default = ""
 }
+/*
 #TF Cloud
-variable "tf_cloud_organzation" {
+variable "tf_cloud_organization" {
   type = string
   description = "TF cloud org (Value set in TF cloud)"
 }
+*/
 #AWS Global
 variable "aws_region" {
   description = "aws region"

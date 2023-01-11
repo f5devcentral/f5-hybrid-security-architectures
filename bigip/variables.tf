@@ -20,7 +20,7 @@ variable "ssh_key" {
   description = "public key used for authentication in ssh-rsa format"
 }
 #TF Cloud
-variable "tf_cloud_organzation" {
+variable "tf_cloud_organization" {
   type = string
   description = "TF cloud org (Value set in TF cloud)"
 }
