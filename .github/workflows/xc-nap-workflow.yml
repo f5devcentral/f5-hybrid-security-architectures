@@ -1,4 +1,4 @@
-name: "F5XC + NAP"
+name: "F5XC + NAP Apply"
 
 on:
   push:
