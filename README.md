@@ -91,8 +91,8 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 **STEP 2:** Rename infra/terraform.tfvars.example to infra/terraform.tfvars and add the following data:
   * project_prefix  = "Your project identifier - this will be applied as a prefix to all assets"
   * resource_owner = "You"
-  * aws_region     = "AWS Region"
-  * azs            = ["AZ1", "AZ2"] - Your Region Availability Zones
+  * aws_region     = "AWS Region" ex. us-east-1
+  * azs            = ["us-east-1a", "us-east1b"] - Change to Correct Availability Zones based on Region
 
 
 **STEP 3:** Rename bigip/terraform.tfvars.example to bigip/terraform.tfvars and add the following data:
