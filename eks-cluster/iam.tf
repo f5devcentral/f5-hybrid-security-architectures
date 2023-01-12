@@ -69,7 +69,7 @@ resource "aws_iam_role" "workernodes" {
  }
 
  resource "aws_iam_policy" "workernodes_ebs_policy" {
-  name = "Amazon_EBS_CSI_Driver"
+  name = format("%s-ebs_csi_driver-%s", local.project_prefix, local.build_suffix)
 
   policy = <<POLICY
 {
