@@ -3,10 +3,14 @@ variable "tf_cloud_organization" {
   type = string
   description = "TF cloud org (Value set in TF cloud)"
 }
+variable "ssh_key" {
+  type        = string
+  description = "Unneeded for XC, only present for warning handling with TF cloud variable set"
+}
 #XC
 variable "api_url" {
   type = string
-  default = "https://YOUR_TENANT.console.ves.volterra.io/api"
+  description = "Your F5 XC tenant"
 }
 variable "xc_namespace" {
   type = string
