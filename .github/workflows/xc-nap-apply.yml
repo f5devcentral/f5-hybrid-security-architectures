@@ -180,7 +180,7 @@ jobs:
             cloud {
               organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
               workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_NAP_KIC }}"
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_NAP }}"
               }
             }
           }
