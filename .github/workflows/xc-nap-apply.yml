@@ -185,11 +185,6 @@ jobs:
             }
           }
           EOF
-          cat > tfc.tf << EOF
-          variable "tf_cloud_organization" {
-            value = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
-          }
-          EOF
           echo ${{secrets.NGINX_JWT}} | base64 -d > nginx-repo.jwt
       - name: Terraform Init
         id: init
