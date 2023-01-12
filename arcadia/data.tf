@@ -8,7 +8,7 @@ data "tfe_outputs" "eks" {
 }
 data "tfe_outputs" "nap" {
   organization = var.tf_cloud_organization
-  workspace = "nap-kic"
+  workspace = "nap"
 }
 data "aws_eks_cluster_auth" "auth" {
   name = data.tfe_outputs.eks.values.cluster_name
