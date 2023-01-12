@@ -154,7 +154,7 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/deploy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve -input=false 
 
   terraform_nap:
     name: "nap"
@@ -183,6 +183,11 @@ jobs:
                 name = "${{ secrets.TF_CLOUD_WORKSPACE_NAP }}"
               }
             }
+          }
+          EOF
+          cat > tfc.tf << EOF
+          variable "tf_cloud_organization" {
+            value = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
           }
           EOF
           echo ${{secrets.NGINX_JWT}} | base64 -d > nginx-repo.jwt
