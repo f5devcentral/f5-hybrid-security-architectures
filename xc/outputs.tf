@@ -5,6 +5,6 @@ output "xc_lb_name" {
 output "xc_waf_name" {
   value = nonsensitive(volterra_app_firewall.waap-tf.name)
 }
-output "endpoing" {
+output "endpoint" {
   value = var.app_domain
 }
