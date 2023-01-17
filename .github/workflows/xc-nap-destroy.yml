@@ -84,7 +84,7 @@ jobs:
   terraform_arcadia:
     name: "arcadia"
     runs-on: ubuntu-latest
-    needs: terraform_nap
+    needs: terraform_xc
     defaults:
       run:
         working-directory: ./arcadia
