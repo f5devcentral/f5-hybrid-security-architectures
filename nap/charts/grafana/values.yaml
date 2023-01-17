@@ -1,0 +1,50 @@
+---
+grafana:
+  rbac:
+    pspEnabled: false
+  testFramework:
+    enabled: false
+  persistence:
+    enabled: true
+    type: pvc
+    accessModes:
+      - ReadWriteOnce
+    size: 4Gi
+    finalizers:
+      - kubernetes.io/pvc-protection
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus-server
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: "default"
+          orgId: 1
+          folder: ""
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+  dashboards:
+    default:
+      nginx:
+        url: https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/main/grafana/NGINXPlusICDashboard.json
+        datasource: Prometheus
+  service:
+    type: ClusterIP
+    port: 8080
+    targetPort: 3000
+    portName: service
+  ingress:
+    enabled: true
+    annotations:                                                                                                                          
+      kubernetes.io/ingress.class: nginx
+    hosts:  
+      - chart-example.local
+    path: /grafana

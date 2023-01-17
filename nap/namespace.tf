@@ -3,3 +3,8 @@ resource "kubernetes_namespace" "nginx-ingress" {
     name = "nginx-ingress"
   }
 }
+resource "kubernetes_namespace" "monitoring" {
+  metadata {
+    name = "monitoring"
+  }
+}
