@@ -109,7 +109,7 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   * xc_waf_blocking = "Set to true to enable blocking"
 
 
-**STEP 5:** Commit and push your changes to your forked repo
+**STEP 5:** Commit and push your build branch to your forked repo
   * Build will run and can be monitored in the GitHub Actions tab and TF Cloud console
 
 
