@@ -21,7 +21,7 @@ resource "volterra_origin_pool" "op" {
     }
   }
   no_tls = true
-  port = "80"
+  port = local.origin_port
   endpoint_selection     = "LOCALPREFERED"
   loadbalancer_algorithm = "LB_OVERRIDE"
 }
@@ -53,12 +53,32 @@ resource "volterra_http_loadbalancer" "lb_https" {
     namespace = var.xc_namespace
   }
   disable_waf                     = false
+  enable_malicious_user_detection = var.xc_mud
   disable_rate_limit              = true
   round_robin                     = true
   service_policies_from_namespace = true
   no_challenge = true
   user_id_client_ip = true
   source_ip_stickiness = true
+    dynamic "policy_based_challenge" {
+      for_each = var.xc_mud_custom ? [] : [1]
+      content {
+        default_js_challenge_parameters = true
+        default_captcha_challenge_parameters = true
+        default_mitigation_settings = true
+        no_challenge = true
+        rule_list {}
+      }
+    }
+    dynamic "policy_based_challenge" {
+      for_each = var.xc_mud_custom ? [1] : []
+      content {
+        malicious_user_mitigation {
+          namespace = var.xc_namespace
+          name = volterra_malicious_user_mitigation.auto-mitigation.name
+        } 
+      }
+    }
 }
 
 

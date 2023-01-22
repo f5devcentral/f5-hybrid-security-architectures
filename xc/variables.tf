@@ -1,6 +1,6 @@
 #TF Cloud
 variable "tf_cloud_organization" {
-  type = string
+  type        = string
   description = "TF cloud org (Value set in TF cloud)"
 }
 variable "ssh_key" {
@@ -9,11 +9,11 @@ variable "ssh_key" {
 }
 #XC
 variable "api_url" {
-  type = string
+  type         = string
   description = "Your F5 XC tenant"
 }
 variable "xc_namespace" {
-  type = string
+  type        = string
   description = "Volterra app namespace where the object will be created. This cannot be system or shared ns."
 }
 variable "app_domain" {
@@ -22,9 +22,19 @@ variable "app_domain" {
 }
 #XC WAF
 variable "xc_waf_blocking" {
-  type = string
+  type        = string
   description = "Set XC WAF to Blocking(true) or Monitoring(false)"
-  default = "false"
+  default     = "false"
 }
-
+#XF MUD
+variable "xc_mud" {
+  type        = string
+  description = "Enable Malicious User Detection"
+  default     = "false"
+}
+variable "xc_mud_custom" {
+  type        = string
+  description = "Malicious User Detection custom settings"
+  default     = "false"
+}
 
