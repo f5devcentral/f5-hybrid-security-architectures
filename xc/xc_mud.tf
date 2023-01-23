@@ -4,8 +4,8 @@ resource "volterra_app_setting" "mud-app-settings" {
   namespace = var.xc_namespace
   app_type_settings {
     app_type_ref {
-      name = volterra_app_type.mud-app-type[0].name
-      namespace = volterra_app_type.mud-app-type[0].namespace
+      name = volterra_app_type.app-type[0].name
+      namespace = volterra_app_type.app-type[0].namespace
     }
     business_logic_markup_setting {
       // One of the arguments from this list "disable enable" must be set
