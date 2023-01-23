@@ -1,22 +1,11 @@
-resource "volterra_app_type" "mud-app-type" {
-  count = var.xc_mud_custom ? 1 : 0
-  name = format("%s-mud-app-%s", local.project_prefix, local.build_suffix)
-  namespace = "shared"
-  features {  
-        type = "USER_BEHAVIOR_ANALYSIS"   
-  }
-  business_logic_markup_setting {
-      enable = true
-    }
-}
-
 resource "volterra_app_setting" "mud-app-settings" {
+  count = contains(var.xc_app_type, "mud") ? 1 : 0
   name = format("%s-mud-app-set-%s", local.project_prefix, local.build_suffix)
   namespace = var.xc_namespace
   app_type_settings {
     app_type_ref {
-      name = format("%s-mud-app-%s", local.project_prefix, local.build_suffix)
-      namespace = "shared"
+      name = volterra_app_type.mud-app-type[0].name
+      namespace = volterra_app_type.mud-app-type[0].namespace
     }
     business_logic_markup_setting {
       // One of the arguments from this list "disable enable" must be set
@@ -28,15 +17,15 @@ resource "volterra_app_setting" "mud-app-settings" {
       // One of the arguments from this list "enable_detection disable_detection" must be set
       enable_detection {
         // One of the arguments from this list "cooling_off_period" must be set
-        cooling_off_period = "20"
+        cooling_off_period = "30"
         // One of the arguments from this list "include_failed_login_activity exclude_failed_login_activity" must be set
         include_failed_login_activity {
           login_failures_threshold = "10"
         }
         // One of the arguments from this list "include_forbidden_activity exclude_forbidden_activity" must be set
         include_forbidden_activity {
-	  forbidden_requests_threshold = "10"
-	}
+	      forbidden_requests_threshold = "10"
+	    }
         // One of the arguments from this list "exclude_ip_reputation include_ip_reputation" must be set
         include_ip_reputation = true
         // One of the arguments from this list "exclude_non_existent_url_activity include_non_existent_url_activity_custom include_non_existent_url_activity_automatic" must be set
@@ -48,16 +37,17 @@ resource "volterra_app_setting" "mud-app-settings" {
   }
 }
 
-resource "volterra_malicious_user_mitigation" "auto-mitigation" {
-    count = var.xc_mud ? 1 : 0
-    name = format("%s-mud-%s", local.project_prefix, local.build_suffix)
+resource "volterra_malicious_user_mitigation" "mud-mitigation" {
+    count = contains(var.xc_app_type, "mud") ? 1 : 0
+    name = format("%s-mud-mit-%s", local.project_prefix, local.build_suffix)
     namespace = var.xc_namespace
     mitigation_type {
-        rules {      
+        rules {
             threat_level {
                 low = true
             }
             mitigation_action {
+                #alert_only = true
                 javascript_challenge = true
             }
         }
@@ -66,6 +56,7 @@ resource "volterra_malicious_user_mitigation" "auto-mitigation" {
                 medium = true
             }
             mitigation_action {
+                #alert_only = true
                 captcha_challenge = true
             }
         }
@@ -74,8 +65,10 @@ resource "volterra_malicious_user_mitigation" "auto-mitigation" {
                 high = true
             }
             mitigation_action {
+                #alert_only = true
                 block_temporarily = true
             }
         }
     }
 }
+

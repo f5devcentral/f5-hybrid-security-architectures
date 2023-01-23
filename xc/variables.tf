@@ -26,15 +26,27 @@ variable "xc_waf_blocking" {
   description = "Set XC WAF to Blocking(true) or Monitoring(false)"
   default     = "false"
 }
-#XF MUD
-variable "xc_mud" {
+#XC AI/ML Settings for MUD, APIP - NOTE: Only set if using AI/ML settings from the shared namespace
+variable "xc_app_type" {
+  type = list
+  description = "Set Apptype for AI/ML"
+  default = null
+}
+variable "xc_multi_lb" {
   type        = string
-  description = "Enable Malicious User Detection"
+  description = "ML configured externally using app type feature and label added to the HTTP load balancer."
   default     = "false"
 }
-variable "xc_mud_custom" {
-  type        = string
-  description = "Malicious User Detection custom settings"
+#XC API Discovery
+variable "xc_apid" {
+  type       = string
+  description = "Enable API Discovery on single LB"
+  default     = "false"
+}
+#XC Malicious User Detection
+variable "xc_mud" {
+  type       = string
+  description = "Enable Malicious User Detection on single LB"
   default     = "false"
 }
 
