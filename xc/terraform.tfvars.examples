@@ -15,7 +15,7 @@ xc_multi_lb = false
 #XC API Protection and Discovery
 xc_api_disc = false
 xc_api_def = false
-xc_api_spec = ""
+xc_api_spec = []
 
 #XC Malicious User Detection
 xc_mud = false
