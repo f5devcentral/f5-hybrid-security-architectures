@@ -64,8 +64,15 @@ resource "volterra_http_loadbalancer" "lb_https" {
   multi_lb_app = var.xc_multi_lb ? true : false
   user_id_client_ip = true
   source_ip_stickiness = true
+  dynamic "api_definition" {
+    for_each = var.xc_api_def ? [1] : []
+    content {
+      name = volterra_api_definition.api-def[0].name
+      namespace = volterra_api_definition.api-def[0].namespace
+    }
+  }
   dynamic "enable_api_discovery" {
-    for_each = var.xc_apid ? [1] : []
+    for_each = var.xc_api_disc ? [1] : []
     content {
       enable_learn_from_redirect_traffic = true
     } 

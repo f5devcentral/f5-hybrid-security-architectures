@@ -29,7 +29,7 @@ variable "xc_waf_blocking" {
 #XC AI/ML Settings for MUD, APIP - NOTE: Only set if using AI/ML settings from the shared namespace
 variable "xc_app_type" {
   type = list
-  description = "Set Apptype for AI/ML"
+  description = "Set Apptype for shared AI/ML"
   default = null
 }
 variable "xc_multi_lb" {
@@ -37,11 +37,21 @@ variable "xc_multi_lb" {
   description = "ML configured externally using app type feature and label added to the HTTP load balancer."
   default     = "false"
 }
-#XC API Discovery
-variable "xc_apid" {
+#XC API Protection and Discovery
+variable "xc_api_disc" {
   type       = string
   description = "Enable API Discovery on single LB"
   default     = "false"
+}
+variable "xc_api_def" {
+  type       = string
+  description = "Enable API Definition"
+  default     = "false"
+}
+variable "xc_api_spec" {
+  type       = list
+  description = "XC object store path to swagger spec ex: https://my.tenant.domain/api/object_store/namespaces/my-ns/stored_objects/swagger/file-name/v1-22-01-12"
+  default     = null
 }
 #XC Malicious User Detection
 variable "xc_mud" {
