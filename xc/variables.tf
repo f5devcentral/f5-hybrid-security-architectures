@@ -9,7 +9,7 @@ variable "ssh_key" {
 }
 #XC
 variable "api_url" {
-  type         = string
+  type        = string
   description = "Your F5 XC tenant"
 }
 variable "xc_namespace" {
@@ -28,9 +28,9 @@ variable "xc_waf_blocking" {
 }
 #XC AI/ML Settings for MUD, APIP - NOTE: Only set if using AI/ML settings from the shared namespace
 variable "xc_app_type" {
-  type = list
+  type        = list
   description = "Set Apptype for shared AI/ML"
-  default = null
+  default     = null
 }
 variable "xc_multi_lb" {
   type        = string
@@ -39,24 +39,23 @@ variable "xc_multi_lb" {
 }
 #XC API Protection and Discovery
 variable "xc_api_disc" {
-  type       = string
+  type        = string
   description = "Enable API Discovery on single LB"
   default     = "false"
 }
 variable "xc_api_def" {
-  type       = string
+  type        = string
   description = "Enable API Definition"
   default     = "false"
 }
 variable "xc_api_spec" {
-  type       = list
+  type        = list
   description = "XC object store path to swagger spec ex: https://my.tenant.domain/api/object_store/namespaces/my-ns/stored_objects/swagger/file-name/v1-22-01-12"
   default     = null
 }
 #XC Malicious User Detection
 variable "xc_mud" {
-  type       = string
+  type        = string
   description = "Enable Malicious User Detection on single LB"
   default     = "false"
 }
-
