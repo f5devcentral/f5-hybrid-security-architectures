@@ -50,7 +50,7 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   * AWS_ACCESS_KEY_ID: Your AWS Access Key ID - Environment Variable
   * AWS_SECRET_ACCESS_KEY: Your AWS Secret Access Key - Environment Variable
   * AWS_SESSION_TOKEN: Your AWS Session Token - Environment Variable
-  * NGINX_JWT: Your NGINX Java Web Token associated with your NGINX license. Set this to nginx-repo.jwt - Environment Variable
+  * NGINX_JWT: Your NGINX JSON Web Token associated with your NGINX license. Set this to nginx-repo.jwt - Environment Variable
   * VOLT_API_P12_FILE: Your F5XC API certificate. Set this to api.p12 - Environment Variable
   * VES_P12_PASSWORD: Set this to the password you supplied when creating your F5 XC API key - Environment Variable
   * ssh_key: Your ssh key for access to created BIG-IP and compute assets - Terraform Variable
