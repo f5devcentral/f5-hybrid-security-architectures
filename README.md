@@ -46,16 +46,19 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
 
 * **Workspace Sharing:** Under the settings for each Workspace, set the **Remote state sharing** to share with each Workspace created.
   
-* **Variable Set:** Create a Variable Set with the following values.
-  * AWS_ACCESS_KEY_ID: Your AWS Access Key ID - Environment Variable
-  * AWS_SECRET_ACCESS_KEY: Your AWS Secret Access Key - Environment Variable
-  * AWS_SESSION_TOKEN: Your AWS Session Token - Environment Variable
-  * NGINX_JWT: Your NGINX Java Web Token associated with your NGINX license. Set this to nginx-repo.jwt - Environment Variable
-  * VOLT_API_P12_FILE: Your F5XC API certificate. Set this to api.p12 - Environment Variable
-  * VES_P12_PASSWORD: Set this to the password you supplied when creating your F5 XC API key - Environment Variable
-  * ssh_key: Your ssh key for access to created BIG-IP and compute assets - Terraform Variable
-  * admin_src_addr: The source address and subnet in CIDR format of your administrative workstation - Terraform Variable
-  * tf_cloud_organization: Your Terraform Cloud Organization name - Terraform Variable
+* **Variable Set:** Create a Variable Set with the following values:
+
+  | **Name** | **Type** | **Description** |
+  | ---------|----------|-----------------|
+  | AWS_ACCESS_KEY_ID | Environment | Your AWS Access Key ID |
+  | AWS_SECRET_ACCESS_KEY  | Environment | Your AWS Secret Access Key |
+  | AWS_SESSION_TOKEN | Environment | Your AWS Session Token |
+  | NGINX_JWT | Environment | Your NGINX JSON Web Token associated with your NGINX license. Set this to nginx-repo.jwt |
+  | VOLT_API_P12_FILE | Environment | Your F5XC API certificate. Set this to api.p12 |
+  | VES_P12_PASSWORD | Environment | Set this to the password you supplied when creating your F5 XC API key |
+  | ssh_key | Terraform | Your ssh key for access to created BIG-IP and compute assets |
+  | admin_src_addr | Terraform | The source address and subnet in CIDR format of your administrative workstation |
+  | tf_cloud_organization | Terraform | Your Terraform Cloud Organization name |
 
 ## GitHub
 
