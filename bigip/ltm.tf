@@ -1,6 +1,6 @@
 module "postbuild-config-ltm" {
-  source  = "mjmenger/postbuild-config/bigip//as3"
-  version = "0.6.2"
+  source  = "f5devcentral/postbuild-config/bigip//as3"
+  version = "0.6.3"
   count = var.create_ltm_config ? 1 : 0
   bigip_user       = var.f5_username
   bigip_password   = var.aws_secretmanager_auth ? "" : random_string.password.result
