@@ -22,7 +22,7 @@ resource "volterra_origin_pool" "op" {
   }
   no_tls = true
   port = local.origin_port
-  endpoint_selection     = "LOCALPREFERED"
+  endpoint_selection     = "LOCAL_PREFERRED"
   loadbalancer_algorithm = "LB_OVERRIDE"
 }
 

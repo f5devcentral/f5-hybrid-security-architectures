@@ -55,7 +55,7 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   | AWS_SESSION_TOKEN | Environment | Your AWS Session Token |
   | NGINX_JWT | Environment | Your NGINX JSON Web Token associated with your NGINX license. Set this to nginx-repo.jwt |
   | VOLT_API_P12_FILE | Environment | Your F5XC API certificate. Set this to api.p12 |
-  | VES_P12_PASSWORD | Environment | Set this to the password you supplied when creating your F5 XC API key |
+  | VES_P12_PASSWORD | Environment | Set this to the password you supplied when creating your F5 XC API certificate |
   | ssh_key | Terraform | Your ssh key for access to created BIG-IP and compute assets |
   | admin_src_addr | Terraform | The source address and subnet in CIDR format of your administrative workstation |
   | tf_cloud_organization | Terraform | Your Terraform Cloud Organization name |
@@ -69,8 +69,8 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   *  P12: The base64 encoded F5XC API certificate
   *  TF_API_TOKEN: Your Terraform Cloud API token
   *  TF_CLOUD_ORGANIZATION: Your Terraform Cloud Organization name
-  *  TF_CLOUD_WORKSPACE_Workspace Name: Create for each workspace in your workflow
-      * EX: TF_CLOUD_WORKSPACE_BIGIP would be created with the value bigip
+  *  TF_CLOUD_WORKSPACE_*\<Workspace Name\>*: Create for each workspace in your workflow
+      * EX: TF_CLOUD_WORKSPACE_BIGIP would be created with the value `bigip`
 
 ## Workflow Runs
 
