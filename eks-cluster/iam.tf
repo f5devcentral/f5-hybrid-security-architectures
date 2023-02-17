@@ -71,12 +71,11 @@ resource "aws_iam_role" "workernodes" {
  resource "aws_iam_policy" "workernodes_ebs_policy" {
   name = format("%s-ebs_csi_driver-%s", local.project_prefix, local.build_suffix)
 
-  policy = <<POLICY
+  policy = jsonencode (
 {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
                 "ec2:DetachVolume",
@@ -90,15 +89,9 @@ resource "aws_iam_role" "workernodes" {
                 "ec2:DescribeVolumesModifications",
                 "ec2:DescribeSnapshots"
             ],
-            "Resource": "*",
-            "Condition": {
-                "ForAnyValue:StringLike": {
-                    "aws:ResourceTag/Name": "private-ng"
-                }
-            }
+            "Resource": "*"
         },
         {
-            "Sid": "VisualEditor1",
             "Effect": "Allow",
             "Action": "ec2:CreateTags",
             "Resource": [
@@ -115,7 +108,6 @@ resource "aws_iam_role" "workernodes" {
             }
         },
         {
-            "Sid": "VisualEditor2",
             "Effect": "Allow",
             "Action": "ec2:DeleteTags",
             "Resource": [
@@ -124,7 +116,6 @@ resource "aws_iam_role" "workernodes" {
             ]
         },
         {
-            "Sid": "VisualEditor3",
             "Effect": "Allow",
             "Action": "ec2:CreateVolume",
             "Resource": "*",
@@ -135,7 +126,6 @@ resource "aws_iam_role" "workernodes" {
             }
         },
         {
-            "Sid": "VisualEditor4",
             "Effect": "Allow",
             "Action": "ec2:CreateVolume",
             "Resource": "*",
@@ -146,7 +136,6 @@ resource "aws_iam_role" "workernodes" {
             }
         },
         {
-            "Sid": "VisualEditor5",
             "Effect": "Allow",
             "Action": "ec2:DeleteVolume",
             "Resource": "*",
@@ -157,7 +146,6 @@ resource "aws_iam_role" "workernodes" {
             }
         },
         {
-            "Sid": "VisualEditor6",
             "Effect": "Allow",
             "Action": "ec2:DeleteVolume",
             "Resource": "*",
@@ -168,7 +156,6 @@ resource "aws_iam_role" "workernodes" {
             }
         },
         {
-            "Sid": "VisualEditor7",
             "Effect": "Allow",
             "Action": "ec2:DeleteVolume",
             "Resource": "*",
@@ -179,7 +166,6 @@ resource "aws_iam_role" "workernodes" {
             }
         },
         {
-            "Sid": "VisualEditor8",
             "Effect": "Allow",
             "Action": "ec2:DeleteSnapshot",
             "Resource": "*",
@@ -190,7 +176,6 @@ resource "aws_iam_role" "workernodes" {
             }
         },
         {
-            "Sid": "VisualEditor9",
             "Effect": "Allow",
             "Action": "ec2:DeleteSnapshot",
             "Resource": "*",
@@ -201,8 +186,8 @@ resource "aws_iam_role" "workernodes" {
             }
         }
     ]
-}
-POLICY
+})
+#POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "workernodes-AmazonEBSCSIDriver" {
