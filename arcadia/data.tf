@@ -10,6 +10,10 @@ data "tfe_outputs" "nap" {
   organization = var.tf_cloud_organization
   workspace = "nap"
 }
+data "tfe_outputs" "nic" {
+  organization = var.tf_cloud_organization
+  workspace = "nic"
+}
 data "aws_eks_cluster_auth" "auth" {
   name = data.tfe_outputs.eks.values.cluster_name
 }

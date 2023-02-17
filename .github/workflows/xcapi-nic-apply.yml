@@ -8,7 +8,7 @@ on:
 
 jobs:
   terraform_infra:
-    name: "infra"
+    name: "AWS Infra"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -82,7 +82,7 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
   terraform_eks:
-    name: "eks"
+    name: "AWS EKS"
     runs-on: ubuntu-latest
     needs: terraform_infra
     defaults:
@@ -157,7 +157,7 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
   terraform_nic:
-    name: "nic"
+    name: "NGINX Ingress Controller"
     runs-on: ubuntu-latest
     needs: terraform_eks
     defaults:
@@ -180,7 +180,7 @@ jobs:
             cloud {
               organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
               workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_NAP }}"
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_NIC }}"
               }
             }
           }
@@ -306,7 +306,7 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
   terraform_xc:
-    name: "xc"
+    name: "F5XC"
     runs-on: ubuntu-latest
     needs: terraform_arcadia
     defaults:
