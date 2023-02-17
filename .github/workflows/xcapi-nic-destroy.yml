@@ -1,18 +1,19 @@
-name: "F5XC + NAP Apply"
+name: "F5XC APIP + NIC Destroy"
 
 on:
   push:
     branches:
-      - deploy-xc-nap
+      - destroy-xcapi-nic
   pull_request:
 
 jobs:
-  terraform_infra:
-    name: "AWS Infra"
+
+  terraform_xc:
+    name: "F5XC"
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./infra
+        working-directory: ./xc
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -21,21 +22,20 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-
       - name: Setup Terraform Backend
         id: backend
         run: |
           cat > backend.tf << EOF
-          terraform {
+          terraform { 
             cloud {
               organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
               workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_INFRA }}"
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_XC }}"
               }
             }
           }
           EOF
-          
+          echo "${{secrets.P12}}" | base64 -d > api.p12
       - name: Terraform Init
         id: init
         run: terraform init
@@ -77,14 +77,163 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/deploy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+      - name: Terraform Destroy
+        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        run: terraform destroy -auto-approve -input=false
+  
+  terraform_arcadia:
+    name: "Arcadia WebApp"
+    runs-on: ubuntu-latest
+    needs: terraform_xc
+    defaults:
+      run:
+        working-directory: ./arcadia
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Setup Terraform Backend
+        id: backend
+        run: |
+          cat > backend.tf << EOF
+          terraform {
+            cloud {
+              organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
+              workspaces {
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_ARCADIA }}"
+              }
+            }
+          }
+          EOF
+      - name: Terraform Init
+        id: init
+        run: terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            <details><summary>Show Plan</summary>
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+            </details>
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Destroy
+        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        run: terraform destroy -auto-approve -input=false
+
+  terraform_nic:
+    name: "NIGNX Ingress Controller"
+    runs-on: ubuntu-latest
+    needs: terraform_arcadia
+    defaults:
+      run:
+        working-directory: ./nic
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Setup Terraform Backend
+        id: backend
+        run: |
+          cat > backend.tf << EOF
+          terraform {
+            cloud {
+              organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
+              workspaces {
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_NAP }}"
+              }
+            }
+          }
+          EOF
+          echo ${{secrets.NGINX_JWT}} | base64 -d > nginx-repo.jwt
+      - name: Terraform Init
+        id: init
+        run: terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            <details><summary>Show Plan</summary>
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+            </details>
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Destroy
+        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        run: terraform destroy -auto-approve -input=false
 
   terraform_eks:
     name: "AWS EKS"
     runs-on: ubuntu-latest
-    needs: terraform_infra
+    needs: terraform_nic
     defaults:
       run:
         working-directory: ./eks-cluster
@@ -152,17 +301,17 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/deploy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+      - name: Terraform Destroy
+        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        run: terraform destroy -auto-approve -input=false
 
-  terraform_nap:
-    name: "NGINX App Protect"
+  terraform_infra:
+    name: "AWS Infra"
     runs-on: ubuntu-latest
     needs: terraform_eks
     defaults:
       run:
-        working-directory: ./nap
+        working-directory: ./infra
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -180,12 +329,12 @@ jobs:
             cloud {
               organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
               workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_NAP }}"
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_INFRA }}"
               }
             }
           }
           EOF
-          echo ${{secrets.NGINX_JWT}} | base64 -d > nginx-repo.jwt
+          
       - name: Terraform Init
         id: init
         run: terraform init
@@ -227,154 +376,12 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/deploy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+      - name: Terraform Destroy
+        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        run: terraform destroy -auto-approve -input=false
 
-  terraform_arcadia:
-    name: "Arcadia WebApp"
-    runs-on: ubuntu-latest
-    needs: terraform_nap
-    defaults:
-      run:
-        working-directory: ./arcadia
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      - name: Setup Terraform Backend
-        id: backend
-        run: |
-          cat > backend.tf << EOF
-          terraform {
-            cloud {
-              organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
-              workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_ARCADIA }}"
-              }
-            }
-          }
-          EOF
-      - name: Terraform Init
-        id: init
-        run: terraform init
-      
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
 
-      - name: Terraform Plan
-        id: plan
-        if: github.event_name == 'pull_request'
-        run: terraform plan -no-color -input=false
-        continue-on-error: true
 
-      - uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            <details><summary>Show Plan</summary>
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-            </details>
-            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
 
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/deploy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
 
-  terraform_xc:
-    name: "F5XC WAAP"
-    runs-on: ubuntu-latest
-    needs: terraform_arcadia
-    defaults:
-      run:
-        working-directory: ./xc
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-      - name: Setup Terraform Backend
-        id: backend
-        run: |
-          cat > backend.tf << EOF
-          terraform { 
-            cloud {
-              organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
-              workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_XC }}"
-              }
-            }
-          }
-          EOF
-          echo "${{secrets.P12}}" | base64 -d > api.p12
-      - name: Terraform Init
-        id: init
-        run: terraform init
-      
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        if: github.event_name == 'pull_request'
-        run: terraform plan -no-color -input=false
-        continue-on-error: true
-
-      - uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            <details><summary>Show Plan</summary>
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-            </details>
-            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/deploy-xc-nap' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false

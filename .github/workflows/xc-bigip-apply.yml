@@ -8,7 +8,7 @@ on:
 
 jobs:
   terraform_infra:
-    name: "infra"
+    name: "AWS Infra"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -87,7 +87,7 @@ jobs:
       #  run: terraform destroy -auto-approve
 
   terraform_juiceshop:
-    name: "juiceshop"
+    name: "OWASP Juice Shop"
     runs-on: ubuntu-latest
     needs: terraform_infra
     defaults:
@@ -161,13 +161,8 @@ jobs:
         if: github.ref == 'refs/heads/deploy-xc-bigip' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
 
-      #- name: Terraform Destroy
-      #  id: destroy
-      #  if: github.ref == 'refs/heads/destroy-xc-bigip' && github.event_name == 'push'
-      #  run: terraform destroy -auto-approve
-
   terraform_bigip:
-    name: "bigip"
+    name: "F5 BIG-IP Adv. WAF"
     runs-on: ubuntu-latest
     needs: terraform_juiceshop
     defaults:
@@ -242,7 +237,7 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
   terraform_xc:
-    name: "xc"
+    name: "F5XC WAAP"
     runs-on: ubuntu-latest
     needs: terraform_bigip
     defaults:

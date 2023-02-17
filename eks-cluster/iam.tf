@@ -71,31 +71,123 @@ resource "aws_iam_role" "workernodes" {
  resource "aws_iam_policy" "workernodes_ebs_policy" {
   name = format("%s-ebs_csi_driver-%s", local.project_prefix, local.build_suffix)
 
-  policy = <<POLICY
+  policy = jsonencode (
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:AttachVolume",
-        "ec2:CreateSnapshot",
-        "ec2:CreateTags",
-        "ec2:CreateVolume",
-        "ec2:DeleteSnapshot",
-        "ec2:DeleteTags",
-        "ec2:DeleteVolume",
-        "ec2:DescribeInstances",
-        "ec2:DescribeSnapshots",
-        "ec2:DescribeTags",
-        "ec2:DescribeVolumes",
-        "ec2:DetachVolume"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-POLICY
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DetachVolume",
+                "ec2:AttachVolume",
+                "ec2:ModifyVolume",
+                "ec2:DescribeInstances",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeTags",
+                "ec2:DescribeVolumes",
+                "ec2:CreateSnapshot",
+                "ec2:DescribeVolumesModifications",
+                "ec2:DescribeSnapshots"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:CreateTags",
+            "Resource": [
+                "arn:aws:ec2:*:*:volume/*",
+                "arn:aws:ec2:*:*:snapshot/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "ec2:CreateAction": [
+                        "CreateVolume",
+                        "CreateSnapshot"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:DeleteTags",
+            "Resource": [
+                "arn:aws:ec2:*:*:volume/*",
+                "arn:aws:ec2:*:*:snapshot/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:CreateVolume",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "aws:RequestTag/ebs.csi.aws.com/cluster": "true"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:CreateVolume",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "aws:RequestTag/CSIVolumeName": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:DeleteVolume",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:DeleteVolume",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/CSIVolumeName": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:DeleteVolume",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/kubernetes.io/created-for/pvc/name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:DeleteSnapshot",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/CSIVolumeSnapshotName": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:DeleteSnapshot",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
+                }
+            }
+        }
+    ]
+})
+#POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "workernodes-AmazonEBSCSIDriver" {

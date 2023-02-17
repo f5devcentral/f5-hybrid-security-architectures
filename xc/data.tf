@@ -10,3 +10,7 @@ data "tfe_outputs" "nap" {
   organization = var.tf_cloud_organization
   workspace = "nap"
 }
+data "tfe_outputs" "nic" {
+  organization = var.tf_cloud_organization
+  workspace = "nic"
+}
