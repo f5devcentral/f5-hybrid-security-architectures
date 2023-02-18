@@ -8,9 +8,13 @@ variable "ssh_key" {
   description = "Unneeded for XC, only present for warning handling with TF cloud variable set"
 }
 #XC
+variable "xc_tenant" {
+  type        = string
+  description = "Your F5 XC tenant name" 
+}
 variable "api_url" {
   type        = string
-  description = "Your F5 XC tenant"
+  description = "Your F5 XC tenant api url"
 }
 variable "xc_namespace" {
   type        = string
@@ -43,9 +47,9 @@ variable "xc_api_disc" {
   description = "Enable API Discovery on single LB"
   default     = "false"
 }
-variable "xc_api_def" {
+variable "xc_api_pro" {
   type        = string
-  description = "Enable API Definition"
+  description = "Enable API Protection (Definition and Rules)"
   default     = "false"
 }
 variable "xc_api_spec" {

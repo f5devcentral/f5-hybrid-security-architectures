@@ -1,5 +1,6 @@
 #XC Global
 api_url = "https://<Your Tenant>.console.ves.volterra.io/api"
+xc_tenant = "Your tenant name"
 xc_namespace = "Your XC namespace"
 
 #XC LB
@@ -14,7 +15,7 @@ xc_multi_lb = false
 
 #XC API Protection and Discovery
 xc_api_disc = false
-xc_api_def = false
+xc_api_pro = false
 xc_api_spec = []
 
 #XC Malicious User Detection
