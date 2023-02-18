@@ -64,19 +64,52 @@ resource "volterra_http_loadbalancer" "lb_https" {
   multi_lb_app = var.xc_multi_lb ? true : false
   user_id_client_ip = true
   source_ip_stickiness = true
-  dynamic "api_definition" {
-    for_each = var.xc_api_def ? [1] : []
-    content {
-      name = volterra_api_definition.api-def[0].name
-      namespace = volterra_api_definition.api-def[0].namespace
-    }
-  }
+
+#API Protection Configuration
+
   dynamic "enable_api_discovery" {
     for_each = var.xc_api_disc ? [1] : []
     content {
       enable_learn_from_redirect_traffic = true
     } 
   }
+
+  dynamic "api_definition" {
+    for_each = var.xc_api_pro ? [1] : []
+    content {
+      name = volterra_api_definition.api-def[0].name
+      namespace = volterra_api_definition.api-def[0].namespace
+      tenant = var.xc_tenant
+    }
+  }
+
+  dynamic "api_protection_rules" {
+    for_each = var.xc_api_pro ? [1] : []
+    content {
+      api_groups_rules {
+        metadata {
+          name = format("%s-apip-deny-rule-%s", local.project_prefix, local.build_suffix)
+        }
+        action {
+          deny = true
+        }
+        base_path = "/api"
+        api_group = join("ves-io-api-def-", volterra_api_definition.api-def.name, "-all-operations")
+      }
+      api_groups_rules {
+        metadata {
+          name = format("%s-apip-allow-rule-%s", local.project_prefix, local.build_suffix)
+        }
+        action {
+          deny = false
+        }
+        base_path = "/"
+      }
+    }
+  }
+
+#BOT Configuration
+
   dynamic "policy_based_challenge" {
     for_each = var.xc_mud ? [1] : []
     content {
