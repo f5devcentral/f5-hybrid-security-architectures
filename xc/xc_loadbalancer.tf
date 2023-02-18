@@ -94,7 +94,7 @@ resource "volterra_http_loadbalancer" "lb_https" {
           deny = true
         }
         base_path = "/api"
-        api_group = join("ves-io-api-def-", volterra_api_definition.api-def.name, "-all-operations")
+        api_group = join("-",["ves-io-api-def", volterra_api_definition.api-def[0].name, "all-operations"])
       }
       api_groups_rules {
         metadata {
