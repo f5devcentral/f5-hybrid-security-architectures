@@ -18,5 +18,8 @@ xc_api_disc = false
 xc_api_pro = false
 xc_api_spec = []
 
+#XC Bot Defense
+xc_bot_def = false
+
 #XC Malicious User Detection
 xc_mud = false

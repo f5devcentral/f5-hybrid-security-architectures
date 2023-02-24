@@ -56,11 +56,8 @@ resource "volterra_http_loadbalancer" "lb_https" {
     namespace = var.xc_namespace
   }
   disable_waf                     = false
-  enable_malicious_user_detection = var.xc_mud ? true : null
-  disable_rate_limit              = true
   round_robin                     = true
   service_policies_from_namespace = true
-  no_challenge = contains(var.xc_app_type, "mud") || var.xc_mud ? false : true
   multi_lb_app = var.xc_multi_lb ? true : false
   user_id_client_ip = true
   source_ip_stickiness = true
@@ -109,6 +106,72 @@ resource "volterra_http_loadbalancer" "lb_https" {
   }
 
 #BOT Configuration
+  dynamic "bot_defense" {
+    for_each = var.xc_bot_def ? [1] : []
+    content {
+      policy {
+        disable_js_insert = false
+        js_insert_all_pages {
+          javascript_location = "AFTER_HEAD"
+        }
+        disable_mobile_sdk = true
+        js_download_path = "/common.js"
+        protected_app_endpoints {
+          metadata {
+            name = format("%s-bot-rule-%s", local.project_prefix, local.build_suffix)
+          }
+          http_methods = ["METHOD_POST", "METHOD_PUT"]
+          mitigation {
+            block {
+              body = "string:///WW91ciByZXF1ZXN0IHdhcyBCTE9DS0VEID4uPAo="
+            }
+          }
+          path {
+            path = "/trading/login.php"
+          }
+          flow_label {
+            authentication {
+              login {
+                transaction_result {
+                  failure_conditions {
+                    status = "401"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      regional_endpoint = "US"
+      timeout = 1000
+    }
+  }
+
+#DDoS Configuration
+  dynamic "enable_ddos_detection" {
+    for_each = var.xc_ddos_def ? [1] : []
+    content {
+      enable_auto_mitigation = true
+    }
+  }
+  dynamic "ddos_mitigation_rules" {
+    for_each = var.xc_ddos_def ? [1] : []
+    content {
+      metadata {
+        name = format("%s-ddos-rule-%s", local.project_prefix, local.build_suffix)
+      }
+      block = true
+      ddos_client_source {
+        country_list = [ "COUNTRY_KP"]
+      }
+    }
+  }
+  
+#Common Security Controls
+
+  disable_rate_limit              = true
+  enable_malicious_user_detection = var.xc_mud ? true : null
+  no_challenge = contains(var.xc_app_type, "mud") || var.xc_mud ? false : true
 
   dynamic "policy_based_challenge" {
     for_each = var.xc_mud ? [1] : []

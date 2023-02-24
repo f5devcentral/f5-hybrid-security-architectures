@@ -57,6 +57,18 @@ variable "xc_api_spec" {
   description = "XC object store path to swagger spec ex: https://my.tenant.domain/api/object_store/namespaces/my-ns/stored_objects/swagger/file-name/v1-22-01-12"
   default     = null
 }
+#XC Bot Defense
+variable "xc_bot_def" {
+  type = string
+  description = "Enable XC Bot Defense"
+  default = "false"
+}
+#XC DDoS Protection
+variable "xc_ddos_pro" {
+  type = string
+  description = "Enable XC DDoS Protection"
+  default = "false"
+}
 #XC Malicious User Detection
 variable "xc_mud" {
   type        = string
