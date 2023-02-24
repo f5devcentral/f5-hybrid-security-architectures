@@ -110,18 +110,35 @@ resource "volterra_http_loadbalancer" "lb_https" {
     for_each = var.xc_bot_def ? [1] : []
     content {
       policy {
+        disable_js_insert = false
+        js_insert_all_pages {
+          javascript_location = "AFTER_HEAD"
+        }
+        disable_mobile_sdk = true
+        js_download_path = "/common.js"
         protected_app_endpoints {
           metadata {
             name = format("%s-bot-rule-%s", local.project_prefix, local.build_suffix)
           }
-          http_methods = ["METHOD_ANY"]
+          http_methods = ["METHOD_POST", "METHOD_PUT"]
           mitigation {
             block {
-              body = "Your request was BLOCKED >.<"
+              body = "string:///WW91ciByZXF1ZXN0IHdhcyBCTE9DS0VEID4uPAo="
             }
           }
           path {
-            path = "/api/rest/execute_money_transfer.php"
+            path = "/trading/login.php"
+          }
+          flow_label {
+            authentication {
+              login {
+                transaction_result {
+                  failure_conditions {
+                    status = "401"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -130,6 +147,26 @@ resource "volterra_http_loadbalancer" "lb_https" {
     }
   }
 
+#DDoS Configuration
+  dynamic "enable_ddos_detection" {
+    for_each = var.xc_ddos_def ? [1] : []
+    content {
+      enable_auto_mitigation = true
+    }
+  }
+  dynamic "ddos_mitigation_rules" {
+    for_each = var.xc_ddos_def ? [1] : []
+    content {
+      metadata {
+        name = format("%s-ddos-rule-%s", local.project_prefix, local.build_suffix)
+      }
+      block = true
+      ddos_client_source {
+        country_list = [ "COUNTRY_KP"]
+      }
+    }
+  }
+  
 #Common Security Controls
 
   disable_rate_limit              = true

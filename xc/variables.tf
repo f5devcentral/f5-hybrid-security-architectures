@@ -63,6 +63,12 @@ variable "xc_bot_def" {
   description = "Enable XC Bot Defense"
   default = "false"
 }
+#XC DDoS Protection
+variable "xc_ddos_pro" {
+  type = string
+  description = "Enable XC DDoS Protection"
+  default = "false"
+}
 #XC Malicious User Detection
 variable "xc_mud" {
   type        = string
