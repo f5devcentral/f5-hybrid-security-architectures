@@ -56,11 +56,8 @@ resource "volterra_http_loadbalancer" "lb_https" {
     namespace = var.xc_namespace
   }
   disable_waf                     = false
-  enable_malicious_user_detection = var.xc_mud ? true : null
-  disable_rate_limit              = true
   round_robin                     = true
   service_policies_from_namespace = true
-  no_challenge = contains(var.xc_app_type, "mud") || var.xc_mud ? false : true
   multi_lb_app = var.xc_multi_lb ? true : false
   user_id_client_ip = true
   source_ip_stickiness = true
@@ -109,6 +106,35 @@ resource "volterra_http_loadbalancer" "lb_https" {
   }
 
 #BOT Configuration
+  dynamic "bot_defense" {
+    for_each = var.xc_bot_def ? [1] : []
+    content {
+      policy {
+        protected_app_endpoints {
+          metadata {
+            name = format("%s-bot-rule-%s", local.project_prefix, local.build_suffix)
+          }
+          http_methods = ["METHOD_ANY"]
+          mitigation {
+            block {
+              body = "Your request was BLOCKED >.<"
+            }
+          }
+          path {
+            path = "/api/rest/execute_money_transfer.php"
+          }
+        }
+      }
+      regional_endpoint = "US"
+      timeout = 1000
+    }
+  }
+
+#Common Security Controls
+
+  disable_rate_limit              = true
+  enable_malicious_user_detection = var.xc_mud ? true : null
+  no_challenge = contains(var.xc_app_type, "mud") || var.xc_mud ? false : true
 
   dynamic "policy_based_challenge" {
     for_each = var.xc_mud ? [1] : []
