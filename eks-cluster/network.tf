@@ -75,7 +75,7 @@ resource "aws_route_table_association" "internal-subnet-association" {
   subnet_id      = aws_subnet.eks-internal[each.key].id
   route_table_id = aws_route_table.main.id
 }
-resource "aws_route_table_association" "external-subet-association" {
+resource "aws_route_table_association" "external-subnet-association" {
   for_each       = nonsensitive(toset(local.azs))
   subnet_id      = aws_subnet.eks-external[each.key].id
   route_table_id = local.vpc_main_route_table_id
