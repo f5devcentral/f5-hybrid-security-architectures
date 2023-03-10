@@ -51,7 +51,7 @@ resource "aws_eks_node_group" "private-node-group-1-tf" {
   resolve_conflicts = "OVERWRITE"
  }
 
-resource "aws_eks_node_group" "public-node-group-2-tf" {
+resource "aws_eks_node_group" "private-node-group-2-tf" {
   cluster_name  = aws_eks_cluster.eks-tf.name
   node_group_name = format("%s-private-ng-2-%s", local.project_prefix, local.build_suffix)
   node_role_arn  = aws_iam_role.workernodes.arn

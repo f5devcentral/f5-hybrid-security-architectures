@@ -21,5 +21,8 @@ xc_api_spec = []
 #XC Bot Defense
 xc_bot_def = false
 
+#XC DDoS
+xc_ddos = false
+
 #XC Malicious User Detection
 xc_mud = false
