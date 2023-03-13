@@ -18,11 +18,11 @@ variable "eks_addons" {
   default = [
     {
       name    = "kube-proxy"
-      version = "v1.23.13-eksbuild.2"
+      version = "v1.25.6-eksbuild.1"
     },
     {
       name    = "vpc-cni"
-      version = "v1.12.0-eksbuild.1"
+      version = "v1.12.2-eksbuild.1"
     },
     {
       name    = "coredns"
