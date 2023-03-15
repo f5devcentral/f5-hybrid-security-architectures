@@ -33,12 +33,12 @@ resource "kubernetes_deployment" "fdxri_tomcat" {
   }
 }
 
-resource "kubernetes_service" "tomcat" {
+resource "kubernetes_service" "fdxri_tomcat" {
   metadata {
-    name = "tomcat"
+    name = "fdxri_tomcat"
     labels = {
       app = "fdxri_tomcat"
-      service = "tomcat"
+      service = "fdxri_tomcat"
     }
   }
   spec {
