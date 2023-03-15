@@ -15,8 +15,8 @@ xc_multi_lb = false
 
 #XC API Protection and Discovery
 xc_api_disc = false
-xc_api_pro = false
-xc_api_spec = []
+xc_api_pro = true
+xc_api_spec = ["https://raw.githubusercontent.com/vtobi/fdx-controls-reference-implementation/main/fdx/fdxapi.yaml"]
 
 #XC Bot Defense
 xc_bot_def = false
