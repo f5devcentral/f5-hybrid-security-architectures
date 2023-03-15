@@ -1,0 +1,2293 @@
+openapi: 3.0.0
+info:
+  version: '4.6.0'
+  title: FDX V4.6
+  description: Financial Data Exchange V4.6 Money Movement API
+servers:
+  - url: 'https://api.fi.com/fdx/v4'
+    description: Financial Data Exchange V4.6 Money Movement API
+paths:
+############################################################
+#
+# Money Movement paths
+#
+############################################################
+
+  /payees:
+    get:
+      operationId: searchForPayees
+      tags:
+        - Payee Management
+      summary: Search for payees
+      description: Search for payees
+      parameters:
+        - name: updatedSince
+          in: query
+          description: Return payees that have been created or updated since the update id
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: >-
+            Opaque cursor used by the provider to send the next set of records
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: >-
+            Number of elements that the consumer wishes to receive.
+            Providers should implement reasonable default and maximum values
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payees'
+              examples:
+                Retrieve Payees:
+                  value:
+                    page:
+                      nextOffset: "next-offset-123-xyz"
+                      prevOffset: "prev-offset-456-abc"
+                      totalElements: 100
+                    updates:
+                      nextUpdateId: "next-update-id-456-krl"
+                    links:
+                      next:
+                        href: "/payees?offset=next-offset-123-xyz"
+                      prev:
+                        href: "/payees?offset=prev-offset-456-abc"
+                      updates:
+                        href: "/payees?updatedSince=next-update-id-456-krl"
+                    payees:
+                      - merchant:
+                          displayName: "My Cell Phone Biller"
+                          name:
+                            company: "US Cellular"
+                          address:
+                            line1: "10 Cellular way"
+                            city: "New York"
+                            state: "NY"
+                            postalCode: 10001
+                          phone:
+                            type: CELL
+                            country: US
+                            number: 2013329944
+                          payeeId: "payee-1001"
+                          merchantAccountIds:
+                            - "999900008888"
+                          status: "ACTIVE"
+                          expiresTimestamp: "2025-03-15T13:29:19+0000"
+    post:
+      operationId: createPayee
+      tags:
+        - Payee Management
+      summary: Create a payee
+      description: Create a payee
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: The data of the Payee to be updated
+              $ref: '#/components/schemas/PayeeForUpdate'
+            examples:
+              Create a Payee:
+                value:
+                  merchant:
+                    displayName: "My Cell Phone Biller"
+                    name:
+                      company: "US Cellular"
+                    address:
+                      line1: "10 Cellular way"
+                      city: "New York"
+                      state: "NY"
+                      postalCode: 10001
+                    phone:
+                      type: CELL
+                      country: US
+                      number: 2013329944
+                    merchantAccountIds:
+                      - "999900008888"
+      responses:
+        '200':
+          description: Payee Exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payee'
+              examples:
+                Existing Payee:
+                  value:
+                    merchant:
+                      displayName: "My Cell Phone Biller"
+                      name:
+                        company: "US Cellular"
+                      address:
+                        line1: "10 Cellular way"
+                        city: "New York"
+                        state: "NY"
+                        postalCode: 10001
+                      phone:
+                        type: CELL
+                        country: US
+                        number: 2013329944
+                      payeeId: "payee-1001"
+                      merchantAccountIds:
+                        - "999900008888"
+                      status: "ACTIVE"
+                      expiresTimestamp: "2025-03-15T13:29:19+0000"
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payee'
+              examples:
+                Created Payee:
+                  value:
+                    merchant:
+                      displayName: "My Cell Phone Biller"
+                      name:
+                        company: "US Cellular"
+                      address:
+                        line1: "10 Cellular way"
+                        city: "New York"
+                        state: "NY"
+                        postalCode: 10001
+                      phone:
+                        type: CELL
+                        country: US
+                        number: 2013329944
+                      payeeId: "payee-1001"
+                      merchantAccountIds:
+                        - "999900008888"
+                      status: "ACTIVE"
+                      expiresTimestamp: "2025-03-15T13:29:19+0000"
+        '409':
+          description: Duplicate Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payee'
+              examples:
+                Duplicate Request:
+                  value:
+                    merchant:
+                      displayName: "My Cell Phone Biller"
+                      name:
+                        company: "US Cellular"
+                      address:
+                        line1: "10 Cellular way"
+                        city: "New York"
+                        state: "NY"
+                        postalCode: 10001
+                      phone:
+                        type: CELL
+                        country: US
+                        number: 2013329944
+                      payeeId: "payee-1001"
+                      merchantAccountIds:
+                        - "999900008888"
+                      status: "ACTIVE"
+                      expiresTimestamp: "2025-03-15T13:29:19+0000"
+  /payees/{payeeId}:
+    get:
+      operationId: getPayee
+      tags:
+        - Payee Management
+      summary: Get a payee
+      description: Get a payee
+      parameters:
+        - name: payeeId
+          in: path
+          description: Payee Identifier. Uniquely identifies a payee
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payee'
+              examples:
+                Retrieve Payee:
+                  value:
+                    merchant:
+                      displayName: "My Cell Phone Biller"
+                      name:
+                        company: "US Cellular"
+                      address:
+                        line1: "10 Cellular way"
+                        city: "New York"
+                        state: "NY"
+                        postalCode: 10001
+                      phone:
+                        type: CELL
+                        country: US
+                        number: 2013329944
+                      payeeId: "payee-1001"
+                      merchantAccountIds:
+                        - "999900008888"
+                      status: "ACTIVE"
+                      expiresTimestamp: "2025-03-15T13:29:19+0000"
+    patch:
+      operationId: updatePayee
+      tags:
+        - Payee Management
+      summary: Update a payee
+      description: >-
+        Used to update an existing payee. The payee type must match the existing payee.
+        This call updates the payee's fields to the values provided.
+        If a field is not provided, the payee's field is not updated
+      parameters:
+        - name: payeeId
+          in: path
+          description: Payee Identifier. Uniquely identifies a payee
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayeeForUpdate'
+            examples:
+              Update Display Name:
+                value:
+                  merchant:
+                    displayName: "My Business Cell Phone Biller"
+              Update Phone Number:
+                value:
+                  phone:
+                    type: CELL
+                    country: US
+                    number: 9085550000
+              Update Name and Address:
+                value:
+                  name:
+                    company: "My Business Cell Phone Biller"
+                  address:
+                    line1: "10 Cellular way"
+                    city: "New York"
+                    state: "NY"
+                    postalCode: 10001
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payee'
+              examples:
+                Successful Update:
+                  value:
+                    merchant:
+                      displayName: "My Cell Phone Biller"
+                      name:
+                        company: "US Cellular"
+                      address:
+                        line1: "10 Cellular way"
+                        city: "New York"
+                        state: "NY"
+                        postalCode: 10001
+                      phone:
+                        type: CELL
+                        country: US
+                        number: 2013329944
+                      payeeId: "payee-1001"
+                      merchantAccountIds:
+                        - "999900008888"
+                      status: "ACTIVE"
+                      expiresTimestamp: "2025-03-15T13:29:19+0000"
+        '409':
+          description: Duplicate Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payee'
+              examples:
+                Duplicate Request:
+                  value:
+                    merchant:
+                      displayName: "My Cell Phone Biller"
+                      name:
+                        company: "US Cellular"
+                      address:
+                        line1: "10 Cellular way"
+                        city: "New York"
+                        state: "NY"
+                        postalCode: 10001
+                      phone:
+                        type: CELL
+                        country: US
+                        number: 2013329944
+                      payeeId: "payee-1001"
+                      merchantAccountIds:
+                        - "999900008888"
+                      status: "ACTIVE"
+                      expiresTimestamp: "2025-03-15T13:29:19+0000"
+    delete:
+      operationId: deletePayee
+      tags:
+        - Payee Management
+      summary: Delete a payee
+      description: Delete a payee
+      parameters:
+        - name: payeeId
+          in: path
+          description: Payee Identifier. Uniquely identifies a payee
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payee'
+              examples:
+                Successful Deletion:
+                  value:
+                    merchant:
+                      status: "DELETED"
+  /payments:
+    get:
+      operationId: searchForPayments
+      tags:
+        - Payments
+      summary: Search for payments
+      description: Search for payments
+      parameters:
+        - name: updatedSince
+          in: query
+          description: Return payments that have been created or updated since the update id
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: >-
+            Opaque cursor used by the provider to send the next set of records
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: >-
+            Number of elements that the consumer wishes to receive.
+            Providers should implement reasonable default and maximum values
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
+              examples:
+                Retrieve Payments:
+                  value:
+                    page:
+                      nextOffset: "next-offset-123-xyz"
+                      prevOffset: "prev-offset-456-abc"
+                      totalElements: 100
+                    updates:
+                      nextUpdateId: "next-update-id-456-krl"
+                    links:
+                      next:
+                        href: "/payments?offset=next-offset-123-xyz"
+                      prev:
+                        href: "/payments?offset=prev-offset-456-abc"
+                      updates:
+                        href: "/payments?updatedSince=next-update-id-456-krl"
+                    payments:
+                      - fromAccountId: "ACCOUNT-123"
+                        toPayeeId: "PAYEE-ABC"
+                        amount: 10.99
+                        merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                        dueDate: "2021-08-17"
+                        paymentId: "PAYMENT-213"
+                        recurringPaymentId: "RECURRING-PAYMENT-485"
+                        processedTimestamp: "2021-03-15T13:29:19+0000"
+                        startedProcessingTimestamp: "2021-03-14T13:29:19+0000"
+                        status: "PROCESSED"
+                        links:
+                          recurringPayment:
+                            href: "/recurring-payment/RECURRING-PAYMENT-485"
+    post:
+      operationId: schedulePayment
+      tags:
+        - Payments
+      summary: Schedule payment
+      description: Schedule a payment
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: The data of the Payment to be scheduled
+              $ref: '#/components/schemas/PaymentForUpdate'
+            examples:
+              Schedule a Payment:
+                value:
+                  fromAccountId: "ACCOUNT-123"
+                  toPayeeId: "PAYEE-ABC"
+                  amount: 10.99
+                  merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                  dueDate: "2021-08-17"
+      responses:
+        '200':
+          description: Duplicate Payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+              examples:
+                Duplicate Payment:
+                  value:
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    paymentId: "PAYMENT-213"
+                    status: "SCHEDULED"
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+              examples:
+                Successful Creation:
+                  value:
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    paymentId: "PAYMENT-213"
+                    status: "SCHEDULED"
+        '409':
+          description: Duplicate Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+              examples:
+                Duplicate Request:
+                  value:
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    paymentId: "PAYMENT-213"
+                    status: "SCHEDULED"
+  /payments/{paymentId}:
+    get:
+      operationId: getPayment
+      tags:
+        - Payments
+      summary: Get payment
+      description: Get a payment
+      parameters:
+        - name: paymentId
+          in: path
+          description: Payment Identifier. Uniquely identifies a payment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+              examples:
+                Retrieve Payment:
+                  value:
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    paymentId: "PAYMENT-213"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    processedTimestamp: "2021-03-15T13:29:19+0000"
+                    startedProcessingTimestamp: "2021-03-14T13:29:19+0000"
+                    status: "PROCESSED"
+                    links:
+                      recurringPayment:
+                        href: "/recurring-payment/RECURRING-PAYMENT-485"
+    patch:
+      operationId: updatePayment
+      tags:
+        - Payments
+      summary: Update a payment
+      description: Update a payment
+      parameters:
+        - name: paymentId
+          in: path
+          description: Payment Identifier. Uniquely identifies a payment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: The data of the Payment to be updated
+              $ref: '#/components/schemas/PaymentForUpdate'
+            examples:
+              Update Amount:
+                value:
+                  amount: 5
+              Update Payee:
+                value:
+                  toPayeeId: "PAYEE-XYZ"
+              Update From Account and Due Date:
+                value:
+                  fromAccountId: "ACCOUNT-890"
+                  dueDate: "2021-08-30"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+              examples:
+                Successful Update:
+                  value:
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    paymentId: "PAYMENT-213"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    processedTimestamp: "2021-03-15T13:29:19+0000"
+                    startedProcessingTimestamp: "2021-03-14T13:29:19+0000"
+                    status: "PROCESSED"
+                    links:
+                      recurringPayment:
+                        href: "/recurring-payment/RECURRING-PAYMENT-485"
+        '409':
+          description: Duplicate Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+              examples:
+                Duplicate Request:
+                  value:
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    paymentId: "PAYMENT-213"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    processedTimestamp: "2021-03-15T13:29:19+0000"
+                    startedProcessingTimestamp: "2021-03-14T13:29:19+0000"
+                    status: "PROCESSED"
+                    links:
+                      recurringPayment:
+                        href: "/recurring-payment/RECURRING-PAYMENT-485"
+    delete:
+      operationId: cancelPayment
+      tags:
+        - Payments
+      summary: Cancel payment
+      description: Cancel a payment
+      parameters:
+        - name: paymentId
+          in: path
+          description: Payment Identifier. Uniquely identifies a payment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+              examples:
+                Successful Cancel:
+                  value:
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    paymentId: "PAYMENT-213"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    cancelledTimestamp: "2021-03-14T13:29:19+0000"
+                    status: "CANCELLED"
+                    links:
+                      recurringPayment:
+                        href: "/recurring-payment/RECURRING-PAYMENT-485"
+  /recurring-payments:
+    get:
+      operationId: searchForRecurringPayments
+      tags:
+        - Recurring Payments
+      summary: Search for recurring payments
+      description: Search for recurring payments
+      parameters:
+        - name: updatedSince
+          in: query
+          description: Return recurring payments that have been created or updated since the update id
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: >-
+            Opaque cursor used by the provider to send the next set of records
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: >-
+            Number of elements that the consumer wishes to receive.
+            Providers should implement reasonable default and maximum values
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringPayments'
+              examples:
+                Retrieve Recurring Payments:
+                  value:
+                    page:
+                      nextOffset: "next-offset-123-xyz"
+                      prevOffset: "prev-offset-456-abc"
+                      totalElements: 100
+                    updates:
+                      nextUpdateId: "next-update-id-456-krl"
+                    links:
+                      next:
+                        href: "/recurring-payments?offset=next-offset-123-xyz"
+                      prev:
+                        href: "/recurring-payments?offset=prev-offset-456-abc"
+                      updates:
+                        href: "/recurring-payments?updatedSince=next-update-id-456-krl"
+                    recurring-payments:
+                      - frequency: "MONTHLY"
+                        duration:
+                          type: "NUMBEROFTIMES"
+                          numberOfTimes: 12
+                        fromAccountId: "ACCOUNT-123"
+                        toPayeeId: "PAYEE-ABC"
+                        amount: 10.99
+                        merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                        dueDate: "2021-08-17"
+                        recurringPaymentId: "RECURRING-PAYMENT-485"
+                        cancelledTimestamp: "2021-03-14T13:29:19+0000"
+                        status: "CANCELLED"
+
+    post:
+      operationId: scheduleRecurringPayment
+      tags:
+        - Recurring Payments
+      summary: Schedule recurring payments
+      description: Schedule a recurring payment
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: The data of the Recurring Payment to be scheduled
+              $ref: '#/components/schemas/RecurringPaymentForUpdate'
+            examples:
+              Create Recurring Payment:
+                value:
+                  frequency: "MONTHLY"
+                  duration:
+                    type: "NUMBEROFTIMES"
+                    numberOfTimes: 12
+                  fromAccountId: "ACCOUNT-123"
+                  toPayeeId: "PAYEE-ABC"
+                  amount: 10.99
+                  merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                  dueDate: "2021-08-17"
+      responses:
+        '200':
+          description: Duplicate Recurring Payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringPayment'
+              examples:
+                Duplicate Recurring Payment:
+                  value:
+                    frequency: "MONTHLY"
+                    duration:
+                      type: "NUMBEROFTIMES"
+                      numberOfTimes: 12
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    status: "SCHEDULED"
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringPayment'
+              examples:
+                Successful Creation:
+                  value:
+                    frequency: "MONTHLY"
+                    duration:
+                      type: "NUMBEROFTIMES"
+                      numberOfTimes: 12
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    status: "SCHEDULED"
+        '409':
+          description: Duplicate Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringPayment'
+              examples:
+                Duplicate Request:
+                  value:
+                    frequency: "MONTHLY"
+                    duration:
+                      type: "NUMBEROFTIMES"
+                      numberOfTimes: 12
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    status: "SCHEDULED"
+  /recurring-payments/{recurringPaymentId}:
+    get:
+      operationId: getRecurringPayment
+      tags:
+        - Recurring Payments
+      summary: Get a recurring payment
+      description: Get a recurring payment
+      parameters:
+        - name: recurringPaymentId
+          in: path
+          description: Recurring Payment Identifier. Uniquely identifies a recurring payment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringPayment'
+              examples:
+                Retrieve Recurring Payment:
+                  value:
+                    frequency: "MONTHLY"
+                    duration:
+                      type: "NUMBEROFTIMES"
+                      numberOfTimes: 12
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    status: "SCHEDULED"
+    patch:
+      operationId: updateRecurringPayment
+      tags:
+        - Recurring Payments
+      summary: Update a recurring payment
+      description: Update a recurring payment
+      parameters:
+        - name: recurringPaymentId
+          in: path
+          description: Recurring Payment Identifier. Uniquely identifies a recurring payment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: The data of the Recurring Payment to be updated
+              $ref: '#/components/schemas/RecurringPaymentForUpdate'
+            examples:
+              Update Duration (type and numberOfTimes is required if type is NUMBEROFTIMES):
+                value:
+                  duration:
+                    type: "NUMBEROFTIMES"
+                    numberOfTimes: 12
+              Update Amount:
+                value:
+                  amount: 10.99
+              Update Frequency and Due Date:
+                value:
+                  frequency: "MONTHLY"
+                  dueDate: "2021-08-17"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringPayment'
+              examples:
+                Successful Update:
+                  value:
+                    frequency: "MONTHLY"
+                    duration:
+                      type: "NUMBEROFTIMES"
+                      numberOfTimes: 12
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    status: "SCHEDULED"
+        '409':
+          description: Duplicate Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringPayment'
+              examples:
+                Duplicate Request:
+                  value:
+                    frequency: "MONTHLY"
+                    duration:
+                      type: "NUMBEROFTIMES"
+                      numberOfTimes: 12
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    status: "SCHEDULED"
+    delete:
+      operationId: cancelRecurringPayment
+      tags:
+        - Recurring Payments
+      summary: Cancel a recurring payment
+      description: Cancel a recurring payment
+      parameters:
+        - name: recurringPaymentId
+          in: path
+          description: Recurring Payment Identifier. Uniquely identifies a recurring payment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringPayment'
+              examples:
+                Successful Cancel:
+                  value:
+                    frequency: "MONTHLY"
+                    duration:
+                      type: "NUMBEROFTIMES"
+                      numberOfTimes: 12
+                    fromAccountId: "ACCOUNT-123"
+                    toPayeeId: "PAYEE-ABC"
+                    amount: 10.99
+                    merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                    dueDate: "2021-08-17"
+                    recurringPaymentId: "RECURRING-PAYMENT-485"
+                    cancelledTimestamp: "2021-03-14T13:29:19+0000"
+                    status: "CANCELLED"
+  /recurring-payments/{recurringPaymentId}/payments:
+    get:
+      operationId: paymentsForRecurringPayment
+      tags:
+        - Recurring Payments
+      summary: Payments associated with the recurring payment
+      description: Search for payments associated with the recurring payment
+      parameters:
+        - name: recurringPaymentId
+          in: path
+          description: Recurring Payment Identifier. Uniquely identifies a recurring payment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Identifier'
+        - name: updatedSince
+          in: query
+          description: Return payments that have been created or updated since the update id
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: >-
+            Opaque cursor used by the provider to send the next set of records
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: >-
+            Number of elements that the consumer wishes to receive.
+            Providers should implement reasonable default and maximum values
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
+              examples:
+                Payments Associated with Recurring Payment:
+                  value:
+                    page:
+                      nextOffset: "next-offset-123-xyz"
+                      prevOffset: "prev-offset-456-abc"
+                      totalElements: 100
+                    updates:
+                      nextUpdateId: "next-update-id-456-krl"
+                    links:
+                      next:
+                        href: "/recurring-payment/RECURRING-PAYMENT-485/payments?offset=next-offset-123-xyz"
+                      prev:
+                        href: "/recurring-payment/RECURRING-PAYMENT-485/payments?offset=prev-offset-456-abc"
+                      updates:
+                        href: "/recurring-payment/RECURRING-PAYMENT-485/payments?updatedSince=next-update-id-456-krl"
+                    payments:
+                      - fromAccountId: "ACCOUNT-123"
+                        toPayeeId: "PAYEE-ABC"
+                        amount: 10.99
+                        merchantAccountId: "MERCHANT-ACCOUNT-ID-0001"
+                        dueDate: "2021-08-17"
+                        paymentId: "PAYMENT-213"
+                        recurringPaymentId: "RECURRING-PAYMENT-485"
+                        processedTimestamp: "2021-03-15T13:29:19+0000"
+                        startedProcessingTimestamp: "2021-03-14T13:29:19+0000"
+                        status: "PROCESSED"
+                        links:
+                          recurringPayment:
+                            href: "/recurring-payment/RECURRING-PAYMENT-485"
+  /transfers:
+    post:
+      operationId: requestAccountTransfer
+      tags:
+        - Internal Transfers
+      description: Create a transfer between accounts
+      summary: Request account transfer
+      requestBody:
+        description: Data of the transfer request
+        content:
+          application/json:
+            schema:
+              description: Data of the transfer request
+              $ref: '#/components/schemas/Transfer'
+            examples:
+              Transfer Example:
+                value:
+                  transferId: "MY-TRANSFER-ID"
+                  fromAccountId: "ACCOUNT-123"
+                  toAccountId: "ACCOUNT-456"
+                  amount: 100
+                  memo: "FDX Transfer Example"
+                  paymentDetails:
+                    principalAmount: 75
+                    interestAmount: 10
+                    insuranceAmount: 5
+                    escrowAmount: 5
+                    pmiAmount: 5
+                    feesAmount: 0
+      responses:
+        '200':
+          description: Initial status of the requested transfer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferStatus'
+              examples:
+                Successful Transfer:
+                  value:
+                    transferId: "MY-TRANSFER-ID"
+                    referenceId: "FI-TRANSFER-ID"
+                    status: "SUCCESS"
+                    transferDate: "2021-03-14T13:29:19+0000"
+  /transfers/{transferId}/status:
+    get:
+      operationId: getTransferStatus
+      tags:
+        - Internal Transfers
+      description: Get status of transfer between accounts
+      summary: Get transfer status
+      parameters:
+        - name: transferId
+          in: path
+          required: true
+          description: Transfer identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current status of the requested transfer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferStatus'
+              examples:
+                Successful Transfer:
+                  value:
+                    transferId: "MY-TRANSFER-ID"
+                    referenceId: "FI-TRANSFER-ID"
+                    status: "SUCCESS"
+                    transferDate: "2021-03-14T13:29:19+0000"
+
+components:
+
+############################################################
+#
+# Common request parameters (usable by core and all extensions)
+#
+############################################################
+
+# None at this time
+
+  parameters:
+
+############################################################
+#
+# Money Movement request parameters
+#
+############################################################
+
+    IdempotencyKeyHeader:
+      in: header
+      name: idempotency-key
+      schema:
+        $ref: '#/components/schemas/Identifier'
+      description: Used to de-duplicate requests
+
+  schemas:
+
+############################################################
+#
+# Path-related entities (usable by core and all extensions)
+#
+############################################################
+
+    ContentTypes:
+      title: Content Types
+      description: Types of document formats. (Suggested values)
+      type: string
+      enum:
+        - application/pdf
+        - image/gif
+        - image/jpeg
+        - image/tiff
+        - image/png
+        - application/json
+
+    Error:
+      title: Error
+      description: >-
+        An error entity which can be used at the API level for error responses
+        or at the account level to indicate a problem specific to a particular
+        account
+      properties:
+        code:
+          type: string
+          description: >-
+            Long term persistent identifier which can be used to trace error
+            condition back to log information
+        message:
+          type: string
+          description: >-
+            End user displayable information which might help the customer
+            diagnose an error
+      type: object
+
+    HateoasLink:
+      type: object
+      title: HATEOAS Link
+      description: REST application constraint (Hypermedia As The Engine Of Application State)
+      required: [href]
+      properties:
+        href:
+          type: string
+          description: URL to invoke the action on the resource
+          example: "https://api.fi.com/fdx/v4/accounts/12345"
+        action:
+          type: string
+          enum: [GET, POST, PATCH, DELETE, PUT]
+          description: HTTP Method to use for the request
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentTypes'
+          description: Content-types that can be used in the Accept header
+
+    PageMetadata:
+      type: object
+      title: Page Metadata
+      description: Offset IDs for paginated result sets
+      properties:
+        nextOffset:
+          type: string
+          example: "2"
+          description: Opaque identifier. Does not need to be numeric or have any specific pattern.
+            Implementation specific
+        prevOffset:
+          type: string
+          example: "1"
+          description: Opaque identifier. Does not need to be numeric or have any specific pattern.
+            Implementation specific
+        totalElements:
+          type: integer
+          example: 3
+          description: Total number of elements
+
+    PageMetadataLinks:
+      type: object
+      title: Page Metadata Links
+      description: Resource URLs for retrieving next or previous datasets
+      properties:
+        next:
+          $ref: '#/components/schemas/HateoasLink'
+          description: Resource URL for retrieving next dataset
+        prev:
+          $ref: '#/components/schemas/HateoasLink'
+          description: Resource URL for retrieving previous dataset
+
+    PaginatedArray:
+      type: object
+      title: Paginated Array
+      description: Base class for results that may be paginated
+      properties:
+        page:
+          $ref: '#/components/schemas/PageMetadata'
+          description: Offset IDs for navigating result sets
+        links:
+          $ref: '#/components/schemas/PageMetadataLinks'
+          description: Resource URLs for navigating result sets
+
+############################################################
+#
+# Common data entities (usable by core and all extensions)
+#
+############################################################
+
+    Address:
+      title: Address
+      description: Postal address
+      properties:
+        line1:
+          $ref: '#/components/schemas/String64'
+          description: Address line 1
+        line2:
+          $ref: '#/components/schemas/String64'
+          description: Address line 2
+        line3:
+          $ref: '#/components/schemas/String64'
+          description: Address line 3
+        city:
+          $ref: '#/components/schemas/String64'
+          description: City
+        state:
+          $ref: '#/components/schemas/String64'
+          description: State or province
+        postalCode:
+          type: string
+          maxLength: 10
+          description: Postal code
+        country:
+          $ref: '#/components/schemas/Iso3166CountryCode'
+          description: Country code
+      type: object
+
+    CustomerName:
+      title: Customer Name entity
+      description: The name of an individual in their role as a customer
+      allOf:
+        - $ref: '#/components/schemas/IndividualName'
+        - type: object
+          properties:
+            prefix:
+              description: Name prefix, e.g. Mr.
+              type: string
+            company:
+              type: string
+              description: Company name
+      type: object
+
+    DeliveryAddress:
+      title: Delivery Address
+      description: A delivery address and its location type
+      allOf:
+        - $ref: '#/components/schemas/Address'
+        - type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/DeliveryAddressType'
+              description: Type of address location. One of BUSINESS, HOME, MAILING
+      type: object
+
+    FiAttribute:
+      title: FI Attribute entity
+      description: Financial Institution provider-specific attribute
+      properties:
+        name:
+          type: string
+          description: Name of attribute
+        value:
+          type: string
+          description: Value of attribute
+      type: object
+
+    IndividualName:
+      title: Individual name
+      description: First name, middle initial, last name, suffix fields
+      properties:
+        first:
+          description: First name
+          type: string
+        middle:
+          description: Middle initial
+          type: string
+        last:
+          description: Last name
+          type: string
+        suffix:
+          description: Generational or academic suffix
+          type: string
+      type: object
+
+    NameAddress:
+      title: Name and Address
+      description: Individual or business name with address
+      allOf:
+      - $ref: '#/components/schemas/Address'
+      - properties:
+          name1:
+            $ref: '#/components/schemas/String64'
+            description: Name line 1
+          name2:
+            $ref: '#/components/schemas/String64'
+            description: Name line 2
+        type: object
+      type: object
+
+    NameAddressPhone:
+      title: Name, Address and Phone
+      description: Contact phone number with name and address
+      allOf:
+      - $ref: '#/components/schemas/NameAddress'
+      - properties:
+          phone:
+            $ref: '#/components/schemas/TelephoneNumberPlusExtension'
+            description: Phone number
+        type: object
+      type: object
+
+    PaymentDetails:
+      title: Payment Details entity
+      description: Details of this payment
+      properties:
+        principalAmount:
+          type: number
+          description: The amount of payment applied to principal
+        interestAmount:
+          type: number
+          description: The amount of payment applied to interest
+        insuranceAmount:
+          type: number
+          description: The amount of payment applied to life/health/accident insurance on the loan
+        escrowAmount:
+          type: number
+          description: The amount of payment applied to escrow
+        pmiAmount:
+          type: number
+          description: The amount of payment applied to PMI
+        feesAmount:
+          type: number
+          description: The amount of payment applied to fees
+      type: object
+
+    TelephoneNumber:
+      title: Telephone Number
+      description: Standard for international phone numbers
+      properties:
+        type:
+          $ref: '#/components/schemas/TelephoneNumberType'
+          description: 'Type of phone number: HOME, BUSINESS, CELL, FAX'
+        country:
+          type: string
+          maxLength: 3
+          description: Country calling codes defined by ITU-T recommendations E.123 and E.164
+        number:
+          type: string
+          maxLength: 15
+          pattern: '\d+'
+          description: Telephone subscriber number defined by ITU-T recommendation E.164
+      type: object
+
+    TelephoneNumberPlusExtension:
+      title: Telephone Number Plus Extension
+      description: A telephone number that can contain optional text for an arbitrary length
+        telephone extension number
+      allOf:
+      - $ref: '#/components/schemas/TelephoneNumber'
+      - properties:
+          extension:
+            description: An arbitrary length telephone number extension
+            type: string
+        type: object
+      type: object
+
+############################################################
+#
+# Money Movement data entities
+#
+############################################################
+
+    Merchant:
+      title: Merchant entity
+      description: Business or person to whom bill payments can be sent for products or services
+      allOf:
+        - $ref: '#/components/schemas/MerchantForUpdate'
+        - type: object
+          required: [status]
+          properties:
+            payeeId:
+              $ref: '#/components/schemas/Identifier'
+              description: Uniquely identifies a payee. Used within the API to reference a payee
+            status:
+              $ref: '#/components/schemas/PayeeStatus'
+              description: Defines the Payee’s lifecycle
+            expiresTimestamp:
+              $ref: '#/components/schemas/Timestamp'
+              description: >-
+                Describes when the entity will be automatically deleted. The entity will not go into the
+                "DELETED" state. If this value is null or not provided, the entity will not expire automatically
+
+    MerchantForUpdate:
+      title: Merchant For Update entity
+      description: >-
+        Merchant's fields to be updated. Describes the fields that can be updated by the client.
+        Supported fields could be server dependent
+      properties:
+        displayName:
+          type: string
+          description: >-
+            User defined name for the payee. Used by the customer to identify the payee.
+            Not used by the system to process payments
+        name:
+          $ref: '#/components/schemas/CustomerName'
+          description: Name of the payee used to execute the payment
+        address:
+          $ref: '#/components/schemas/DeliveryAddress'
+          description: Address of the payee used to execute the payment
+        phone:
+          $ref: '#/components/schemas/TelephoneNumber'
+          description: Phone number of the payee used to execute the payment
+        merchantAccountIds:
+          type: array
+          description: Account identifier(s) the customer has with the payee
+          items:
+            type: string
+
+    Payment:
+      title: Payment entity
+      description: Represents a payment
+      allOf:
+        - $ref: '#/components/schemas/PaymentForUpdate'
+        - type: object
+          required: [paymentId, status]
+          properties:
+            paymentId:
+              $ref: '#/components/schemas/Identifier'
+              description: Uniquely identifies a payment. Used within the API to reference a payment
+            recurringPaymentId:
+              $ref: '#/components/schemas/Identifier'
+              description: >-
+                The recurring payment that spawned this payment.
+                Null if payment is not associated with a recurring payment
+            processedTimestamp:
+              $ref: '#/components/schemas/Timestamp'
+              description: Timestamp when the payment was processed
+            failedTimestamp:
+              $ref: '#/components/schemas/Timestamp'
+              description: Timestamp when the payment failed.
+                Includes when the payment was determined to lack sufficient funds
+            cancelledTimestamp:
+              $ref: '#/components/schemas/Timestamp'
+              description: Timestamp when the payment was cancelled
+            startedProcessingTimestamp:
+              $ref: '#/components/schemas/Timestamp'
+              description: Timestamp when the payment execution started
+            status:
+              $ref: '#/components/schemas/PaymentStatus'
+              description: Defines the status of the payment
+            links:
+              $ref: '#/components/schemas/PaymentLinks'
+              description: Links to related entities
+
+    Payments:
+      title: Payments entity
+      description: A list of payments
+      allOf:
+        - $ref: '#/components/schemas/SynchronizableArray'
+        - type: object
+          required: [payments]
+          properties:
+            payments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Payment'
+              description: Payments retrieved by the operation
+
+    PaymentForUpdate:
+      title: Payment For Update entity
+      description: Payment entity used for creation and update of a payment
+      type: object
+      required: [fromAccountId, toPayeeId, amount, dueDate]
+      properties:
+        fromAccountId:
+          $ref: '#/components/schemas/Identifier'
+          description: ID of the account used to source funds for payment
+        toPayeeId:
+          $ref: '#/components/schemas/Identifier'
+          description: ID of the payee to receive funds for the payment
+        amount:
+          type: number
+          minimum: 0
+          description: Amount for the payment. Must be positive
+        merchantAccountId:
+          type: string
+          description: User's account identifier with the payee
+        dueDate:
+          $ref: '#/components/schemas/DateString'
+          description: Date that the funds are scheduled to be delivered
+
+    PaymentLinks:
+      title: Payment Links entity
+      description: Links associated with a payment
+      type: object
+      properties:
+        recurringPayment:
+          $ref: '#/components/schemas/HateoasLink'
+          description: Link to the recurring payment
+
+    Payee:
+      title: Payee entity
+      description: Payee to whom funds can be transferred. Can be extended to support additional types of payees
+      type: object
+      required: [merchant]
+      properties:
+        merchant:
+          $ref: '#/components/schemas/Merchant'
+          description: >-
+            When payee is a merchant, typically a business from which goods or services are rendered,
+            this field will be populated
+
+    Payees:
+      title: Payees entity
+      description: A list of payees
+      allOf:
+        - $ref: '#/components/schemas/SynchronizableArray'
+        - type: object
+          required: [payees]
+          properties:
+            payees:
+              type: array
+              items:
+                $ref: '#/components/schemas/Payee'
+              description: Payees retrieved by the operation
+
+    PayeeForUpdate:
+      title: Payee For Update entity
+      description: Payee's fields to be updated
+      type: object
+      required: [merchant]
+      properties:
+        merchant:
+          $ref: '#/components/schemas/MerchantForUpdate'
+          description: >-
+            When payee is a merchant, typically a business from which goods or services are rendered,
+            this field will be populated
+
+    RecurringPayment:
+      title: Recurring Payment entity
+      description: A recurring payment. Financial institution is free to adjust the payment date to
+        accommodate weekends and holidays
+      allOf:
+        - $ref: '#/components/schemas/RecurringPaymentForUpdate'
+        - type: object
+          required: [status]
+          properties:
+            recurringPaymentId:
+              $ref: '#/components/schemas/Identifier'
+              description: >-
+                Uniquely identifies a recurring payment.
+                Used within the API to reference a recurring payment
+            cancelledTimestamp:
+              $ref: '#/components/schemas/Timestamp'
+              description: Timestamp when the recurring payment was cancelled
+            processedTimestamp:
+              $ref: '#/components/schemas/Timestamp'
+              description: Timestamp of the last executed payment
+            failedTimestamp:
+              $ref: '#/components/schemas/Timestamp'
+              description: Timestamp when the recurring payment failed
+            status:
+              $ref: '#/components/schemas/PaymentStatus'
+              description: Defines the status of the recurring payment
+
+    RecurringPayments:
+      title: Recurring Payments entity
+      description: A list of recurring payments
+      allOf:
+        - $ref: '#/components/schemas/SynchronizableArray'
+        - type: object
+          required: [recurringPayments]
+          properties:
+            recurringPayments:
+              type: array
+              items:
+                $ref: '#/components/schemas/RecurringPayment'
+              description: Recurring payments retrieved by the operation
+
+    RecurringPaymentDuration:
+      title: Recurring Payment Duration entity
+      description: Describes a payment's duration
+      type: object
+      required: [type]
+      properties:
+        type:
+          $ref: '#/components/schemas/RecurringPaymentDurationType'
+          description: Type of duration
+        numberOfTimes:
+          type: number
+          description: Maximum number of times a payment is to be sent. Required if type is set to NUMBEROFTIMES
+
+    RecurringPaymentForUpdate:
+      title: Recurring Payment for Update entity
+      description: Used to create or update a recurring payment.
+        Financial institution is free to adjust the payment date to accommodate weekends and holidays
+      type: object
+      required: [frequency, fromAccountId, toPayeeId, amount, dueDate]
+      properties:
+        frequency:
+          $ref: '#/components/schemas/RecurringPaymentFrequency'
+          description: Defines how often the payment repeats
+        duration:
+          $ref: '#/components/schemas/RecurringPaymentDuration'
+          description: Defines how long the payment repeats for
+        fromAccountId:
+          $ref: '#/components/schemas/Identifier'
+          description: ID of the account used to source funds for payment
+        toPayeeId:
+          $ref: '#/components/schemas/Identifier'
+          description: ID of the payee to receive funds for the payment
+        amount:
+          type: number
+          minimum: 0
+          description: Amount for the payment. Must be positive
+        merchantAccountId:
+          type: string
+          description: User's account identifier with the payee
+        dueDate:
+          $ref: '#/components/schemas/DateString'
+          description: Date that the funds are scheduled to be delivered
+
+    SynchronizableArray:
+      title: Synchronizable Array entity
+      description: >-
+        Base class for results that can be synchronized over time.
+        A synchronizable array is also paginated
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/PageMetadata'
+          description: Offset IDs for navigating result sets
+        updates:
+          $ref: '#/components/schemas/UpdatesMetadata'
+          description: Update IDs for retrieving updates since query
+        links:
+          $ref: '#/components/schemas/SynchronizableArrayLinks'
+          description: Resource URLs for navigating result sets
+
+    SynchronizableArrayLinks:
+      title: Synchronizable Array Links entity
+      description: Resource URLs for retrieving changes, next or previous datasets
+      allOf:
+        - $ref: '#/components/schemas/PageMetadataLinks'
+        - type: object
+          properties:
+            updates:
+              $ref: '#/components/schemas/HateoasLink'
+              description: Resource URL for retrieving updates since last request
+
+    Transfer:
+      title: Transfer entity
+      description: A transfer of money
+      properties:
+        transferId:
+          $ref: '#/components/schemas/Identifier'
+          description: >-
+            Client generated, long-term persistent identity of the transfer action.
+            This ID should be maintained and returned by institution
+        fromAccountId:
+          $ref: '#/components/schemas/Identifier'
+          description: Long-term persistent identity of the source account
+        toAccountId:
+          $ref: '#/components/schemas/Identifier'
+          description: Long-term persistent identity of the destination account
+        amount:
+          type: number
+          description: Positive amount of money to be transferred
+        memo:
+          $ref: '#/components/schemas/String255'
+          description: User-entered reason for transfer
+        paymentDetails:
+          $ref: '#/components/schemas/PaymentDetails'
+          description: Payment details
+      type: object
+
+    TransferStatus:
+      title: Transfer Status entity
+      description: The status of a transfer of money
+      properties:
+        transferId:
+          $ref: '#/components/schemas/Identifier'
+          description: >-
+            Client generated, long-term persistent identity of the transfer action.
+            This ID should be maintained and returned by institution
+        referenceId:
+          $ref: '#/components/schemas/Identifier'
+          description: Long-term persistent identifier for transfer attempt
+        status:
+          $ref: '#/components/schemas/TransferStatusStatus'
+          description: SUCCESS, NOFUNDS, PENDING, FAILURE
+        transferDate:
+          $ref: '#/components/schemas/Timestamp'
+          description: Date of transfer attempt
+      type: object
+
+    UpdatesMetadata:
+      title: Updates Metadata entity
+      description: Change IDs for synchronizable result sets
+      type: object
+      properties:
+        nextUpdateId:
+          $ref: '#/components/schemas/Identifier'
+          example: "abc-xyz-123"
+          description: Opaque identifier. Does not need to be numeric or have any specific pattern.
+            Implementation specific
+############################################################
+#
+# Common data types (usable by core and all extensions)
+#
+############################################################
+
+    DateString:
+      title: Date String
+      description: >-
+        ISO 8601 full-date in format 'YYYY-MM-DD' with no time or timezone included according
+        to [IETF RFC3339] (https://xml2rfc.tools.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+      type: string
+      format: date
+      maxLength: 10
+
+    DeliveryAddressType:
+      title: Delivery Address Type
+      description: The location type of an address
+      type: string
+      enum:
+        - BUSINESS
+        - HOME
+        - MAILING
+
+    Identifier:
+      title: Identifier
+      description: Value for a unique identifier
+      type: string
+      maxLength: 256
+
+    Iso3166CountryCode:
+      title: ISO 3166 Country Code
+      description: ISO 3166 Codes for the representation of names of countries and their subdivisions
+      type: string
+      enum:
+        - AD
+        - AE
+        - AF
+        - AG
+        - AI
+        - AL
+        - AM
+        - AN
+        - AO
+        - AQ
+        - AR
+        - AS
+        - AT
+        - AU
+        - AW
+        - AX
+        - AZ
+        - BA
+        - BB
+        - BD
+        - BE
+        - BF
+        - BG
+        - BH
+        - BI
+        - BJ
+        - BM
+        - BN
+        - BO
+        - BR
+        - BS
+        - BT
+        - BV
+        - BW
+        - BY
+        - BZ
+        - CA
+        - CC
+        - CD
+        - CF
+        - CG
+        - CH
+        - CI
+        - CK
+        - CL
+        - CM
+        - CN
+        - CO
+        - CR
+        - CS
+        - CU
+        - CV
+        - CX
+        - CY
+        - CZ
+        - DE
+        - DJ
+        - DK
+        - DM
+        - DO
+        - DZ
+        - EC
+        - EE
+        - EG
+        - EH
+        - ER
+        - ES
+        - ET
+        - FI
+        - FJ
+        - FK
+        - FM
+        - FO
+        - FR
+        - GA
+        - GB
+        - GD
+        - GE
+        - GF
+        - GG
+        - GH
+        - GI
+        - GL
+        - GM
+        - GN
+        - GP
+        - GQ
+        - GR
+        - GS
+        - GT
+        - GU
+        - GW
+        - GY
+        - HK
+        - HM
+        - HN
+        - HR
+        - HT
+        - HU
+        - ID
+        - IE
+        - IL
+        - IM
+        - IN
+        - IO
+        - IQ
+        - IR
+        - IS
+        - IT
+        - JE
+        - JM
+        - JO
+        - JP
+        - KE
+        - KG
+        - KH
+        - KI
+        - KM
+        - KN
+        - KP
+        - KR
+        - KW
+        - KY
+        - KZ
+        - LA
+        - LB
+        - LC
+        - LI
+        - LK
+        - LR
+        - LS
+        - LT
+        - LU
+        - LV
+        - LY
+        - MA
+        - MC
+        - MD
+        - MG
+        - MH
+        - MK
+        - ML
+        - MM
+        - MN
+        - MO
+        - MP
+        - MQ
+        - MR
+        - MS
+        - MT
+        - MU
+        - MV
+        - MW
+        - MX
+        - MY
+        - MZ
+        - NA
+        - NC
+        - NE
+        - NF
+        - NG
+        - NI
+        - NL
+        - NO
+        - NP
+        - NR
+        - NU
+        - NZ
+        - OM
+        - PA
+        - PE
+        - PF
+        - PG
+        - PH
+        - PK
+        - PL
+        - PM
+        - PN
+        - PR
+        - PS
+        - PT
+        - PW
+        - PY
+        - QA
+        - RE
+        - RO
+        - RU
+        - RW
+        - SA
+        - SB
+        - SC
+        - SD
+        - SE
+        - SG
+        - SH
+        - SI
+        - SJ
+        - SK
+        - SL
+        - SM
+        - SN
+        - SO
+        - SR
+        - ST
+        - SV
+        - SY
+        - SZ
+        - TC
+        - TD
+        - TF
+        - TG
+        - TH
+        - TJ
+        - TK
+        - TL
+        - TM
+        - TN
+        - TO
+        - TR
+        - TT
+        - TV
+        - TW
+        - TZ
+        - UA
+        - UG
+        - UM
+        - US
+        - UY
+        - UZ
+        - VA
+        - VC
+        - VE
+        - VG
+        - VI
+        - VN
+        - VU
+        - WF
+        - WS
+        - YE
+        - YT
+        - ZA
+        - ZM
+        - ZW
+
+    Iso4217Code:
+      title: ISO 4217 Code
+      description: ISO 4217 Currency codes
+      type: string
+      enum:
+        - AED
+        - AFN
+        - ALL
+        - AMD
+        - ANG
+        - AOA
+        - ARS
+        - AUD
+        - AWG
+        - AZN
+        - BAM
+        - BBD
+        - BDT
+        - BGN
+        - BHD
+        - BIF
+        - BMD
+        - BND
+        - BOB
+        - BOV
+        - BRL
+        - BSD
+        - BTN
+        - BWP
+        - BYR
+        - BZD
+        - CAD
+        - CDF
+        - CHE
+        - CHF
+        - CHW
+        - CLF
+        - CLP
+        - CNY
+        - COP
+        - COU
+        - CRC
+        - CUC
+        - CUP
+        - CVE
+        - CZK
+        - DJF
+        - DKK
+        - DOP
+        - DZD
+        - EGP
+        - ERN
+        - ETB
+        - EUR
+        - FJD
+        - FKP
+        - GBP
+        - GEL
+        - GHS
+        - GIP
+        - GMD
+        - GNF
+        - GTQ
+        - GYD
+        - HKD
+        - HNL
+        - HRK
+        - HTG
+        - HUF
+        - IDR
+        - ILS
+        - INR
+        - IQD
+        - IRR
+        - ISK
+        - JMD
+        - JOD
+        - JPY
+        - KES
+        - KGS
+        - KHR
+        - KMF
+        - KPW
+        - KRW
+        - KWD
+        - KYD
+        - KZT
+        - LAK
+        - LBP
+        - LKR
+        - LRD
+        - LSL
+        - LYD
+        - MAD
+        - MDL
+        - MGA
+        - MKD
+        - MMK
+        - MNT
+        - MOP
+        - MRO
+        - MUR
+        - MVR
+        - MWK
+        - MXN
+        - MXV
+        - MYR
+        - MZN
+        - NAD
+        - NGN
+        - NIO
+        - NOK
+        - NPR
+        - NZD
+        - OMR
+        - PAB
+        - PEN
+        - PGK
+        - PHP
+        - PKR
+        - PLN
+        - PYG
+        - QAR
+        - RON
+        - RSD
+        - RUB
+        - RWF
+        - SAR
+        - SBD
+        - SCR
+        - SDG
+        - SEK
+        - SGD
+        - SHP
+        - SLL
+        - SOS
+        - SRD
+        - SSP
+        - STD
+        - SVC
+        - SYP
+        - SZL
+        - THB
+        - TJS
+        - TMT
+        - TND
+        - TOP
+        - TRY
+        - TTD
+        - TWD
+        - TZS
+        - UAH
+        - UGX
+        - USD
+        - USN
+        - UYI
+        - UYU
+        - UZS
+        - VEF
+        - VND
+        - VUV
+        - WST
+        - XAF
+        - XAG
+        - XAU
+        - XBA
+        - XBB
+        - XBC
+        - XBD
+        - XCD
+        - XDR
+        - XOF
+        - XPD
+        - XPF
+        - XPT
+        - XSU
+        - XTS
+        - XUA
+        - XXX
+        - YER
+        - ZAR
+        - ZMW
+        - ZWL
+
+    MessageFormat:
+      title: Message Format
+      description: Message format used in /capability API
+      type: string
+      enum:
+        - JSON
+
+    String255:
+      title: String 255
+      description: String of maximum length 255
+      type: string
+      maxLength: 255
+
+    String64:
+      title: String 64
+      description: String of maximum length 64
+      type: string
+      maxLength: 64
+
+    TelephoneNumberType:
+      title: Telephone Number Type
+      description: Purpose or type of telephone number
+      type: string
+      enum:
+        - HOME
+        - BUSINESS
+        - CELL
+        - FAX
+
+    Timestamp:
+      title: Timestamp
+      description: ISO 8601 date time with milliseconds in UTC time zone
+      type: string
+
+############################################################
+#
+# Money Movement data types
+#
+############################################################
+
+    PayeeStatus:
+      title: Payee Status
+      description: >-
+        Defines the payee lifecycle<br/>
+        * `ACTIVE`: Payee is ready to receive payments<br/>
+        * `DELETED`: Payee has been deleted and will not move into any other state<br/>
+        * `PENDING`: Payee is not ready to receive payments<br/>
+        * `REJECTED`: Payee was found to be invalid and cannot to receive payments
+      type: string
+      enum:
+        - ACTIVE
+        - DELETED
+        - PENDING
+        - REJECTED
+
+    PaymentStatus:
+      title: Payment Status
+      description: >-
+        Defines the payee lifecycle<br/>
+        * `CANCELLED`: Payment or Recurring Payment was cancelled by the user<br/>
+        * `FAILED`: Payment or Recurring Payment failed for reasons other then “No Funds”. For example: fraud, invalid payee, source account was closed etc.<br/>
+        * `NOFUNDS`: Payment failed because of the lack of funds<br/>
+        * `PROCESSED`: For a payment, the payment has been executed by the payment service provider. For a recurring payment, the scheduled duration of the recurrence has completed.<br/>
+        * `PROCESSING`: Payment is in the process of being executed by the payment service provider<br/>
+        * `SCHEDULED`: Payment or Recurring Payment has been scheduled
+      type: string
+      enum:
+        - CANCELLED
+        - FAILED
+        - NOFUNDS
+        - PROCESSED
+        - PROCESSING
+        - SCHEDULED
+
+    RecurringPaymentDurationType:
+      title: Recurring payment duration type enum
+      description: Describes if the recurring payment has an end or will occur a fixed number of times
+      type: string
+      enum:
+        - NOEND
+        - NUMBEROFTIMES
+
+    RecurringPaymentFrequency:
+      title: Recurring Payment Frequency enum
+      description: >-
+        Defines how often a payment is made relative to the starting day<br/>
+        * `BIWEEKLY`: Every 14 days<br/>
+        * `TWICEMONTHLY`: Every 15 days<br/>
+        * `WEEKLY`: Every 7 days
+      type: string
+      enum:
+        - WEEKLY
+        - BIWEEKLY
+        - TWICEMONTHLY
+        - MONTHLY
+        - FOURWEEKS
+        - BIMONTHLY
+        - QUARTERLY
+        - SEMIANNUALLY
+        - ANNUALLY
+
+    TransferStatusStatus:
+      title: Transfer Status Status
+      description: The status of a transfer of money
+      type: string
+      enum:
+        - FAILURE
+        - NOFUNDS
+        - PENDING
+        - SUCCESS
+
