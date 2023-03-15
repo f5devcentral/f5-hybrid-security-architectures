@@ -71,7 +71,9 @@ Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conju
   *  TF_CLOUD_ORGANIZATION: Your Terraform Cloud Organization name
   *  TF_CLOUD_WORKSPACE_*\<Workspace Name\>*: Create for each workspace in your workflow
       * EX: TF_CLOUD_WORKSPACE_BIGIP would be created with the value `bigip`
-
+  *  GITHUB_TOKEN: Your GitHub Registry token 
+  *  FDX_REGISTRY_TOKEN: The FDX GithHub Registry token, see FDX reference implementation deployment guide
+  
 ## Workflow Runs
 
 **STEP 1:** Check out a branch for the workflow you wish to run using the following naming convention
