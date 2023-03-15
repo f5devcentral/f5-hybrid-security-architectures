@@ -13,6 +13,15 @@
       "open-api-files": [
         {
           "link": "https://raw.githubusercontent.com/vtobi/fdx-controls-reference-implementation/main/fdx/fdxapi.yaml"
+        },
+        {
+          "link": "https://raw.githubusercontent.com/vtobi/fdx-controls-reference-implementation/main/fdx/fdxapi.tax.yaml"
+        },
+        {
+          "link": "https://raw.githubusercontent.com/vtobi/fdx-controls-reference-implementation/main/fdx/fdxapi.money-movement.yaml"
+        },
+        {
+          "link": "https://raw.githubusercontent.com/vtobi/fdx-controls-reference-implementation/main/fdx/fdxapi.core.yaml"
         }
       ],
       "applicationLanguage": "utf-8",
