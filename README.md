@@ -2,7 +2,7 @@
 
 ## Overview
 
-Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conjunction with the F5 product portfolio.
+Example hybrid security deployments utilizing F5 Distributed Cloud WAAP in conjunction with the F5 product portfolio to deploy and test a FDX Reference Implementation.
 
 ## Getting Started
 
