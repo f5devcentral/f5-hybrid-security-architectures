@@ -4,7 +4,7 @@ xc_tenant = "tme-lab-works"
 xc_namespace = "fdx-demo"
 
 #XC LB
-app_domain = "fdx.f5-cloud-demo.com"
+app_domain = "ri.fdx.f5-cloud-demo.com"
 
 #XC WAF
 xc_waf_blocking = true
