@@ -9,11 +9,13 @@ locals {
   vpc_cidr_block = data.tfe_outputs.infra.values.vpc_cidr_block
   public_az1_cidr_block = data.tfe_outputs.infra.values.public_az1_cidr_block
   private_az1_cidr_block = data.tfe_outputs.infra.values.private_az1_cidr_block
+  private_eks_az1_cidr_block = try(data.tfe_outputs.eks.values.private_eks_az1_cidr_block, "")
   external_sg_id = data.tfe_outputs.infra.values.external_sg_id
   internal_sg_id = data.tfe_outputs.infra.values.internal_sg_id
   management_sg_id = data.tfe_outputs.infra.values.management_sg_id
   mgmt_subnet_az1 = data.tfe_outputs.infra.values.mgmt_subnet_az1
   int_subnet_az1 = data.tfe_outputs.infra.values.int_subnet_az1
+  int_subnet_eks_az1 = try(data.tfe_outputs.eks.values.int_eks_subnet_az1, "")
   ext_subnet_az1 = data.tfe_outputs.infra.values.ext_subnet_az1
 
   #Juice State Values
@@ -81,7 +83,7 @@ locals {
     TS_VER                      = split("/", var.TS_URL)[7]
     FAST_VER                    = split("/", var.FAST_URL)[7]
     vpc_cidr_block              = local.vpc_cidr_block
-    internal_netmask            = split("/",  local.private_az1_cidr_block)[1]
+    internal_netmask            = split("/",  local.private_eks_az1_cidr_block)[1]
     external_netmask            = split("/",  local.public_az1_cidr_block)[1]
     dns_server                  = var.dns_server
     ntp_server                  = var.ntp_server
