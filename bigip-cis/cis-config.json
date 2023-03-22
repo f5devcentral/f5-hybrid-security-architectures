@@ -1,0 +1,33 @@
+{
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.0.0",
+        "id": "nIKpFhxl2LDq1Pb68IQvZ93Bw",
+        "label": "CIS",
+        "remark": "HTTP",
+        "${bigip_k8s_partition}": {
+            "class": "Tenant",
+            "empty": {
+                "class": "Application",
+                "icap_monitor": {
+                    "class": "Monitor",
+                    "monitorType": "tcp",
+                    "send": "OPTIONS icap://icap.example.net/ ICAP/1.0\r\nUser-Agent: f5-ADC\r\n\r\n",
+                    "receive": "ICAP/1.0 200 OK",
+                    "adaptive": false
+                },
+                "Proxy_Protocol_iRule": {
+                    "class": "iRule",
+                    "iRule": {
+                        "base64": "d2hlbiBDTElFTlRfQUNDRVBURUQgewogICAgc2V0IHByb3h5aGVhZGVyICJQUk9YWSAiCiAgICBpZiB7W0lQOjp2ZXJzaW9uXSBlcSA0fSB7CiAgICAgICAgYXBwZW5kIHByb3h5aGVhZGVyICJUQ1A0ICIKICAgIH0gZWxzZSB7CiAgICAgICAgYXBwZW5kIHByb3h5aGVhZGVyICJUQ1A2ICIKICAgIH0KICAgIGFwcGVuZCBwcm94eWhlYWRlciAiW0lQOjpyZW1vdGVfYWRkcl0gW0lQOjpsb2NhbF9hZGRyXSBbVENQOjpyZW1vdGVfcG9ydF0gW1RDUDo6bG9jYWxfcG9ydF1cclxuIgp9Cgp3aGVuIFNFUlZFUl9DT05ORUNURUQgewogICAgVENQOjpyZXNwb25kICRwcm94eWhlYWRlcgp9Cg=="
+                    }
+                }
+            }
+                         
+        }
+    }
+}
+
