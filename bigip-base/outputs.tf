@@ -31,6 +31,10 @@ output "bigip_mgmt_ip" {
   description = "BIG-IP management public IP address"
   value       = module.bigip.mgmtPublicIP
 }
+output "bigip_private_mgmt_ip" {
+  description = "BIG-IP management public IP address"
+  value       = local.vm01_ext_ips.1.ip
+}
 output "bigip_mgmt_url" {
   description = "BIG-IP management public URL"
   value       = "https://${module.bigip.mgmtPublicIP}"
@@ -42,6 +46,9 @@ output "bigip_public_vip" {
 output "bigip_public_vip_url" {
   description = "BIG-IP public URL for application"
   value       = "http://${module.bigip.public_addresses["external_secondary_public"][0]}"
+}
+output "bigip_private_vip_ip" {
+  value = local.vm01_ext_ips.1.ip
 }
 output "bigip_password" {
   description = "BIG-IP Password"

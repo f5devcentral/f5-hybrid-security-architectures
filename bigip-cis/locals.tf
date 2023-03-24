@@ -8,6 +8,7 @@ locals {
   bigip_password = data.tfe_outputs.bigip-base.values.bigip_password
   bigip_address = data.tfe_outputs.bigip-base.values.bigip_mgmt_ip
   bigip_vip = data.tfe_outputs.bigip-base.values.bigip_public_vip
+  bigip_mgmt = data.aws_instance.bigip.private_ip
 
   #EKS
   host = data.tfe_outputs.eks.values.cluster_endpoint

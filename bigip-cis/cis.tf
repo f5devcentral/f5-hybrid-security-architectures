@@ -10,6 +10,14 @@ module "postbuild-config-cis" {
   }
   )
 }
+module "postbuild-config-cis-irule" {
+  source  = "f5devcentral/postbuild-config/bigip//as3"
+  version = "0.6.3"
+  bigip_user       = var.f5_username
+  bigip_password   = local.bigip_password
+  bigip_address    = local.bigip_address
+  bigip_as3_payload = file(var.irule_config_payload)
+}
 
 resource "kubernetes_deployment_v1" "cis-deployment" {
   metadata {
@@ -52,7 +60,7 @@ resource "kubernetes_deployment_v1" "cis-deployment" {
            }
           }
           command = [ "/app/bin/k8s-bigip-ctlr" ]
-          args = [ "--bigip-username=$(BIGIP_USERNAME)", "--bigip-password=$(BIGIP_PASSWORD)", "--bigip-url=https://${local.bigip_vip}:844", "--bigip-partition=${var.bigip_k8s_partition}", "--pool-member-type=nodeport", "--custom-resource-mode=true", "--insecure", "--log-as3-response=true", "--log-level=DEBUG", ]
+          args = [ "--bigip-username=$(BIGIP_USERNAME)", "--bigip-password=$(BIGIP_PASSWORD)", "--bigip-url=https://${local.bigip_mgmt}", "--bigip-partition=${var.bigip_k8s_partition}", "--pool-member-type=cluster", "--namespace=nginx-ingress", "--custom-resource-mode=true", "--insecure", "--log-as3-response=true", "--log-level=DEBUG", ]
         }
         service_account_name = kubernetes_service_account_v1.bigip-ctlr.metadata[0].name
       }

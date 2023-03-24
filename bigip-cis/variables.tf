@@ -40,31 +40,12 @@ variable "cis_config_payload" {
     description = "CIS Config AS3"
     default     = "/path/to/as/file"
 }
+variable "irule_config_payload" {
+    type        = string
+    description = "iRule Config AS3"
+    default     = "irule-config.json"
+}
 variable "bigip_k8s_partition" {
     type        = string
     description = "the partition (AS3 tenant) in which the ingress virtual servers will be created"
-}
-
-variable "cis_deployment_env_vars" {
-  type = list
-  default = [
-    {
-      name = "BIGIP_USERNAME"
-      value_from = {
-        secret_key_ref = {
-          name = "bigip-login"
-          key = "username"
-        }
-      }
-    },
-    {
-      name = "BIGIP_PASSWORD"
-      value_from = {
-        secret_key_ref = {
-          name = "bigip-login"
-          key = "password"
-        }
-      }
-    }
-  ]
 }

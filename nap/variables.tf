@@ -14,6 +14,9 @@ variable nginx_jwt {
     description = "JWT for pulling NGINX image"
     default = "nginx_repo.jwt"
 }
+variable "nginx_pwd" {
+    default = "none"
+}
 variable "ssh_key" {
   type        = string
   description = "Unneeded for NAP, only present for warning handling with TF cloud variable set"

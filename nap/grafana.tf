@@ -4,5 +4,6 @@ resource "helm_release" "grafana" {
     chart = "grafana"
     version = "6.50.7"
     namespace = kubernetes_namespace.monitoring.metadata[0].name
-    values = [templatefile("./charts/grafana/values.yaml", { external_name = "${data.kubernetes_service_v1.nginx-service.status.0.load_balancer.0.ingress.0.hostname}"})]
+    #values = [templatefile("./charts/grafana/values.yaml", { external_name = "${data.kubernetes_service_v1.nginx-service.status.0.load_balancer.0.ingress.0.hostname}"})]
+    values = [file("./charts/grafana/values.yaml")]
 }

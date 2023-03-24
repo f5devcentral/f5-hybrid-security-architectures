@@ -93,7 +93,7 @@ variable "f5_ami_search_name" {
 variable "ec2_instance_type" {
   type        = string
   description = "AWS instance type for the BIG-IP"
-  default     = "m5n.xlarge"
+  default     = "m5.xlarge"
 }
 variable "ec2_key_name" {
   type        = string

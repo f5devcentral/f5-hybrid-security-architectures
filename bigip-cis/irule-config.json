@@ -6,19 +6,14 @@
         "class": "ADC",
         "schemaVersion": "3.0.0",
         "id": "nIKpFhxl2LDq1Pb68IQvZ93Bw",
-        "label": "CIS",
+        "label": "iRule",
         "remark": "HTTP",
-        "${bigip_k8s_partition}": {
+        "Common": {
             "class": "Tenant",
-            "cis": {
+            "enable": true,
+            "Shared": {
                 "class": "Application",
-                "icap_monitor": {
-                    "class": "Monitor",
-                    "monitorType": "tcp",
-                    "send": "OPTIONS icap://icap.example.net/ ICAP/1.0\r\nUser-Agent: f5-ADC\r\n\r\n",
-                    "receive": "ICAP/1.0 200 OK",
-                    "adaptive": false
-                },
+                "template": "shared",
                 "Proxy_Protocol_iRule": {
                     "class": "iRule",
                     "iRule": {

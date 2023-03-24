@@ -13,5 +13,10 @@ controller:
     initialDelaySeconds: 30
   serviceAccount:
     imagePullSecretName: regcred 
+  service:
+    type: ClusterIP
+  reportIngressStatus:
+    enable: true
+    ingressLink: "${app}"
 prometheus:
   create: true

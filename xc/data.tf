@@ -4,7 +4,7 @@ data "tfe_outputs" "infra" {
 }
 data "tfe_outputs" "bigip" {
   organization = var.tf_cloud_organization
-  workspace = "bigip"
+  workspace = "bigip-base"
 }
 data "tfe_outputs" "nap" {
   organization = var.tf_cloud_organization
