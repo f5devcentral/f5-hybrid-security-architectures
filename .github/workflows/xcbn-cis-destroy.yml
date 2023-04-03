@@ -156,7 +156,7 @@ jobs:
   terraform_nap:
     name: "NGINX App Protect"
     runs-on: ubuntu-latest
-    needs: terraform_arcadia
+    needs: [terraform_arcadia, terraform_xc]
     defaults:
       run:
         working-directory: ./nap
@@ -456,7 +456,7 @@ jobs:
   terraform_infra:
     name: "infra"
     runs-on: ubuntu-latest
-    needs: terraform_eks
+    needs: [terraform_eks, terraform_bigip_base]
     defaults:
       run:
         working-directory: ./infra
