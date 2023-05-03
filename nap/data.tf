@@ -7,10 +7,12 @@ data "tfe_outputs" "eks" {
   workspace = "eks"
 }
 data "tfe_outputs" "bigip-base" {
+  count = data.tfe_outputs.infra.values.bigip ? 1 : 0
   organization = var.tf_cloud_organization
   workspace = "bigip-base"
 }
 data "tfe_outputs" "bigip-cis" {
+  count = data.tfe_outputs.infra.values.bigip-cis ? 1 : 0
   organization = var.tf_cloud_organization
   workspace = "bigip-cis"
 }
@@ -23,12 +25,3 @@ data "kubernetes_service_v1" "nginx-service" {
     namespace = try(helm_release.nginx-plus-ingress[0].namespace, helm_release.nginx-plus-ingresslink[0].namespace)
   }
 }
-/*
-data "kubernetes_service_v1" "nginx-service-link" {
-  count = local.bigip_cis ? 1 : 0
-  metadata {
-    name = try(format("%s-%s", helm_release.nginx-plus-ingresslink[0].name, helm_release.nginx-plus-ingresslink[0].chart), "")
-    namespace = try(helm_release.nginx-plus-ingresslink[0].namespace, "")
-  }
-}
-*/

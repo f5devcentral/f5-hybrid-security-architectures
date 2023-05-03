@@ -57,4 +57,15 @@ variable "int_address_prefixes" {
   default     = ["10.1.20.0/24", "10.1.120.0/24"]
   description = "Internal subnet address prefixes"
 }
-
+variable "nap" {
+  type = bool
+}
+variable "nic" {
+  type = bool
+}
+variable "bigip" {
+  type = bool
+}
+variable "bigip-cis" {
+  type = bool
+}

@@ -30,15 +30,17 @@ variable "f5_password" {
 }
 
 #AWAF Config
+/*
 variable "create_awaf_config" {
   type        = bool
   default     = false
   description = "Set to true to create AWAF config"
 }
+*/
 variable "awaf_config_payload" {
     type        = string
     description = "AWAF Policy AS3"
-    default     = "/path/to/as/file"
+    default     = "awaf-config.json"
 }
 
 #App Server

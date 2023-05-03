@@ -7,10 +7,12 @@ data "tfe_outputs" "eks" {
   workspace = "eks"
 }
 data "tfe_outputs" "bigip-base" {
+  count = data.tfe_outputs.infra.values.bigip ? 1 : 0
   organization = var.tf_cloud_organization
   workspace = "bigip-base"
 }
 data "tfe_outputs" "bigip-cis" {
+  count = data.tfe_outputs.infra.values.bigip-cis ? 1 : 0
   organization = var.tf_cloud_organization
   workspace = "bigip-cis"
 }
