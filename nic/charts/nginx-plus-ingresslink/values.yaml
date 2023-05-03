@@ -12,9 +12,16 @@ controller:
   readyStatus:
     initialDelaySeconds: 30
   serviceAccount:
-    imagePullSecretName: regcred 
+    imagePullSecretName: regcred
+  config:
+    entries: 
+      proxy-protocol: "True"
+      real-ip-header: "proxy_protocol"
+      set-real-ip-from: "0.0.0.0/0"
   service:
     type: ClusterIP
+    extraLabels: 
+      app: "${app}"
   reportIngressStatus:
     enable: true
     ingressLink: "${app}"

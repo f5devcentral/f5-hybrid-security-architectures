@@ -1,5 +1,4 @@
 resource "kubernetes_ingress_v1" "arcadia-ingress" {
-  wait_for_load_balancer = true
   metadata {
     name = "arcadia-ingress"
   }

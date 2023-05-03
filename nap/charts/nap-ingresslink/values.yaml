@@ -20,6 +20,8 @@ controller:
       set-real-ip-from: "0.0.0.0/0"
   service:
     type: ClusterIP
+    extraLabels: 
+      app: "${app}"
   reportIngressStatus:
     enable: true
     ingressLink: "${app}"
