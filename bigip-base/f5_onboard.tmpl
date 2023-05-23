@@ -176,8 +176,8 @@ extension_services:
           myProvisioning:
             class: Provision
             ltm: nominal
-            asm: none
-            apm: nominal
+            asm: ${asm}
+            apm: ${apm}
           external:
             class: VLAN
             tag: 4094

@@ -181,3 +181,11 @@ variable "resource_owner" {
   default     = null
   description = "This is a tag used for object creation. Example is last name."
 }
+variable "asm" {
+  type = string
+  default = "none"
+}
+variable "apm" {
+  type = string
+  default = "none"
+}

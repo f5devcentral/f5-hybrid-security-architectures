@@ -183,7 +183,7 @@ jobs:
             cloud {
               organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
               workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_BIGIP }}"
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_BIGIP_BASE }}"
               }
             }
           }
@@ -257,7 +257,7 @@ jobs:
             cloud {
               organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
               workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_BIGIP }}"
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_BIGIP_AWAF }}"
               }
             }
           }
@@ -306,6 +306,7 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/deploy-xc-bigip' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
+        
   terraform_xc:
     name: "F5XC WAAP"
     runs-on: ubuntu-latest
