@@ -47,7 +47,7 @@ resource "aws_eks_node_group" "private-node-group-1-tf" {
   for_each = { for addon in var.eks_addons : addon.name => addon }
   cluster_name = aws_eks_cluster.eks-tf.id
   addon_name = each.value.name
-  addon_version = each.value.version
+  #addon_version = each.value.version
   resolve_conflicts = "OVERWRITE"
  }
 
