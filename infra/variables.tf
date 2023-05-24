@@ -15,6 +15,10 @@ variable "resource_owner" {
   description = "owner of the deployment, for tagging purposes"
   default     = "myName"
 }
+variable "tf_cloud_organization" {
+  type = string
+  description = "TF cloud org (Value set in TF cloud)"
+}
 variable "ssh_key" {
   type        = string
   description = "key used for authentication in ssh-rsa format"
