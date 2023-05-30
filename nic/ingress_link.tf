@@ -1,10 +1,10 @@
 resource "kubectl_manifest" "ingress-link" {
-  count = data.tfe_outputs.bigip-cis.values.bigip_cis ? 1 : 0
+  count = local.bigip_cis ? 1 : 0
     yaml_body = <<YAML
 apiVersion: "cis.f5.com/v1"
 kind: IngressLink
 metadata:
-  name: vs-ingresslink
+  name: vs-ingresslink 
   namespace: nginx-ingress
 spec:
   virtualServerAddress: ${local.bigip_vip}

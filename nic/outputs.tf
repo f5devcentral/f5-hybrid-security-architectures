@@ -1,9 +1,17 @@
 output "external_name" {
-    value = try(data.kubernetes_service_v1.nginx-service[0].status.0.load_balancer.0.ingress.0.hostname, data.kubernetes_service_v1.nginx-service-link[0].status.0.load_balancer.0.ingress.0.hostname, "")
+    value = try(data.kubernetes_service_v1.nginx-service.status.0.load_balancer.0.ingress.0.hostname, null)
 }
 output "external_port" {
-    value = try(data.kubernetes_service_v1.nginx-service[0].spec.0.port.0.port, data.kubernetes_service_v1.nginx-service-link[0].spec.0.port.0.port, "")
+    value = try(data.kubernetes_service_v1.nginx-service.spec.0.port.0.port, null)
 }
+/*
+output "external_name" {
+    value = try(data.kubernetes_service_v1.nginx-service.status.load_balancer.ingress.0.hostname, "")
+}
+output "external_port" {
+    value = try(data.kubernetes_service_v1.nginx-service[0].spec.0.port.0.port, "")
+}
+*/
 output "origin_source" {
     value = "nic"
 }
