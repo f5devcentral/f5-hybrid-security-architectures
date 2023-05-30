@@ -15,6 +15,10 @@ variable "resource_owner" {
   description = "owner of the deployment, for tagging purposes"
   default     = "myName"
 }
+variable "tf_cloud_organization" {
+  type = string
+  description = "TF cloud org (Value set in TF cloud)"
+}
 variable "ssh_key" {
   type        = string
   description = "key used for authentication in ssh-rsa format"
@@ -57,4 +61,15 @@ variable "int_address_prefixes" {
   default     = ["10.1.20.0/24", "10.1.120.0/24"]
   description = "Internal subnet address prefixes"
 }
-
+variable "nap" {
+  type = bool
+}
+variable "nic" {
+  type = bool
+}
+variable "bigip" {
+  type = bool
+}
+variable "bigip-cis" {
+  type = bool
+}

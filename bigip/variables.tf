@@ -60,6 +60,11 @@ variable "int_subnet_az1" {
   description = "ID of Internal subnet AZ1"
   default     = null
 }
+variable "int_subnet_eks_az1" {
+  type        = string
+  description = "ID of Internal EKS subnet AZ1 for CIS"
+  default     = null
+}
 variable "public_az1_cidr_block" {
   type        = string
   description = "CIDR of External subnet AZ1"
@@ -201,6 +206,17 @@ variable "create_ltm_config" {
 variable "ltm_config_payload" {
     type        = string
     description = "LTM Config AS3"
+    default     = "/path/to/as/file"
+}
+#CIS Config
+variable "create_cis_config" {
+  type        = bool
+  default     = false
+  description = "Set to true to create CIS config"
+}
+variable "cis_config_payload" {
+    type        = string
+    description = "CIS Config AS3"
     default     = "/path/to/as/file"
 }
 #App Server

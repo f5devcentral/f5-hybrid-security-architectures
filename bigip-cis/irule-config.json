@@ -1,0 +1,28 @@
+{
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.0.0",
+        "id": "nIKpFhxl2LDq1Pb68IQvZ93Bw",
+        "label": "iRule",
+        "remark": "HTTP",
+        "Common": {
+            "class": "Tenant",
+            "enable": true,
+            "Shared": {
+                "class": "Application",
+                "template": "shared",
+                "Proxy_Protocol_iRule": {
+                    "class": "iRule",
+                    "iRule": {
+                        "base64": "d2hlbiBDTElFTlRfQUNDRVBURUQgewogICAgc2V0IHByb3h5aGVhZGVyICJQUk9YWSAiCiAgICBpZiB7W0lQOjp2ZXJzaW9uXSBlcSA0fSB7CiAgICAgICAgYXBwZW5kIHByb3h5aGVhZGVyICJUQ1A0ICIKICAgIH0gZWxzZSB7CiAgICAgICAgYXBwZW5kIHByb3h5aGVhZGVyICJUQ1A2ICIKICAgIH0KICAgIGFwcGVuZCBwcm94eWhlYWRlciAiW0lQOjpyZW1vdGVfYWRkcl0gW0lQOjpsb2NhbF9hZGRyXSBbVENQOjpyZW1vdGVfcG9ydF0gW1RDUDo6bG9jYWxfcG9ydF1cclxuIgp9Cgp3aGVuIFNFUlZFUl9DT05ORUNURUQgewogICAgVENQOjpyZXNwb25kICRwcm94eWhlYWRlcgp9Cg=="
+                    }
+                }
+            }
+                         
+        }
+    }
+}
+

@@ -3,7 +3,7 @@
 # Create VPC, subnets, route tables, and IGW
 module "vpc" {
   source               = "terraform-aws-modules/vpc/aws"
-  version              = "~> 3.0"
+  version              = "~> 4.0"
   name                 = "${var.project_prefix}-vpc-${random_id.build_suffix.hex}"
   cidr                 = var.cidr
   azs                  = var.azs

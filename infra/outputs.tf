@@ -91,5 +91,15 @@ output "internal_sg_id" {
   value       = aws_security_group.internal.id
 }
 
-
-
+output "nap" {
+  value = var.nap
+}
+output "nic" {
+  value = var.nic
+}
+output "bigip" {
+  value = var.bigip
+}
+output "bigip-cis" {
+  value = var.bigip-cis
+}

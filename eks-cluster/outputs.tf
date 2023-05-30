@@ -18,3 +18,8 @@ output "kubeconfig-certificate-authority-data" {
   sensitive = true
 }
 
+output "node_security_group_id" {
+  description = "EKS NG SG ID"
+  value = aws_security_group.eks_nodes.id
+}
+

@@ -1,0 +1,29 @@
+---
+controller:
+  enableSnippets: true
+  image:
+    repository: private-registry.nginx.com/nginx-ic-nap-dos/nginx-plus-ingress
+    tag: 3.0.2
+    pullPolicy: Always
+  nginxplus: true
+  nginxStatus:
+    allowCidrs: 0.0.0.0/0
+    port: 9000
+  readyStatus:
+    initialDelaySeconds: 30
+  serviceAccount:
+    imagePullSecretName: regcred
+  config:
+    entries: 
+      proxy-protocol: "True"
+      real-ip-header: "proxy_protocol"
+      set-real-ip-from: "0.0.0.0/0"
+  service:
+    type: ClusterIP
+    extraLabels: 
+      app: "${app}"
+  reportIngressStatus:
+    enable: true
+    ingressLink: "${app}"
+prometheus:
+  create: true
