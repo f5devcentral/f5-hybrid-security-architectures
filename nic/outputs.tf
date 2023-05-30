@@ -4,14 +4,6 @@ output "external_name" {
 output "external_port" {
     value = try(data.kubernetes_service_v1.nginx-service.spec.0.port.0.port, null)
 }
-/*
-output "external_name" {
-    value = try(data.kubernetes_service_v1.nginx-service.status.load_balancer.ingress.0.hostname, "")
-}
-output "external_port" {
-    value = try(data.kubernetes_service_v1.nginx-service[0].spec.0.port.0.port, "")
-}
-*/
 output "origin_source" {
     value = "nic"
 }
