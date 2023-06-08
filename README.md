@@ -2,7 +2,7 @@
 
 ## Overview
 
-Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in conjunction with the F5 product portfolio.
+Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in conjunction with the F5 product portfolio.  For more information on the project, please see the following article series [F5 Hybrid Security Architectures: One WAF Engine, Total Flexibility](https://community.f5.com/t5/technical-articles/f5-hybrid-security-architectures-one-waf-engine-total/ta-p/307248)
 
 ## Getting Started
 
