@@ -40,10 +40,10 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
   | **Workflow** | **Assets/Workspaces**          |
   | ----------- | ------------------------------- |
-  | xc-bigip    | infra, bigip, juiceshop, xc     |
+  | xc-bigip    | infra, bigip-base, bigip-awaf, juiceshop, xc     |
   | xc-nap      | infra, eks, nap, arcadia, xc    |
-  | xc-nap-api  | infra, eks, nap, arcadia, xc    |
-  | xc-nap-bot  | infra, eks, nap, arcadia, xc    |
+  | xc-nap-api  | infra, eks, nic, brewz, xc    |
+  | xc-nap-bot  | infra, bigip-base, bigip-awaf, juiceshop, xc     |
 
 * **Workspace Sharing:** Under the settings for each Workspace, set the **Remote state sharing** to share with each Workspace created.
   
@@ -71,7 +71,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   *  TF_API_TOKEN: Your Terraform Cloud API token
   *  TF_CLOUD_ORGANIZATION: Your Terraform Cloud Organization name
   *  TF_CLOUD_WORKSPACE_*\<Workspace Name\>*: Create for each workspace in your workflow
-      * EX: TF_CLOUD_WORKSPACE_BIGIP would be created with the value `bigip`
+      * EX: TF_CLOUD_WORKSPACE_BIGIP_BASE would be created with the value `bigip-base`
 
 ## Workflow Runs
 
