@@ -57,6 +57,46 @@ variable "xc_api_spec" {
   description = "XC object store path to swagger spec ex: https://my.tenant.domain/api/object_store/namespaces/my-ns/stored_objects/swagger/file-name/v1-22-01-12"
   default     = null
 }
+variable "xc_api_val" {
+  type        = string
+  description = "Enable API Validation"
+  default     = "false"
+}
+variable "xc_api_val_all" {
+  type        = string
+  description = "Enable API Validation on all endpoints"
+  default     = "false"
+}
+variable "xc_api_val_properties" {
+  type    = list(string)
+  default = ["PROPERTY_QUERY_PARAMETERS", "PROPERTY_PATH_PARAMETERS", "PROPERTY_CONTENT_TYPE", "PROPERTY_COOKIE_PARAMETERS", "PROPERTY_HTTP_HEADERS", "PROPERTY_HTTP_BODY"]
+  
+}
+variable "xc_api_val_properties_all" {
+  type        = string
+  description = "Enable API Validation on all properties"
+  default     = "false"
+}
+variable "xc_api_val_active" {
+  type        = string
+  description = "Enable API Validation on active endpoints"
+  default     = "false"
+}
+variable "enforcement_block" {
+  type        = string
+  description = "Enable enforcement block"
+  default     = "false"
+}
+variable "enforcement_report" {
+  type        = string
+  description = "Enable enforcement report"
+  default     = "false"
+}  
+variable "xc_api_val_properties_block" {
+  type    = list(string)
+  default = ["PROPERTY_QUERY_PARAMETERS", "PROPERTY_PATH_PARAMETERS", "PROPERTY_CONTENT_TYPE", "PROPERTY_COOKIE_PARAMETERS", "PROPERTY_HTTP_HEADERS", "PROPERTY_HTTP_BODY"]
+  
+}
 #XC Bot Defense
 variable "xc_bot_def" {
   type = string
