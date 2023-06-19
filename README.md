@@ -10,9 +10,10 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 * [F5 Distributed Cloud Account (F5XC)](https://console.ves.volterra.io/signup/usage_plan)
   * [F5XC API certificate](https://docs.cloud.f5.com/docs/how-to/user-mgmt/credentials)
-* [NGINX Plus with App Protect license](https://www.nginx.com/free-trial-request/)
+  * [User Domain delegated](https://docs.cloud.f5.com/docs/how-to/app-networking/domain-delegation)
+* [NGINX Plus with App Protect and Ingress license](https://www.nginx.com/free-trial-connectivity-stack-kubernetes/)
 * [AWS Account](https://aws.amazon.com) - Due to the assets being created, free tier will not work.
-  * The F5 BIG-IP AMI being used from the [AWS Marketplace](https://aws.amazon.com/marketplace) must be applied to your account
+  * The F5 BIG-IP AMI being used from the [AWS Marketplace](https://aws.amazon.com/marketplace) must be subscribed to your account
   * Please make sure resources like VPC and Elastic IP's are below the threshold limit in that aws region
 * [Terraform Cloud Account](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started)
 * [GitHub Account](https://github.com)
@@ -36,7 +37,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 ## Terraform Cloud
 
-* **Workspaces:** Create a CLI or API workspace for each asset in the workflow chosen
+* **Workspaces:** Create a CLI or API workspace for each asset in the workflow chosen. Check your work-flow article for more details
 
   | **Workflow** | **Assets/Workspaces**          |
   | ----------- | ------------------------------- |
@@ -44,6 +45,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   | xc-nap      | infra, eks, nap, arcadia, xc    |
   | xc-nap-api  | infra, eks, nic, brewz, xc    |
   | xc-nap-bot  | infra, bigip-base, bigip-awaf, juiceshop, xc     |
+  
 
 * **Workspace Sharing:** Under the settings for each Workspace, set the **Remote state sharing** to share with each Workspace created.
   
@@ -63,7 +65,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 ## GitHub
 
-* **Fork and Clone Repo**
+* **Fork and Clone Repo. Navigate to `Actions` tab and enable it.**
 
 * **Actions Secrets:** Create the following GitHub Actions secrets in your forked repo
   *  NGINX_JWT: The linux base64 encoded NGINX Java Web Token associated with your NGINX Ingress license
@@ -75,7 +77,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 ## Workflow Runs
 
-**STEP 1:** Check out a branch for the workflow you wish to run using the following naming convention. Navigate to `Actions` tab and enable it.
+**STEP 1:** Check out a branch for the workflow you wish to run using the following naming convention. 
 
   **DEPLOY**
   
@@ -83,6 +85,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   |------------------ | ------------------|
   | xc-bigip | deploy-xc-bigip |
   | xc-nap | deploy-xc-nap |
+  | xcapi-nic | deploy-xcapi-nic |
  
   **DESTROY**
   
@@ -90,16 +93,17 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   |------------------ | ------------------|
   | xc-bigip | destroy-xc-bigip |
   | xc-nap | destroy-xc-nap |
-  
+  | xcapi-nic | destroy-xcapi-nic |  
 
 **STEP 2:** Rename `infra/terraform.tfvars.examples` to `infra/terraform.tfvars` and add the following data:
   * project_prefix  = "Your project identifier name in **lower case** letters only - this will be applied as a prefix to all assets"
-  * resource_owner = "You"
+  * resource_owner = "Your-name"
   * aws_region     = "AWS Region" ex. us-east-1
-  * azs            = ["us-east-1a", "us-east1b"] - Change to Correct Availability Zones based on Region
+  * azs            = ["us-east-1a", "us-east1b"] - Change to Correct Availability Zones based on selected Region
+  * Also update assets boolean value as per your work-flow
 
 
-**STEP 3:** Rename `bigip/terraform.tfvars.examples` to `bigip/terraform.tfvars` and add the following data:
+**STEP 3:** Depending on your work-flow, rename and update related .tfvars. For example in xc-bigip work-flow, update `bigip/terraform.tfvars.examples` to `bigip/terraform.tfvars` and add the following data:
   * f5_ami_search_name = "F5 BIGIP-16.1.3* PAYG-Adv WAF Plus 25Mbps*" - You must be subscribed to the AMI in the [AWS Marketplace](https://aws.amazon.com/marketplace)
   * aws_secretmanager_auth = false
   * create_awaf_config = true
@@ -108,8 +112,8 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 **Step 3:** Rename `xc/terraform.tfvars.examples` to `xc/terraform.tfvars` and add the following data:
   * api_url         = "Your F5XC tenant"
-  * xc_tenant       = "Your tenant id available in F5 XC `Administration` menu"
-  * xc_namespace    = "The XC namespace you are deploying to"
+  * xc_tenant       = "Your tenant id available in F5 XC `Administration` section `Tenant Overview` menu"
+  * xc_namespace    = "The existing XC namespace where you want to deploy resources"
   * app_domain      = "the FQDN of your app (cert will be autogenerated)"
   * xc_waf_blocking = "Set to true to enable blocking"
 
