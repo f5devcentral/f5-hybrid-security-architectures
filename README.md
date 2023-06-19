@@ -37,7 +37,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 ## Terraform Cloud
 
-* **Workspaces:** Create a CLI or API workspace for each asset in the workflow chosen
+* **Workspaces:** Create a CLI or API workspace for each asset in the workflow chosen. Check your work-flow article for more details
 
   | **Workflow** | **Assets/Workspaces**          |
   | ----------- | ------------------------------- |
