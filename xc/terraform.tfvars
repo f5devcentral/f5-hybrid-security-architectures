@@ -1,10 +1,10 @@
 #XC Global
-api_url = "https://<Your Tenant>.console.ves.volterra.io/api"
-xc_tenant = "Your tenant name"
-xc_namespace = "Your XC namespace"
+api_url = "https://tme-lab-works.console.ves.volterra.io/api"
+xc_tenant = "tme-lab-works"
+xc_namespace = " access-security"
 
 #XC LB
-app_domain = "Your App Domain"
+app_domain = "hostedapp.f5-demo.com"
 
 #XC WAF
 xc_waf_blocking = true
