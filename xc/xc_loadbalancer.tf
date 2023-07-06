@@ -1,9 +1,9 @@
 # Create XC LB config
 
 resource "volterra_origin_pool" "op" {
-  name                   = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
-  namespace              = var.xc_namespace
-  description            = format("Origin pool pointing to origin server %s", local.origin_server)
+  name        = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
+  namespace   = var.xc_namespace
+  description = format("Origin pool pointing to origin server %s", local.origin_server)
   dynamic "origin_servers" {
     for_each = local.dns_origin_pool ? [1] : []
     content {
@@ -17,11 +17,11 @@ resource "volterra_origin_pool" "op" {
     content {
       public_ip {
         ip = local.origin_server
-      } 
+      }
     }
   }
-  no_tls = true
-  port = local.origin_port
+  no_tls                 = true
+  port                   = local.origin_port
   endpoint_selection     = "LOCAL_PREFERRED"
   loadbalancer_algorithm = "LB_OVERRIDE"
 }
@@ -30,71 +30,71 @@ resource "volterra_http_loadbalancer" "lb_https" {
   name      = format("%s-xclb-%s", local.project_prefix, local.build_suffix)
   namespace = var.xc_namespace
   labels = {
-      "ves.io/app_type" = length(var.xc_app_type) != 0 ? volterra_app_type.app-type[0].name : null
+    "ves.io/app_type" = length(var.xc_app_type) != 0 ? volterra_app_type.app-type[0].name : null
   }
-  description = format("HTTPS loadbalancer object for %s origin server", local.project_prefix)  
-  domains = [var.app_domain]
+  description                     = format("HTTPS loadbalancer object for %s origin server", local.project_prefix)
+  domains                         = [var.app_domain]
   advertise_on_public_default_vip = true
   default_route_pools {
-      pool {
-        name = volterra_origin_pool.op.name
-        namespace = var.xc_namespace
-      }
-      weight = 1
+    pool {
+      name      = volterra_origin_pool.op.name
+      namespace = var.xc_namespace
     }
+    weight = 1
+  }
   https_auto_cert {
-    add_hsts = false
-    http_redirect = true
-    no_mtls = true
+    add_hsts              = false
+    http_redirect         = true
+    no_mtls               = true
     enable_path_normalize = true
     tls_config {
-        default_security = true
-      }
+      default_security = true
+    }
   }
   app_firewall {
-    name = volterra_app_firewall.waap-tf.name
+    name      = volterra_app_firewall.waap-tf.name
     namespace = var.xc_namespace
   }
   disable_waf                     = false
   round_robin                     = true
   service_policies_from_namespace = true
-  multi_lb_app = var.xc_multi_lb ? true : false
-  user_id_client_ip = true
-  source_ip_stickiness = true
+  multi_lb_app                    = var.xc_multi_lb ? true : false
+  user_id_client_ip               = true
+  source_ip_stickiness            = true
 
-#API Protection Configuration
+  #API Protection Configuration
 
   dynamic "enable_api_discovery" {
     for_each = var.xc_api_disc ? [1] : []
     content {
       enable_learn_from_redirect_traffic = true
-    } 
+    }
   }
-  dynamic "api_speficiation" {
+  dynamic "api_specification" {
     for_each = var.xc_api_pro ? [1] : []
     content {
       api_definition {
-        name = volterra_api_definition.api-def[0].name
+        name      = volterra_api_definition.api-def[0].name
         namespace = volterra_api_definition.api-def[0].namespace
-        tenant = var.xc_tenant
+        tenant    = var.xc_tenant
       }
       validation_disabled = var.xc_api_val ? false : true
       dynamic "validation_all_spec_endpoints" {
         for_each = var.xc_api_val_all ? [1] : []
         content {
           validation_mode {
-            dynamic validation_mode_active {
+            dynamic "validation_mode_active" {
               for_each = var.xc_api_val_active ? [1] : []
               content {
                 request_validation_properties = var.xc_api_val_properties
-                enforcement_block = var.enforcement_block
-                enforcement_report = var.enforcement_report
-                }
+                enforcement_block             = var.enforcement_block
+                enforcement_report            = var.enforcement_report
+              }
             }
           }
           fall_through_mode {
             fall_through_mode_allow = var.fall_through_allow ? true : false
-            dynamic fall_through_mode_custom {
+            dynamic "fall_through_mode_custom" {
               for_each = var.fall_through_mode_allow ? [0] : [1]
               content {
                 open_api_validation_rules {
@@ -102,14 +102,14 @@ resource "volterra_http_loadbalancer" "lb_https" {
                     name = format("%s-apip-fall-through-block-%s", local.project_prefix, local.build_suffix)
                   }
                   action_block = true
-                  base_path = "/"
+                  base_path    = "/"
                 }
                 open_api_validation_rules {
                   metadata {
                     name = format("%s-apip-fall-through-report-%s", local.project_prefix, local.build_suffix)
                   }
                   action_report = true
-                  base_path = "/"
+                  base_path     = "/"
                 }
               }
             }
@@ -124,21 +124,21 @@ resource "volterra_http_loadbalancer" "lb_https" {
               name = format("%s-apip-val-rule-block-%s", local.project_prefix, local.build_suffix)
             }
             validation_mode {
-              dynamic validation_mode_active {
+              dynamic "validation_mode_active" {
                 for_each = var.xc_api_val_active ? [1] : []
                 content {
                   request_validation_properties = var.xc_api_val_properties
-                  enforcement_block = var.enforcement_block
-                  enforcement_report = var.enforcement_report
+                  enforcement_block             = var.enforcement_block
+                  enforcement_report            = var.enforcement_report
                 }
               }
             }
             any_domain = true
-            base_path = "/"
+            base_path  = "/"
           }
           fall_through_mode {
             fall_through_mode_allow = var.fall_through_allow ? true : false
-            dynamic fall_through_mode_custom {
+            dynamic "fall_through_mode_custom" {
               for_each = var.fall_through_mode_allow ? [0] : [1]
               content {
                 open_api_validation_rules {
@@ -146,19 +146,19 @@ resource "volterra_http_loadbalancer" "lb_https" {
                     name = format("%s-apip-fall-through-block-%s", local.project_prefix, local.build_suffix)
                   }
                   action_block = true
-                  base_path = "/"
+                  base_path    = "/"
                 }
                 open_api_validation_rules {
                   metadata {
                     name = format("%s-apip-fall-through-report-%s", local.project_prefix, local.build_suffix)
                   }
                   action_report = true
-                  base_path = "/"
+                  base_path     = "/"
                 }
               }
             }
           }
-        }          
+        }
       }
     }
   }
@@ -184,7 +184,7 @@ resource "volterra_http_loadbalancer" "lb_https" {
           deny = true
         }
         base_path = "/api"
-        api_group = join("-",["ves-io-api-def", volterra_api_definition.api-def[0].name, "all-operations"])
+        api_group = join("-", ["ves-io-api-def", volterra_api_definition.api-def[0].name, "all-operations"])
       }
       api_groups_rules {
         metadata {
@@ -198,7 +198,7 @@ resource "volterra_http_loadbalancer" "lb_https" {
     }
   }
 
-#BOT Configuration
+  #BOT Configuration
   dynamic "bot_defense" {
     for_each = var.xc_bot_def ? [1] : []
     content {
@@ -208,7 +208,7 @@ resource "volterra_http_loadbalancer" "lb_https" {
           javascript_location = "AFTER_HEAD"
         }
         disable_mobile_sdk = true
-        js_download_path = "/common.js"
+        js_download_path   = "/common.js"
         protected_app_endpoints {
           metadata {
             name = format("%s-bot-rule-%s", local.project_prefix, local.build_suffix)
@@ -236,11 +236,11 @@ resource "volterra_http_loadbalancer" "lb_https" {
         }
       }
       regional_endpoint = "US"
-      timeout = 1000
+      timeout           = 1000
     }
   }
 
-#DDoS Configuration
+  #DDoS Configuration
   dynamic "enable_ddos_detection" {
     for_each = var.xc_ddos_pro ? [1] : []
     content {
@@ -255,24 +255,24 @@ resource "volterra_http_loadbalancer" "lb_https" {
       }
       block = true
       ddos_client_source {
-        country_list = [ "COUNTRY_KP"]
+        country_list = ["COUNTRY_KP"]
       }
     }
   }
-  
-#Common Security Controls
+
+  #Common Security Controls
 
   disable_rate_limit              = true
   enable_malicious_user_detection = var.xc_mud ? true : null
-  no_challenge = contains(var.xc_app_type, "mud") || var.xc_mud ? false : true
+  no_challenge                    = contains(var.xc_app_type, "mud") || var.xc_mud ? false : true
 
   dynamic "policy_based_challenge" {
     for_each = var.xc_mud ? [1] : []
     content {
-      default_js_challenge_parameters = true
+      default_js_challenge_parameters      = true
       default_captcha_challenge_parameters = true
-      default_mitigation_settings = true
-      no_challenge = true
+      default_mitigation_settings          = true
+      no_challenge                         = true
       rule_list {}
     }
   }
@@ -281,8 +281,8 @@ resource "volterra_http_loadbalancer" "lb_https" {
     content {
       malicious_user_mitigation {
         namespace = volterra_malicious_user_mitigation.mud-mitigation[0].namespace
-        name = volterra_malicious_user_mitigation.mud-mitigation[0].name
-      } 
+        name      = volterra_malicious_user_mitigation.mud-mitigation[0].name
+      }
     }
   }
 }
