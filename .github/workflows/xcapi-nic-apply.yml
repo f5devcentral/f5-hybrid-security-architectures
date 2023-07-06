@@ -252,7 +252,7 @@ jobs:
             cloud {
               organization = "${{ secrets.TF_CLOUD_ORGANIZATION }}"
               workspaces {
-                name = "${{ secrets.TF_CLOUD_WORKSPACE_ARCADIA }}"
+                name = "${{ secrets.TF_CLOUD_WORKSPACE_BREWZ }}"
               }
             }
           }
