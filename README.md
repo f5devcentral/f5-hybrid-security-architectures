@@ -11,7 +11,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 * [F5 Distributed Cloud Account (F5XC)](https://console.ves.volterra.io/signup/usage_plan)
   * [F5XC API certificate](https://docs.cloud.f5.com/docs/how-to/user-mgmt/credentials)
   * [User Domain delegated](https://docs.cloud.f5.com/docs/how-to/app-networking/domain-delegation)
-* [NGINX Plus with App Protect and Ingress license](https://www.nginx.com/free-trial-connectivity-stack-kubernetes/)
+* [NGINX Plus with App Protect and Ingress license](https://www.nginx.com/free-trial-request/)
 * [AWS Account](https://aws.amazon.com) - Due to the assets being created, free tier will not work.
   * The F5 BIG-IP AMI being used from the [AWS Marketplace](https://aws.amazon.com/marketplace) must be subscribed to your account
   * Please make sure resources like VPC and Elastic IP's are below the threshold limit in that aws region
@@ -22,9 +22,12 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 * **xc:**        F5 Distributed Cloud WAAP
 * **nap:**       NGINX Ingress Controller for Kubernetes with NGINX App Protect (WAF and API Protection)
-* **bigip:**     F5 BIG-IP (LTM and Advanced WAF)
+* **bigip-base:**     F5 BIG-IP Base
+* **bigip-awaf:**     F5 BIG-IP Advanced WAF
+* **bigip-cis:**      F5 Big-IP Container Ingress Services
 * **infra:**     AWS Infrastructure (VPC, IGW, etc.)
 * **eks:**       AWS Elastic Kubernetes Service
+* **brewz:**     Brews Microservice
 * **arcadia:**   Arcadia Finance test web application and API
 * **juiceshop:** OWASP Juice Shop test web application
 
@@ -39,29 +42,31 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 * **Workspaces:** Create a CLI or API workspace for each asset in the workflow chosen. Check your work-flow article for more details
 
-  | **Workflow** | **Assets/Workspaces**          |
-  | ----------- | ------------------------------- |
-  | xc-bigip    | infra, bigip-base, bigip-awaf, juiceshop, xc     |
-  | xc-nap      | infra, eks, nap, arcadia, xc    |
-  | xc-nap-api  | infra, eks, nic, brewz, xc    |
-  | xc-nap-bot  | infra, bigip-base, bigip-awaf, juiceshop, xc     |
+
+  | **Workflow** | **Assets/Workspaces**                             |
+  | ------------ | ------------------------------------------------- |
+  | xc-bigip     | infra, bigip-base, bigip-awaf, juiceshop, xc      |
+  | xc-nap       | infra, eks, nap, arcadia, xc                      |
+  | xc-nap-api   | infra, eks, nic, brewz, xc                        |
+  | xc-bigip+bot | infra, bigip-base, bigip-awaf, juiceshop, xc      |
+  | xcbn-cis     | infra, bigip-base, bigip-cis, eks, nic, brewz, xc |
   
 
 * **Workspace Sharing:** Under the settings for each Workspace, set the **Remote state sharing** to share with each Workspace created.
   
 * **Variable Set:** Create a Variable Set with the following values:
 
-  | **Name** | **Type** | **Description** |
-  | ---------|----------|-----------------|
-  | AWS_ACCESS_KEY_ID | Environment | Your AWS Access Key ID |
-  | AWS_SECRET_ACCESS_KEY  | Environment | Your AWS Secret Access Key |
-  | AWS_SESSION_TOKEN | Environment | Your AWS Session Token |
-  | NGINX_JWT | Environment | Your NGINX JSON Web Token associated with your NGINX license. Set this to **nginx-repo.jwt** |
-  | VOLT_API_P12_FILE | Environment | Your F5XC API certificate. Set this to **api.p12** |
-  | VES_P12_PASSWORD | Environment | Set this to the password you supplied when creating your F5 XC API certificate |
-  | ssh_key | Terraform | Your ssh key for accessing the created BIG-IP and compute assets |
-  | admin_src_addr | Terraform | The source address and subnet in CIDR format of your administrative workstation |
-  | tf_cloud_organization | Terraform | Your Terraform Cloud Organization name |
+  | **Name**              | **Type**    | **Description**                                                                              |
+  | --------------------- | ----------- | -------------------------------------------------------------------------------------------- |
+  | AWS_ACCESS_KEY_ID     | Environment | Your AWS Access Key ID                                                                       |
+  | AWS_SECRET_ACCESS_KEY | Environment | Your AWS Secret Access Key                                                                   |
+  | AWS_SESSION_TOKEN     | Environment | Your AWS Session Token                                                                       |
+  | NGINX_JWT             | Environment | Your NGINX JSON Web Token associated with your NGINX license. Set this to **nginx-repo.jwt** |
+  | VOLT_API_P12_FILE     | Environment | Your F5XC API certificate. Set this to **api.p12**                                           |
+  | VES_P12_PASSWORD      | Environment | Set this to the password you supplied when creating your F5 XC API certificate               |
+  | ssh_key               | Terraform   | Your ssh key for accessing the created BIG-IP and compute assets                             |
+  | admin_src_addr        | Terraform   | The source address and subnet in CIDR format of your administrative workstation              |
+  | tf_cloud_organization | Terraform   | Your Terraform Cloud Organization name                                                       |
 
 ## GitHub
 
@@ -81,19 +86,24 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
   **DEPLOY**
   
-  | Workflow          | Branch Name       |
-  |------------------ | ------------------|
-  | xc-bigip | deploy-xc-bigip |
-  | xc-nap | deploy-xc-nap |
-  | xcapi-nic | deploy-xcapi-nic |
+  | Workflow     | Branch Name      |
+  | ------------ | ---------------- |
+  | xc-bigip     | deploy-xc-bigip  |
+  | xc-nap       | deploy-xc-nap    |
+  | xcapi-nic    | deploy-xcapi-nic |
+  | xc-bigip+bot | deploy-xc-bigip  |
+  | xcbn-cis     | deploy-xcbn-cis  |
  
   **DESTROY**
   
-  | Workflow          | Branch Name       |
-  |------------------ | ------------------|
-  | xc-bigip | destroy-xc-bigip |
-  | xc-nap | destroy-xc-nap |
-  | xcapi-nic | destroy-xcapi-nic |  
+  | Workflow     | Branch Name       |
+  | ------------ | ----------------- |
+  | xc-bigip     | destroy-xc-bigip  |
+  | xc-nap       | destroy-xc-nap    |
+  | xcapi-nic    | destroy-xcapi-nic |
+  | xc-bigip+bot | destroy-xc-bigip  |
+  | xcbn-cis     | destroy-xcbn-cis  |
+
 
 **STEP 2:** Rename `infra/terraform.tfvars.examples` to `infra/terraform.tfvars` and add the following data:
   * project_prefix  = "Your project identifier name in **lower case** letters only - this will be applied as a prefix to all assets"
@@ -116,7 +126,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   * xc_namespace    = "The existing XC namespace where you want to deploy resources"
   * app_domain      = "the FQDN of your app (cert will be autogenerated)"
   * xc_waf_blocking = "Set to true to enable blocking"
-
+  * Also update assets boolean value as per your work-flow based on the values in the tfvars example.
 
 **STEP 5:** Commit and push your build branch to your forked repo
   * Build will run and can be monitored in the GitHub Actions tab and TF Cloud console
