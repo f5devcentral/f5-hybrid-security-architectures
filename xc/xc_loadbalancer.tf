@@ -162,16 +162,6 @@ resource "volterra_http_loadbalancer" "lb_https" {
       }
     }
   }
-  /*
-  dynamic "api_definition" {
-    for_each = var.xc_api_pro ? [1] : []
-    content {
-      name = volterra_api_definition.api-def[0].name
-      namespace = volterra_api_definition.api-def[0].namespace
-      tenant = var.xc_tenant
-    }
-  }
-  */
 
   dynamic "api_protection_rules" {
     for_each = var.xc_api_pro ? [1] : []
