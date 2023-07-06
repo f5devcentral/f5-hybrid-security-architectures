@@ -160,7 +160,7 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
   terraform_bigip_base:
-    name: "F5 BIG-IP Adv. WAF"
+    name: "F5 BIG-IP Base"
     runs-on: ubuntu-latest
     needs: terraform_juiceshop
     defaults:
