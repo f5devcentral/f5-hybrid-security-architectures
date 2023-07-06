@@ -10,3 +10,4 @@ azs           = ["us-east-1a", "us-east-1b"]
 nic = false
 nap = false
 bigip = false
+bigip-cis = false

@@ -42,6 +42,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 * **Workspaces:** Create a CLI or API workspace for each asset in the workflow chosen. Check your work-flow article for more details
 
+
   | **Workflow** | **Assets/Workspaces**                             |
   | ------------ | ------------------------------------------------- |
   | xc-bigip     | infra, bigip-base, bigip-awaf, juiceshop, xc      |
@@ -91,6 +92,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   | xc-nap       | deploy-xc-nap    |
   | xcapi-nic    | deploy-xcapi-nic |
   | xc-bigip+bot | deploy-xc-bigip  |
+  | xcbn-cis     | deploy-xcbn-cis  |
  
   **DESTROY**
   
@@ -100,6 +102,8 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   | xc-nap       | destroy-xc-nap    |
   | xcapi-nic    | destroy-xcapi-nic |
   | xc-bigip+bot | destroy-xc-bigip  |
+  | xcbn-cis     | destroy-xcbn-cis  |
+
 
 **STEP 2:** Rename `infra/terraform.tfvars.examples` to `infra/terraform.tfvars` and add the following data:
   * project_prefix  = "Your project identifier name in **lower case** letters only - this will be applied as a prefix to all assets"
