@@ -2,19 +2,19 @@ locals {
   #Global State Values 
   project_prefix = data.tfe_outputs.infra.values.project_prefix
   resource_owner = data.tfe_outputs.infra.values.resource_owner
-  build_suffix = data.tfe_outputs.infra.values.build_suffix
-  
+  build_suffix   = data.tfe_outputs.infra.values.build_suffix
+
   #Infra State Values
-  aws_region = data.tfe_outputs.infra.values.aws_region
-  vpc_cidr_block = data.tfe_outputs.infra.values.vpc_cidr_block
-  public_az1_cidr_block = data.tfe_outputs.infra.values.public_az1_cidr_block
+  aws_region             = data.tfe_outputs.infra.values.aws_region
+  vpc_cidr_block         = data.tfe_outputs.infra.values.vpc_cidr_block
+  public_az1_cidr_block  = data.tfe_outputs.infra.values.public_az1_cidr_block
   private_az1_cidr_block = data.tfe_outputs.infra.values.private_az1_cidr_block
-  external_sg_id = data.tfe_outputs.infra.values.external_sg_id
-  internal_sg_id = data.tfe_outputs.infra.values.internal_sg_id
-  management_sg_id = data.tfe_outputs.infra.values.management_sg_id
-  mgmt_subnet_az1 = data.tfe_outputs.infra.values.mgmt_subnet_az1
-  int_subnet_az1 = data.tfe_outputs.infra.values.int_subnet_az1
-  ext_subnet_az1 = data.tfe_outputs.infra.values.ext_subnet_az1
+  external_sg_id         = data.tfe_outputs.infra.values.external_sg_id
+  internal_sg_id         = data.tfe_outputs.infra.values.internal_sg_id
+  management_sg_id       = data.tfe_outputs.infra.values.management_sg_id
+  mgmt_subnet_az1        = data.tfe_outputs.infra.values.mgmt_subnet_az1
+  int_subnet_az1         = data.tfe_outputs.infra.values.int_subnet_az1
+  ext_subnet_az1         = data.tfe_outputs.infra.values.ext_subnet_az1
 
   # Retrieve all BIG-IP secondary IPs
   vm01_ext_ips = {
@@ -33,7 +33,7 @@ locals {
   }
   # Custom tags
   tags = {
-    Owner = local.resource_owner
+    Owner   = local.resource_owner
     Project = local.project_prefix
   }
 
@@ -54,10 +54,12 @@ locals {
     TS_VER                      = split("/", var.TS_URL)[7]
     FAST_VER                    = split("/", var.FAST_URL)[7]
     vpc_cidr_block              = local.vpc_cidr_block
-    internal_netmask            = split("/",  local.private_az1_cidr_block)[1]
-    external_netmask            = split("/",  local.public_az1_cidr_block)[1]
+    internal_netmask            = split("/", local.private_az1_cidr_block)[1]
+    external_netmask            = split("/", local.public_az1_cidr_block)[1]
     dns_server                  = var.dns_server
     ntp_server                  = var.ntp_server
     timezone                    = var.timezone
+    asm                         = var.asm
+    apm                         = var.apm
   })
 }
