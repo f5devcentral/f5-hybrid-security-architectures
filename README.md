@@ -110,7 +110,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   * resource_owner = "Your-name"
   * aws_region     = "AWS Region" ex. us-east-1
   * azs            = ["us-east-1a", "us-east1b"] - Change to Correct Availability Zones based on selected Region
-  * Also update assets boolean value as per your work-flow
+  * Also update assets boolean value as per your work-flows
 
 
 **STEP 3:** Depending on your work-flow, rename and update related .tfvars. For example in xc-bigip work-flow, update `bigip/terraform.tfvars.examples` to `bigip/terraform.tfvars` and add the following data:
