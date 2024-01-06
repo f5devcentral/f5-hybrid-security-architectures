@@ -1,0 +1,8 @@
+#!/bin/sh
+
+curl -k -H "Content-Type: application/json" -X POST "https://brewz-demo.sr.f5-cloud-demo.com/api/users/12345/cart" -d '{"unexpectedProperty": "123"}'
+curl -k -H "Content-Type: application/json" -X POST "https://brewz-demo.sr.f5-cloud-demo.com/api/users/12345/cart" -d '{"unexpectedProperty": "123"}' | jq
+curl -k -H "Content-Type: application/json" -X POST "https://brewz-demo.sr.f5-cloud-demo.com/api/users/12345/cart" -d '{"productId": "42"}' | jq
+curl -k -H "Content-Type: application/json" -X POST "https://brewz-demo.sr.f5-cloud-demo.com/api/users/12345/cart" -d '{"productId": "42"}' | jq
+curl -k -H "Content-Type: application/json" -X POST "https://brewz-demo.sr.f5-cloud-demo.com/api/users/12345/cart" -d '{"productId":"123"}' | jq
+curl -k -H "Content-Type: application/json" -X POST "https://brewz-demo.sr.f5-cloud-demo.com/api/users/12345/cart" -d '{"productId":"1234r"}' | jq
