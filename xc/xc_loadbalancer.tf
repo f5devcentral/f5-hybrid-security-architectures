@@ -104,7 +104,7 @@ resource "volterra_http_loadbalancer" "lb_https" {
             }
           }
           fall_through_mode {
-            fall_through_mode_allow = var.fall_through_allow ? true : false
+            fall_through_mode_allow = var.fall_through_mode_allow ? true : false
             dynamic "fall_through_mode_custom" {
               for_each = var.fall_through_mode_allow ? [0] : [1]
               content {
@@ -164,7 +164,7 @@ resource "volterra_http_loadbalancer" "lb_https" {
             base_path  = "/"
           }
           fall_through_mode {
-            fall_through_mode_allow = var.fall_through_allow ? true : false
+            fall_through_mode_allow = var.fall_through_mode_allow ? true : false
             dynamic "fall_through_mode_custom" {
               for_each = var.fall_through_mode_allow ? [0] : [1]
               content {
