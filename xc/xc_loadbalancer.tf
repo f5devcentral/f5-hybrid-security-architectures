@@ -68,6 +68,9 @@ resource "volterra_http_loadbalancer" "lb_https" {
     for_each = var.xc_api_disc ? [1] : []
     content {
       enable_learn_from_redirect_traffic = true
+      discovered_api_settings {
+        purge_duration_for_inactive_discovered_apis = 5
+      }
     }
   }
   dynamic "api_specification" {
@@ -91,6 +94,14 @@ resource "volterra_http_loadbalancer" "lb_https" {
                 enforcement_report            = var.enforcement_report
               }
             }
+            dynamic "response_validation_mode_active" {
+              for_each = var.xc_resp_val_active ? [1] : []
+              content {
+                response_validation_properties = var.xc_resp_val_properties
+                enforcement_block              = var.enforcement_block
+                enforcement_report             = var.enforcement_report
+              }
+            }
           }
           fall_through_mode {
             fall_through_mode_allow = var.fall_through_allow ? true : false
@@ -114,6 +125,14 @@ resource "volterra_http_loadbalancer" "lb_https" {
               }
             }
           }
+          settings {
+            oversized_body_fail_validation = true
+            property_validation_settings_custom {
+              query_parameters {
+                disallow_additional_parameters = true
+              }
+            }
+          }
         }
       }
       dynamic "validation_custom_list" {
@@ -132,6 +151,14 @@ resource "volterra_http_loadbalancer" "lb_https" {
                   enforcement_report            = var.enforcement_report
                 }
               }
+              dynamic "response_validation_mode_active" {
+              for_each = var.xc_resp_val_active ? [1] : []
+              content {
+                response_validation_properties = var.xc_resp_val_properties
+                enforcement_block              = var.enforcement_block
+                enforcement_report             = var.enforcement_report
+              }
+            }
             }
             any_domain = true
             base_path  = "/"
@@ -155,6 +182,14 @@ resource "volterra_http_loadbalancer" "lb_https" {
                   action_report = true
                   base_path     = "/"
                 }
+              }
+            }
+          }
+          settings {
+            oversized_body_fail_validation = true
+            property_validation_settings_custom {
+              query_parameters {
+                disallow_additional_parameters = true
               }
             }
           }
@@ -184,6 +219,31 @@ resource "volterra_http_loadbalancer" "lb_https" {
           deny = false
         }
         base_path = "/"
+      }
+    }
+  }
+  dynamic "jwt_validation" {
+    for_each = var.xc_jwt_val ? [1] : []
+    content {
+      target {
+        all_endpoint = true
+      }
+      token_location {
+        bearer_token = true
+      }
+      action {
+        block = var.jwt_val_block
+        report = var.jwt_val_report
+      }
+      jwks_config {
+        cleartext = "string:///${var.jwks}"
+      }
+      reserved_claims {
+        issuer                  = var.iss_claim
+        audience {
+          audiences             = var.aud_claim
+        }     
+        validate_period_enable  = var.exp_claim
       }
     }
   }

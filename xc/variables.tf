@@ -72,9 +72,18 @@ variable "xc_api_val_properties" {
   default = ["PROPERTY_QUERY_PARAMETERS", "PROPERTY_PATH_PARAMETERS", "PROPERTY_CONTENT_TYPE", "PROPERTY_COOKIE_PARAMETERS", "PROPERTY_HTTP_HEADERS", "PROPERTY_HTTP_BODY"]
 
 }
+variable "xc_resp_val_properties" {
+  type    = list(string)
+  default = ["PROPERTY_HTTP_HEADERS", "PROPERTY_CONTENT_TYPE", "PROPERTY_HTTP_BODY", "PROPERTY_RESPONSE_CODE"]
+}
 variable "xc_api_val_active" {
   type        = string
   description = "Enable API Validation on active endpoints"
+  default     = "false"
+}
+variable "xc_resp_val_active" {
+  type        = string
+  description = "Enable response API Validation on active endpoints"
   default     = "false"
 }
 variable "enforcement_block" {
@@ -96,6 +105,42 @@ variable "xc_api_val_custom" {
   type        = string
   description = "Enable API Validation custom rules"
   default     = "false"
+}
+#JWT Validation
+variable "xc_jwt_val" {
+  type        = string
+  description = "Enable JWT Validation"
+  default     = "false"
+}
+variable "jwt_val_block" {
+  type        = string
+  description = "Enable JWT Validation block"
+  default     = "false"
+}
+variable "jwt_val_report" {
+  type        = string
+  description = "Enable JWT Validation report"
+  default     = "false"
+}
+variable "jwks" {
+  type        = string
+  description = "JWK for validation"
+  default     = "app_domain" 
+}
+variable "iss_claim" {
+  type        = string
+  description = "JWT Validation issuer claim"
+  default     = "true"
+}
+variable "aud_claim" {
+  type        = list(string)
+  description = "JWT Validation audience claim"
+  default     = "[]"
+}
+variable "exp_claim" {
+  type        = string
+  description = "JWT Validation expiration claim"
+  default     = "true"
 }
 
 #XC Bot Defense
