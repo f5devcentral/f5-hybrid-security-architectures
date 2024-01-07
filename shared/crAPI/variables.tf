@@ -7,3 +7,8 @@ variable "ssh_key" {
   type        = string
   description = "Unneeded for brewz, only present for warning handling with TF cloud variable set"
 }
+variable "json_input" {
+  type = string
+  default = ""
+  description = "JWKS input for JWT secret"
+}
