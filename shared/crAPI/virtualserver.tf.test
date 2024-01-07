@@ -7,23 +7,18 @@ metadata:
 spec:
   host: "${local.external_name}"
   upstreams:
-    - name: spa
-      service: spa
+    - name: crapi-web
+      service: crapi-web
       port: 80
-    - name: api
-      service: api
-      port: 8000
+    - name: mailhog-web
+      service: mailhog-web
+      port: 8025
   routes:
     - path: /
       action:
-        pass: spa
-    - path: /api
+        pass: crapi-web
+    - path: /
       action:
-        pass: api
-    - path: /images
-      action:
-        proxy:
-          upstream: api
-          rewritePath: /images
+        pass: mailhog-web
 YAML
 }
