@@ -3,7 +3,7 @@ name: "F5XC APIP + NIC Apply"
 on:
   push:
     branches:
-      - deploy-xcapi-nic
+      - deploy-xcapi
   pull_request:
 
 jobs:
@@ -77,7 +77,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/deploy-xcapi-nic' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/deploy-xcapi' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
 
   terraform_eks:
@@ -151,7 +151,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/deploy-xcapi-nic' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/deploy-xcapi' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
 
   terraform_nic:
@@ -225,7 +225,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/deploy-xcapi-nic' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/deploy-xcapi' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
 
   terraform_crapi:
@@ -298,7 +298,7 @@ jobs:
         run: exit 1
 
 #      - name: Terraform Apply
-#        if: github.ref == 'refs/heads/deploy-xcapi-nic' && github.event_name == 'push'
+#        if: github.ref == 'refs/heads/deploy-xcapi' && github.event_name == 'push'
 #        run: terraform apply -auto-approve -input=false
 
   terraform_xc:
@@ -371,5 +371,5 @@ jobs:
         run: exit 1
 
 #      - name: Terraform Apply
-#        if: github.ref == 'refs/heads/deploy-xcapi-nic' && github.event_name == 'push'
+#        if: github.ref == 'refs/heads/deploy-xcapi' && github.event_name == 'push'
 #        run: terraform apply -auto-approve -input=false

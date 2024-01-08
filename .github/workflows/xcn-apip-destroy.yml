@@ -3,7 +3,7 @@ name: "F5XC APIP + NIC Destroy"
 on:
   push:
     branches:
-      - destroy-xcapi-nic
+      - destroy-xcapi
   pull_request:
 
 jobs:
@@ -77,7 +77,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Destroy
-        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/destroy-xcapi' && github.event_name == 'push'
         run: terraform destroy -auto-approve -input=false
   
   terraform_crapi:
@@ -150,7 +150,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Destroy
-        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/destroy-xcapi' && github.event_name == 'push'
         run: terraform destroy -auto-approve -input=false
 
   terraform_nic:
@@ -224,7 +224,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Destroy
-        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/destroy-xcapi' && github.event_name == 'push'
         run: terraform destroy -auto-approve -input=false
 
   terraform_eks:
@@ -298,7 +298,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Destroy
-        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/destroy-xcapi' && github.event_name == 'push'
         run: terraform destroy -auto-approve -input=false
 
   terraform_infra:
@@ -372,7 +372,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Destroy
-        if: github.ref == 'refs/heads/destroy-xcapi-nic' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/destroy-xcapi' && github.event_name == 'push'
         run: terraform destroy -auto-approve -input=false
 
 
