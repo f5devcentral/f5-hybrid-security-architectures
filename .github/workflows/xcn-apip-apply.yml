@@ -1,4 +1,4 @@
-name: "F5XC APIP + NIC Apply"
+name: "F5XC API Protection - crAPI"
 
 on:
   push:
