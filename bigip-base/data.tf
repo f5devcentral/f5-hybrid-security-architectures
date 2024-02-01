@@ -19,6 +19,7 @@ data "aws_secretsmanager_secret_version" "current" {
 data "aws_ami" "f5_ami" {
   most_recent = true
   #owners      = ["aws-marketplace"]
+  owners = [524339405707]
   filter {
     name   = "name"
     values = [var.f5_ami_search_name]
