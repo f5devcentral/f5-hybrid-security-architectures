@@ -10,5 +10,5 @@ ssh_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDLLhld4Rbx4W5OCNPLPpFkX8RAaQCEG
 #Assets
 nic = false
 nap = false
-bigip = false
+bigip = true
 bigip-cis = false
