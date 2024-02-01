@@ -295,7 +295,10 @@ resource "volterra_http_loadbalancer" "lb_https" {
   dynamic "enable_ddos_detection" {
     for_each = var.xc_ddos_pro ? [1] : []
     content {
-      enable_auto_mitigation = true
+      enable_auto_mitigation {
+      // One of the arguments from this list "block js_challenge" must be set
+      block = true
+    }
     }
   }
   dynamic "ddos_mitigation_rules" {
