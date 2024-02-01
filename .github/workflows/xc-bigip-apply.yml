@@ -3,7 +3,7 @@ name: "F5XC + BIG-IP Apply"
 on:
   push:
     branches:
-      - main
+      - deploy-xc-bigip
   pull_request:
 
 jobs:
