@@ -88,7 +88,8 @@ variable "internal_sg_id" {
 variable "f5_ami_search_name" {
   type        = string
   description = "AWS AMI search filter to find correct BIG-IP VE for region"
-  default     = "F5 BIGIP-16.1.3.2* PAYG-Best Plus 200Mbps*"
+  default     = "F5*BIGIP-16.1*Best*25Mbps*"
+  #"F5 BIGIP-16.1.3.2* PAYG-Best Plus 200Mbps*"
 }
 variable "ec2_instance_type" {
   type        = string
