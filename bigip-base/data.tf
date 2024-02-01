@@ -18,7 +18,8 @@ data "aws_secretsmanager_secret_version" "current" {
 # Find BIG-IP AMI
 data "aws_ami" "f5_ami" {
   most_recent = true
-  owners      = ["aws-marketplace"]
+  owners = ["679593333241"]
+  #owners      = ["aws-marketplace"]
   filter {
     name   = "name"
     values = [var.f5_ami_search_name]
