@@ -1,0 +1,1 @@
+awaf_config_payload = "awaf-config.json"

@@ -135,7 +135,7 @@ variable "iss_claim" {
 variable "aud_claim" {
   type        = list(string)
   description = "JWT Validation audience claim"
-  default     = "[]"
+  default     = [""]
 }
 variable "exp_claim" {
   type        = string
@@ -161,3 +161,4 @@ variable "xc_mud" {
   description = "Enable Malicious User Detection on single LB"
   default     = "false"
 }
+
