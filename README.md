@@ -47,7 +47,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   | ------------ | ------------------------------------------------- |
   | xc-bigip     | infra, bigip-base, bigip-awaf, juiceshop, xc      |
   | xc-nap       | infra, eks, nap, arcadia, xc                      |
-  | xc-nap-api   | infra, eks, nic, brewz, xc                        |
+  | xc-nic-api   | infra, eks, nic, brewz, xc                        |
   | xc-bigip+bot | infra, bigip-base, bigip-awaf, juiceshop, xc      |
   | xcbn-cis     | infra, bigip-base, bigip-cis, eks, nic, brewz, xc |
   
