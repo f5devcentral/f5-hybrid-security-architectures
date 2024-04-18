@@ -61,7 +61,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   | AWS_ACCESS_KEY_ID     | Environment | Your AWS Access Key ID                                                                       |
   | AWS_SECRET_ACCESS_KEY | Environment | Your AWS Secret Access Key                                                                   |
   | AWS_SESSION_TOKEN     | Environment | Your AWS Session Token                                                                       |
-  | NGINX_JWT             | Environment | Your NGINX JSON Web Token associated with your NGINX license. Set this to **nginx-repo.jwt** |
+  | NGINX_JWT             | Environment | Your NGINX JSON Web Token value associated with your NGINX license.                          |
   | VOLT_API_P12_FILE     | Environment | Your F5XC API certificate. Set this to **api.p12**                                           |
   | VES_P12_PASSWORD      | Environment | Set this to the password you supplied when creating your F5 XC API certificate               |
   | ssh_key               | Terraform   | Your ssh key for accessing the created BIG-IP and compute assets                             |
@@ -73,7 +73,6 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 * **Fork and Clone Repo. Navigate to `Actions` tab and enable it.**
 
 * **Actions Secrets:** Create the following GitHub Actions secrets in your forked repo
-  *  NGINX_JWT: The linux base64 encoded NGINX Java Web Token associated with your NGINX Ingress license
   *  P12: The linux base64 encoded F5XC API certificate
   *  TF_API_TOKEN: Your Terraform Cloud API token
   *  TF_CLOUD_ORGANIZATION: Your Terraform Cloud Organization name
@@ -132,7 +131,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   * Build will run and can be monitored in the GitHub Actions tab and TF Cloud console
 
 
-**STEP 6:** Once the pipeline completes, verify your assets were deployed or destroyed based on your workflow.  
+**STEP 6:** Once the pipeline completes, verify your assets were deployed or destroyed based on your workflow. From F5 XC console, you can check if the F5 XC load balancer has come to active.
             **NOTE:**  The autocert process takes time.  It may be 5 to 10 minutes before Let's Encrypt has provided the cert.
 
 
