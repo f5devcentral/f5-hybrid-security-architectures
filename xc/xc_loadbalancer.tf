@@ -1,6 +1,12 @@
+resource "null_resource" "wait_for_ce_site"{
+  count           =  var.hybrid_genai ? 1 : 0
+  depends_on      =  [volterra_registration_approval.eks-k8s-ce, volterra_registration_approval.gke-k8s-ce]
+}
+
 # Create XC LB config
 
 resource "volterra_origin_pool" "op" {
+  depends_on  = [null_resource.wait_for_ce_site]
   name        = format("%s-xcop-%s", local.project_prefix, local.build_suffix)
   namespace   = var.xc_namespace
   description = format("Origin pool pointing to origin server %s", local.origin_server)
@@ -13,15 +19,32 @@ resource "volterra_origin_pool" "op" {
     }
   }
   dynamic "origin_servers" {
-    for_each = local.dns_origin_pool ? [] : [1]
+    for_each = local.dns_origin_pool == false && var.k8s_pool == "false" ? [1] : []
+    #for_each = local.dns_origin_pool ? [] : [1]
     content {
       public_ip {
         ip = local.origin_server
       }
     }
   }
+  dynamic "origin_servers" {
+    for_each = var.k8s_pool ? [1] : []
+    content {
+    k8s_service {
+      service_name  = var.serviceName
+      vk8s_networks = true
+      outside_network = true
+      site_locator {
+        site {
+          name      = var.hybrid_genai ? var.eks_site_name : "${coalesce(var.eks_site_name, var.gke_site_name, local.project_prefix)}"
+          namespace = "system"
+          }
+        }
+      }
+    }
+  }
   no_tls                 = true
-  port                   = local.origin_port
+  port = var.k8s_pool ? var.serviceport: local.origin_port
   endpoint_selection     = "LOCAL_PREFERRED"
   loadbalancer_algorithm = "LB_OVERRIDE"
 }
@@ -35,6 +58,22 @@ resource "volterra_http_loadbalancer" "lb_https" {
   description                     = format("HTTPS loadbalancer object for %s origin server", local.project_prefix)
   domains                         = [var.app_domain]
   advertise_on_public_default_vip = true
+
+   dynamic "advertise_custom" {
+   for_each = var.advertise_sites ? [1] : []
+    content {
+      advertise_where {
+        site {
+          site {
+            name      = var.hybrid_genai ? var.gke_site_name : "${coalesce(var.eks_site_name, var.gke_site_name , local.project_prefix)}"
+            namespace = "system"
+          }
+          network = "SITE_NETWORK_INSIDE_AND_OUTSIDE"
+        }
+      }
+    }
+  }
+  
   default_route_pools {
     pool {
       name      = volterra_origin_pool.op.name
@@ -42,15 +81,28 @@ resource "volterra_http_loadbalancer" "lb_https" {
     }
     weight = 1
   }
-  https_auto_cert {
-    add_hsts              = false
-    http_redirect         = true
-    no_mtls               = true
-    enable_path_normalize = true
-    tls_config {
-      default_security = true
+
+  dynamic "http" {
+    for_each = var.http_only ? [1] : []
+    content  {
+      dns_volterra_managed = var.xc_delegation
+      port = "80"
+      }
+  }
+
+  dynamic "https_auto_cert" {
+    for_each = var.http_only ? [] : [1]
+    content {
+      add_hsts              = false
+      http_redirect         = true
+      no_mtls               = true
+      enable_path_normalize = true
+      tls_config {
+        default_security = true
+      }
     }
   }
+
   app_firewall {
     name      = volterra_app_firewall.waap-tf.name
     namespace = var.xc_namespace
@@ -61,6 +113,22 @@ resource "volterra_http_loadbalancer" "lb_https" {
   multi_lb_app                    = var.xc_multi_lb ? true : false
   user_id_client_ip               = true
   source_ip_stickiness            = true
+
+  #Data Guard Rules
+
+   dynamic "data_guard_rules" {
+    for_each = var.xc_data_guard ? [1] : []
+    content {
+      metadata {
+        name = format("%s-data-guard-%s", local.project_prefix, local.build_suffix)
+      }
+      apply_data_guard = true
+      any_domain       = true
+      path {
+        prefix = "/"
+      }
+    }
+  }
 
   #API Protection Configuration
 
@@ -334,5 +402,3 @@ resource "volterra_http_loadbalancer" "lb_https" {
     }
   }
 }
-
-

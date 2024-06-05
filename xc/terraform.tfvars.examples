@@ -7,7 +7,10 @@ xc_namespace = "Your XC namespace"
 app_domain = "Your App Domain"
 
 #XC WAF
-xc_waf_blocking = true
+xc_waf_blocking = false
+
+# XC Data Guard
+xc_data_guard = false
 
 #XC AI/ML Settings for MUD, APIP - NOTE: Only set if using AI/ML settings from the shared namespace
 xc_app_type = []
@@ -43,3 +46,19 @@ xc_ddos_pro = false
 
 #XC Malicious User Detection
 xc_mud = false
+
+# pool and LB inputs
+k8s_pool = false
+serviceName = "k8s service name"
+serviceport = "k8s service port" 
+advertise_sites = false
+http_only = false
+xc_delegation = false
+eks_ce_site = false
+
+# infra (Needed values: aws-infra, azure-infra, gcp-infra)
+aws   = ""
+azure = ""
+gcp   = ""
+
+hybrid_genai = false
