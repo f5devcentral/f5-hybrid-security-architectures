@@ -51,9 +51,9 @@ Terraform Cloud
    | hybrid-genai-appconnect-waf     | aws-infra, gcp-infra, eks, gke, llm-wl, app, eks-ce, gke-ce, xc, nic   |
    +---------------------------------+------------------------------------------------------------------------+
 
-.. image:: assets/tc-workspace1.JPG
+.. image:: assets/tc-workspace-1.JPG
 
-.. image:: assets/tc-workspace2.JPG
+.. image:: assets/tc-workspace-2.JPG
 
 
 -  **Workspace Sharing:** Under the settings for each Workspace, set the
