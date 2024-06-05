@@ -227,7 +227,7 @@ XC Logs:
 
 .. image:: assets/xc-logs.JPG
 
-**Step 9:** If you want to destroy the entire setup, checkout a branch with name ``destroy-hybrid-genai`` and push the repo code to it, this will trigger destroy workflow and will remove all created resources (Note: destroy jobs related to destruction of deployments to gke cluster may sometimes fail because of auth issues but the pipeline eventually will get passed as deletion of cluster will destroy all deployments)
+**Step 9:** If you want to destroy the entire setup, checkout a branch with name ``destroy-hybrid-genai`` and push the repo code to it, this will trigger destroy workflow and will remove all created resources (Note: destroy jobs related to destruction of deployments to gke cluster may sometimes fail because of auth issues but the pipeline eventually will get pass as deletion of cluster will destroy all deployments)
 
 .. image:: assets/destroy-pipeline.JPG
 
