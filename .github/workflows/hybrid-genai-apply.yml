@@ -827,12 +827,6 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      # - name: Terraform Remove Resource
-      #   if: github.ref == 'refs/heads/deploy-hybrid-genai' && github.event_name == 'push'
-      #   run: | 
-      #     terraform state rm kubectl_manifest.lb
-      #     terraform state rm null_resource.lb-wait
-
       - name: Terraform Apply
         if: github.ref == 'refs/heads/deploy-hybrid-genai' && github.event_name == 'push'
         #run: terraform apply -auto-approve -input=false  
