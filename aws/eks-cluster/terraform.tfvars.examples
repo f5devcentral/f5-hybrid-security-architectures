@@ -7,5 +7,5 @@ skip_private_subnet_creation = true
 allow_all_ingress_traffic_to_cluster = true
 
 # needed value: aws-infra
-aws_waf_ce = "" 
+aws_genai = "" 
 
