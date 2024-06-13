@@ -1,0 +1,6 @@
+#Global
+project_prefix = "your deployments prefix name"
+
+#GCP INFRA
+project_id = "gcp-proj-id"
+region     = "deployment-region"

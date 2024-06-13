@@ -142,7 +142,6 @@ variable "exp_claim" {
   description = "JWT Validation expiration claim"
   default     = "true"
 }
-
 #XC Bot Defense
 variable "xc_bot_def" {
   type        = string
@@ -161,4 +160,75 @@ variable "xc_mud" {
   description = "Enable Malicious User Detection on single LB"
   default     = "false"
 }
+# k8s service name
+variable "serviceName" {
+  type        = string
+  description = "k8s backend service details to access the demo application"
+  default     = ""
+}
+# k8s backend
+variable "k8s_pool" {
+  type        = string
+  description = "Whether pool member is k8s backend ?"
+  default     = "false"
+}
+variable "advertise_sites" {
+  type        = string
+  description = "Boolean to check if app needs to be advertised on given sites."
+  default     = "false"
+}
+variable "http_only" {
+  type        = string
+  description = "If type of LB need to be set as http. Use this as True for CE site deployments."
+  default     = "false"
+}
+variable "serviceport" {
+  type        = string
+  description = "k8s backend application service port details"
+  default     = ""
+}
+variable "gke_site_name" {
+  type        = string
+  description = "CE site name to advertise load balancer."
+  default     = ""
+}
+variable "eks_site_name" {
+  type        = string
+  description = "CE site name to advertise load balancer."
+  default     = ""
+}
 
+variable "xc_data_guard" {
+  type        = string
+  description = "F5 XC Data Guard"
+  default     = "false"
+}
+
+variable "xc_delegation" {
+  type        = string
+  description = "F5 XC Domain delegation"
+  default     = "false"
+}
+
+#infrastructure
+variable "azure" {
+  description = "Workspace name of Azure deployment infra"
+  type        = string
+  default     = ""
+}
+variable "aws" {
+  description = "Workspace name of AWS deployment infra"
+  type        = string
+  default     = ""
+}
+variable "gcp" {
+  description = "Workspace name of GCP deployment infra"
+  type        = string
+  default     = ""
+}
+
+variable "hybrid_genai" {
+  type        = string
+  description = "F5 XC Domain delegation"
+  default     = "false"
+}
