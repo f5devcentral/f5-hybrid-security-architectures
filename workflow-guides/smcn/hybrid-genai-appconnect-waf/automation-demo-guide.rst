@@ -220,6 +220,7 @@ Keep rest of the values as they are set by default in terraform.tfvars.examples 
 .. image:: assets/xc-ce-sites.JPG
 
 Just like in manual steps, Open the browser and enter the mapped domain in URL section to access the genai application. In the 'Web page to load' field, input 'https://dlptest.com/sample-data/namessndob/'. For 'Search Query', put 'What is Robert Aragon's SSN?'. Click on 'Search' button and make sure SSN data is masked as XC data guard is enabled.
+(**Note:** Application backend response data may not get fetched sometimes and will work after a few failed attempts, so please retry 5 to 10 times.)
 
 .. image:: assets/app.JPG
 

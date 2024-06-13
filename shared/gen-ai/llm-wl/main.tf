@@ -51,5 +51,10 @@ spec:
         ports:
         - containerPort: 8000
 YAML
-}
 
+  wait = true
+
+  timeouts {
+    create = "20m"
+  }
+}
