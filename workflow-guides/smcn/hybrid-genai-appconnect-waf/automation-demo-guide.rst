@@ -215,9 +215,9 @@ Keep rest of the values as they are set by default in terraform.tfvars.examples 
 
 **STEP 7:** Once the pipeline completes, verify your CE sites, Origin Pool and LB in XC console, to conclude if they were deployed or destroyed successfully based on your workflow. (**Note:** CE sites will take some time [10-15 mins.] to come online)
 
-(**Note:** if job `Deploy LLM Workload` fails, rerun the pipeline [Push some test commit to deploy branch])
+(**Note:** if job 'Deploy LLM Workload' fails, rerun the pipeline [Push some test commit to 'deploy-hybrid-genai' branch])
 
-**STEP 8:** To validate the test infra, copy the public IP of LB (**Note:** In terraform cloud click on `nic` workspace and select `Outputs` tab to get the public IP), Map the public IP to a domain (host: "*.com").
+**STEP 8:** To validate the test infra, copy the public IP of LB (**Note:** In terraform cloud click on 'nic' workspace and select 'Outputs' tab to get the public IP), Map the public IP to a domain (host: "*.com").
 
 .. image:: assets/xc-ce-sites.JPG
 
