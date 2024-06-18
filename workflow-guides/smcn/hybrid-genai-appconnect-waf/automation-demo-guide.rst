@@ -213,14 +213,15 @@ Keep rest of the values as they are set by default in terraform.tfvars.examples 
 
 .. image:: assets/deploy-pipeline.JPG
 
-**STEP 7:** Once the pipeline completes, verify your CE sites, Origin Pool and LB were deployed or destroyed based on your workflow. (**Note:** CE sites will take some time to come online)
+**STEP 7:** Once the pipeline completes, verify your CE sites, Origin Pool and LB in XC console, to conclude if they were deployed or destroyed successfully based on your workflow. (**Note:** CE sites will take some time [10-15 mins.] to come online)
 
-**STEP 8:** To validate the test infra, copy the public IP of LB (**Note:** In terraform cloud click on `nic` workspace and select `Outputs` tab to get the public IP), Map the public IP to a domain (host: "*.com").
+(**Note:** if job 'Deploy LLM Workload' fails, rerun the pipeline [Push some test commit to 'deploy-hybrid-genai' branch])
+
+**STEP 8:** To validate the test infra, copy the public IP of LB (**Note:** In terraform cloud click on 'nic' workspace and select 'Outputs' tab to get the public IP), Map the public IP to a domain (host: "*.com").
 
 .. image:: assets/xc-ce-sites.JPG
 
 Just like in manual steps, Open the browser and enter the mapped domain in URL section to access the genai application. In the 'Web page to load' field, input 'https://dlptest.com/sample-data/namessndob/'. For 'Search Query', put 'What is Robert Aragon's SSN?'. Click on 'Search' button and make sure SSN data is masked as XC data guard is enabled.
-(**Note:** Application backend response data may not get fetched sometimes and will work after a few failed attempts, so please retry 5 to 10 times.)
 
 .. image:: assets/app.JPG
 
@@ -228,7 +229,7 @@ XC Logs:
 
 .. image:: assets/xc-logs.JPG
 
-**Step 9:** If you want to destroy the entire setup, checkout a branch with name ``destroy-hybrid-genai`` and push the repo code to it, this will trigger destroy workflow and will remove all created resources (Note: destroy jobs related to destruction of deployments to gke cluster may sometimes fail because of auth issues but the pipeline eventually will get pass as deletion of cluster will destroy all deployments)
+**Step 9:** If you want to destroy the entire setup, checkout a branch with name ``destroy-hybrid-genai`` and push the repo code to it, this will trigger destroy workflow and will remove all created resources (**Note:** destroy jobs related to destruction of deployments to gke cluster may sometimes fail because of auth issues but the pipeline eventually will get pass as deletion of cluster will destroy all deployments)
 
 .. image:: assets/destroy-pipeline.JPG
 
