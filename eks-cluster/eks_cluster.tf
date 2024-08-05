@@ -4,6 +4,7 @@ resource "aws_eks_cluster" "eks-tf" {
 
  name = local.cluster_name
  role_arn = aws_iam_role.eks-iam-role.arn
+ version = "1.29"
 
  vpc_config {
   security_group_ids      = flatten([aws_security_group.eks_cluster.id, aws_security_group.eks_nodes.id])
