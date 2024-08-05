@@ -7,7 +7,7 @@ controller:
   enableSnippets: true
   image:
     repository: private-registry.nginx.com/nginx-ic-nap-dos/nginx-plus-ingress
-    tag: latest
+    tag: "3.6.1"
     pullPolicy: Always
   nginxplus: true
   nginxStatus:
