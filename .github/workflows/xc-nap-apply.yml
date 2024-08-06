@@ -22,7 +22,7 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      - name: Setup Terraform Backend
+      - name: Setup Terraform Backend 
         id: backend
         run: |
           cat > backend.tf << EOF
