@@ -3,7 +3,7 @@ name: "F5XC + NAP Apply"
 on:
   push:
     branches:
-      - deploy-xc-nap
+      - deploy-xc-nap 
   pull_request:
 
 jobs:
