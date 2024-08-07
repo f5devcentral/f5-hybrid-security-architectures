@@ -61,7 +61,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   | AWS_ACCESS_KEY_ID     | Environment | Your AWS Access Key ID                                                                            |
   | AWS_SECRET_ACCESS_KEY | Environment | Your AWS Secret Access Key                                                                        |
   | AWS_SESSION_TOKEN     | Environment | Your AWS Session Token                                                                            |
-  | NGINX_JWT             | Environment | Your NGINX JSON Web Token value associated with your NGINX license. Set this to **nginx-repo.jwt**|
+  | NGINX_JWT             | Environment | Your NGINX JSON Web Token value associated with your NGINX license.                               |
   | VOLT_API_P12_FILE     | Environment | Your F5XC API certificate. Set this to **api.p12**                                                |
   | VES_P12_PASSWORD      | Environment | Set this to the password you supplied when creating your F5 XC API certificate                    |
   | ssh_key               | Terraform   | Your ssh key for accessing the created BIG-IP and compute assets                                  |
@@ -74,7 +74,6 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 * **Actions Secrets:** Create the following GitHub Actions secrets in your forked repo
   *  P12: The linux base64 encoded F5XC API certificate
-  *  NGINX_JWT: The linux base64 encoded NGINX Java Web Token value associated with your NGINX Ingress license
   *  TF_API_TOKEN: Your Terraform Cloud API token
   *  TF_CLOUD_ORGANIZATION: Your Terraform Cloud Organization name
   *  TF_CLOUD_WORKSPACE_*\<Workspace Name\>*: Create for each workspace in your workflow
