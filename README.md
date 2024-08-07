@@ -74,6 +74,7 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
 
 * **Actions Secrets:** Create the following GitHub Actions secrets in your forked repo
   *  P12: The linux base64 encoded F5XC API certificate
+  *  NGINX_JWT: The linux base64 encoded NGINX Java Web Token value associated with your NGINX Ingress license
   *  TF_API_TOKEN: Your Terraform Cloud API token
   *  TF_CLOUD_ORGANIZATION: Your Terraform Cloud Organization name
   *  TF_CLOUD_WORKSPACE_*\<Workspace Name\>*: Create for each workspace in your workflow
