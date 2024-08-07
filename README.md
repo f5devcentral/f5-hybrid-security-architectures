@@ -56,17 +56,17 @@ Examples of hybrid security deployments utilizing F5 Distributed Cloud WAAP in c
   
 * **Variable Set:** Create a Variable Set with the following values:
 
-  | **Name**              | **Type**    | **Description**                                                                              |
-  | --------------------- | ----------- | -------------------------------------------------------------------------------------------- |
-  | AWS_ACCESS_KEY_ID     | Environment | Your AWS Access Key ID                                                                       |
-  | AWS_SECRET_ACCESS_KEY | Environment | Your AWS Secret Access Key                                                                   |
-  | AWS_SESSION_TOKEN     | Environment | Your AWS Session Token                                                                       |
-  | NGINX_JWT             | Environment | Your NGINX JSON Web Token value associated with your NGINX license.                          |
-  | VOLT_API_P12_FILE     | Environment | Your F5XC API certificate. Set this to **api.p12**                                           |
-  | VES_P12_PASSWORD      | Environment | Set this to the password you supplied when creating your F5 XC API certificate               |
-  | ssh_key               | Terraform   | Your ssh key for accessing the created BIG-IP and compute assets                             |
-  | admin_src_addr        | Terraform   | The source address and subnet in CIDR format of your administrative workstation              |
-  | tf_cloud_organization | Terraform   | Your Terraform Cloud Organization name                                                       |
+  | **Name**              | **Type**    | **Description**                                                                                   |
+  | --------------------- | ----------- | --------------------------------------------------------------------------------------------      |
+  | AWS_ACCESS_KEY_ID     | Environment | Your AWS Access Key ID                                                                            |
+  | AWS_SECRET_ACCESS_KEY | Environment | Your AWS Secret Access Key                                                                        |
+  | AWS_SESSION_TOKEN     | Environment | Your AWS Session Token                                                                            |
+  | NGINX_JWT             | Environment | Your NGINX JSON Web Token value associated with your NGINX license. Set this to **nginx-repo.jwt**|
+  | VOLT_API_P12_FILE     | Environment | Your F5XC API certificate. Set this to **api.p12**                                                |
+  | VES_P12_PASSWORD      | Environment | Set this to the password you supplied when creating your F5 XC API certificate                    |
+  | ssh_key               | Terraform   | Your ssh key for accessing the created BIG-IP and compute assets                                  |
+  | admin_src_addr        | Terraform   | The source address and subnet in CIDR format of your administrative workstation                   |
+  | tf_cloud_organization | Terraform   | Your Terraform Cloud Organization name                                                            |
 
 ## GitHub
 
