@@ -8,7 +8,7 @@ on:
 
 jobs:
   terraform_infra:
-    name: "AWS Infra"
+    name: "AWS Infra" 
     runs-on: ubuntu-latest
     defaults:
       run:
