@@ -12,7 +12,7 @@ variable nginx_registry {
 variable nginx_jwt {
     type = string
     description = "JWT for pulling NGINX image"
-    default = "nginx_repo.jwt"
+    #default = "nginx_repo.jwt"
 }
 variable "nginx_pwd" {
     default = "none"

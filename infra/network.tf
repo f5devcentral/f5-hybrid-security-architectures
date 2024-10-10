@@ -3,7 +3,7 @@
 # Create VPC, subnets, route tables, and IGW
 module "vpc" {
   source               = "terraform-aws-modules/vpc/aws"
-  version              = "~> 4.0"
+  version              = ">= 4.0"
   name                 = "${var.project_prefix}-vpc-${random_id.build_suffix.hex}"
   cidr                 = var.cidr
   azs                  = var.azs
@@ -25,7 +25,7 @@ resource "aws_internet_gateway" "igw" {
 module subnet_addrs {
   for_each = toset(var.azs)
   source          = "hashicorp/subnets/cidr"
-  version         = "1.0.0"
+  version         = ">= 1.0.0"
   base_cidr_block = cidrsubnet(module.vpc.vpc_cidr_block,4,index(var.azs,each.key))
   /*
 VPC CIDR = 10.0.0.0/16

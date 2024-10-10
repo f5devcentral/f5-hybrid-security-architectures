@@ -8,7 +8,7 @@ on:
 
 jobs:
   terraform_infra:
-    name: "AWS Infra"
+    name: "AWS Infra" 
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -17,12 +17,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - name: Setup Terraform
+      - name: Setup Terraform 
         uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      - name: Setup Terraform Backend
+      - name: Setup Terraform Backend 
         id: backend
         run: |
           cat > backend.tf << EOF
@@ -183,7 +183,7 @@ jobs:
             }
           }
           EOF
-          echo ${{secrets.NGINX_JWT}} | base64 -d > nginx-repo.jwt
+          
       - name: Terraform Init
         id: init
         run: terraform init

@@ -9,7 +9,7 @@ on:
 jobs:
 
   terraform_xc:
-    name: "F5XC WAAP"
+    name: "F5XC WAAP" 
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -379,9 +379,3 @@ jobs:
       - name: Terraform Destroy
         if: github.ref == 'refs/heads/destroy-xc-nap' && github.event_name == 'push'
         run: terraform destroy -auto-approve -input=false
-
-
-
-
-
-
