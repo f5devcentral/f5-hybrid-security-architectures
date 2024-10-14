@@ -1,0 +1,23 @@
+version: '3'
+services:
+  frontend:
+    image: ghcr.io/yoctoalex/arcadia-finance/frontend:v0.0.1
+    volumes:
+      - /var/www/html/
+    hostname: frontend.internal
+  backend:
+    image: ghcr.io/yoctoalex/arcadia-finance/backend:v0.0.1
+    volumes:
+      - /var/www/html/
+    hostname: backend.internal
+  openbanking:
+    image: ghcr.io/yoctoalex/arcadia-finance/openbanking:v0.0.2
+    hostname: openbanking.internal
+  nginx:
+    image: ghcr.io/yoctoalex/arcadia-finance/nginx-reverse-proxy:v0.0.2
+    ports: 
+      - 8080:80
+    depends_on:
+      - frontend
+      - backend
+      - openbanking
